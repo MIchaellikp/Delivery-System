@@ -1,0 +1,251 @@
+package edu.gatech.cs6310;
+import jdk.jfr.Category;
+
+import java.util.*;
+
+public class DeliveryService {
+
+    public void commandLoop() {
+        Scanner commandLineInput = new Scanner(System.in);
+        String wholeInputLine;
+        String[] tokens;
+        ArrayList<Pilot> pilots = new ArrayList<Pilot>();
+        TreeMap<String,Customer> customers = new TreeMap<String, Customer>();
+        TreeMap<String,Store> stores = new TreeMap<String,Store>();
+
+        final String DELIMITER = ",";
+
+        while (true) {
+            try {
+                // Determine the next command and echo it to the monitor for testing purposes
+                wholeInputLine = commandLineInput.nextLine();
+                tokens = wholeInputLine.split(DELIMITER);
+                System.out.println("> " + wholeInputLine);
+
+                if (tokens[0].equals("make_store")) {
+                    /**
+                     * Helper method to add a new store into system
+                     *
+                     * @param tokens[1] the content of storename
+                     * @param tokens[2 the content of store revenue
+                     */
+                    Store newStore = new Store(tokens[1], Integer.parseInt(tokens[2]));
+                    if(stores.containsKey(newStore.getName())){
+                        System.out.println("ERROR:store_identifier_already_exists");
+                    }else{
+                        stores.put(newStore.getName(), newStore);
+                        System.out.println("OK:change_completed");
+                    }
+
+                } else if (tokens[0].equals("display_stores")) {
+                    /**
+                     * Helper method to display all stores in system
+                     */
+                    for(Map.Entry<String,Store> s: stores.entrySet()){
+                        System.out.println(s.getValue().toString());
+                    }
+                    System.out.println("OK:display_completed");
+
+                } else if (tokens[0].equals("sell_item")) {
+                    /**
+                     * Helper method to add a new item into the store
+                     *
+                     * @param tokens[1] the content of storename
+                     * @param tokens[2] the content of new item's name
+                     * @param tokens[3] the content of new item's weight
+                     */
+                    Item newItem = new Item(tokens[2], Integer.parseInt(tokens[3]));
+                    if(stores.containsKey(tokens[1])){
+                        Store store = stores.get(tokens[1]);
+                        boolean addResult = store.addItem(newItem);
+                        if (addResult) {
+                            System.out.println("OK:change_completed");
+                        } else {
+                            System.out.println("ERROR:item_identifier_already_exists");
+                        }
+                    }else{
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+
+                } else if (tokens[0].equals("display_items")) {
+                    /**
+                     * Helper method to display all items in store
+                     */
+                    if(stores.containsKey(tokens[1])){
+                        stores.get(tokens[1]).displayItems();
+                    }else{
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                } else if (tokens[0].equals("make_pilot")) {
+                    /**
+                     * Helper method to add a new item into the store
+                     *
+                     * @param tokens[1] the content of accountID
+                     * @param tokens[2] the content of firstName
+                     * @param tokens[3] the content of lastName
+                     * @param tokens[4] the content of phoneNumber
+                     * @param tokens[5] the content of taxID
+                     * @param tokens[6] the content of licenseID
+                     * @param tokens[7] the content of expcLevel
+                     */
+                    Pilot newp = new Pilot(tokens[1],tokens[2],tokens[3],tokens[4],
+                                            tokens[5],tokens[6],Integer.parseInt(tokens[7]));
+                    boolean finishLoop = true;
+                    for(Pilot p: pilots){
+                        if(p.getAccountID().equals(newp.getAccountID()) ){
+                            finishLoop = false;
+                            System.out.println("ERROR:pilot_identifier_already_exists");
+                            break;
+                        }else if( p.getLicenseID().equals(newp.getLicenseID())){
+                            finishLoop = false;
+                            System.out.println("ERROR:pilot_license_already_exists");
+                            break;
+                        }
+                    }
+                    if(finishLoop) {
+                        pilots.add(newp);
+                        Collections.sort(pilots);
+                        System.out.println("OK:change_completed");
+                    }
+
+                } else if (tokens[0].equals("display_pilots")) {
+                    /**
+                     * Helper method to display all pilots in system
+                     */
+                    for(Pilot p : pilots){
+                        System.out.println(p.toString());
+                    }
+                    System.out.println("OK:display_completed");
+
+                } else if (tokens[0].equals("make_drone")) {
+                    /**
+                     * Helper method to add a new drone into the store
+                     *
+                     * @param tokens[1] the content of storename
+                     * @param tokens[2] the content of drone's id
+                     * @param tokens[3] the content of new drone's weight
+                     * @param tokens[3] the content of new drone's fuel
+                     */
+                    Drone newDrone = new Drone(tokens[1], tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]));
+                    if(stores.containsKey(tokens[1])){
+                        stores.get(tokens[1]).addDrone(newDrone);
+                    }else{
+                    System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+
+                } else if (tokens[0].equals("display_drones")) {
+                    /**
+                     * Helper method to display all pilots in a store
+                     *
+                     * @param tokens[1] the content of store's name
+                     */
+
+                    if(stores.containsKey(tokens[1])) {
+                        stores.get(tokens[1]).displayDrones();
+                    }else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+
+                } else if (tokens[0].equals("fly_drone")) {
+                    /**
+                     * Helper method to assign a pilot to a drone
+                     *
+                     * @param tokens[1] the content of store's name
+                     * @param tokens[2] the content of drone's id
+                     * @param tokens[3] the content of pilot's id
+                     */
+                    if(stores.containsKey(tokens[1])) {
+                        stores.get(tokens[1]).flyDrone(tokens[2],tokens[3], pilots);
+                    }else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+
+                } else if (tokens[0].equals("make_customer")) {
+                    /**
+                     * Helper method to create a new customer in system
+                     *
+                     */
+                    Customer newCustomer = new Customer(tokens[1],tokens[2],tokens[3],tokens[4],Integer.parseInt(tokens[5]),Integer.parseInt(tokens[6]));
+                    if(customers.containsKey(newCustomer.getAccount())){
+                        System.out.println("ERROR:customer_identifier_already_exists");
+                    }else{
+                        customers.put(newCustomer.getAccount(), newCustomer);
+                        System.out.println("OK:change_completed");
+                    }
+
+
+                } else if (tokens[0].equals("display_customers")) {
+                    /**
+                     * Helper method to display all customers in system
+                     */
+                    for(Map.Entry<String,Customer> c: customers.entrySet()){
+                        System.out.println(c.getValue().toString());
+                    }
+                    System.out.println("OK:display_completed");
+
+                } else if (tokens[0].equals("start_order")) {
+                    /**
+                     * Helper method to new order for a customer
+                     */
+                    if(stores.containsKey(tokens[1])) {
+                        stores.get(tokens[1]).createOrder(tokens[2],tokens[3],tokens[4], customers);
+                    }else{
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+
+                } else if (tokens[0].equals("display_orders")) {
+                    /**
+                     * Helper method to display all orders in store
+                     *
+                     * @param tokens[1] the content of storename
+                     */
+                    if(stores.containsKey(tokens[1])) {
+                        stores.get(tokens[1]).displayOrders();
+                        System.out.println("OK:display_completed");
+                    }else {
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                } else if (tokens[0].equals("request_item")) {
+                    /**
+                     * Helper method to add items into the order
+                     */
+                    if(stores.containsKey(tokens[1])) {
+                        int q = Integer.parseInt(tokens[4]);
+                        int p = Integer.parseInt(tokens[5]);
+                        stores.get(tokens[1]).requestItem(tokens[2],tokens[3],q,p);
+                    }else{
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+
+                } else if (tokens[0].equals("purchase_order")) {
+                    /**
+                     * Helper method to help customer to purchase an order
+                     */
+                    if(stores.containsKey(tokens[1])) {
+                        stores.get(tokens[1]).finishOrder(tokens[2]);
+                    }else{
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                } else if (tokens[0].equals("cancel_order")) {
+                    if(stores.containsKey(tokens[1])) {
+                        stores.get(tokens[1]).cancelOrder(tokens[2]);
+                    }else{
+                        System.out.println("ERROR:store_identifier_does_not_exist");
+                    }
+                } else if (tokens[0].equals("stop")) {
+                    System.out.println("stop acknowledged");
+                    break;
+
+                } else {
+                    //System.out.println(wholeInputLine);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println();
+            }
+        }
+
+        System.out.println("simulation terminated");
+        commandLineInput.close();
+    }
+}

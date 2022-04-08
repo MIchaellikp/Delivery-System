@@ -1,0 +1,160 @@
+package edu.gatech.cs6310;
+
+import static java.lang.CharSequence.compare;
+
+public class Drone implements Comparable<Drone>{
+    private String id;
+    private String storeName;
+    private int capacity;
+    private int fuel;
+    private int numOrders;
+    private int remainingCap;
+    private Pilot pilot;
+    private int remainFuel;
+
+    /**
+     * Helper method to initialize a drone
+     *
+     */
+
+    public Drone(String storeName,String id,  int capacity, int fuel) {
+        this.id = id;
+        this.storeName = storeName;
+        this.capacity = capacity;
+        this.fuel = fuel;
+        this.remainFuel = fuel;
+        this.numOrders = 0;
+        this.remainingCap = capacity;
+        this.pilot = null;
+    }
+
+    /**
+     * Helper method to help drone to finish a order
+     *
+     * @param fuelCost the content of cost of trip
+     * @param totalweight the content of order's weight
+     * @param exp the content of experience that pilot earned
+     */
+
+    public void finishOrder(int fuelCost, int totalweight, int exp) {
+        this.remainFuel -= fuelCost;
+        this.remainingCap += totalweight;
+        this.pilot.addExpcLevel(exp);
+        this.numOrders -= 1;
+    }
+
+    /**
+     * Helper method to help drone to cancel order & reset the remainingcap and ordernumber
+     *
+     * @param totalweight the content of order's weight
+     */
+
+    public void cancelOrder(int totalweight){
+        this.remainingCap += totalweight;
+        this.numOrders -= 1;
+    }
+
+    /**
+     * Helper method to add an itemline into the order
+     *
+     * @param totalweight the content of itemline's weight
+     */
+
+    public void addOrderLine(int totalweight) {
+        this.remainingCap -= totalweight;
+    }
+
+    public void setRemainingCap(int remainingCap) {
+        this.remainingCap = remainingCap;
+    }
+
+    @Override
+    public String toString(){
+        return "droneID:" + this.id +",total_cap:" + capacity + ",num_orders:" + numOrders +
+                ",remaining_cap:" + remainingCap + ",trips_left:" + remainFuel;
+    }
+
+    public String toString(Pilot p){
+        return "droneID:" + this.id +",total_cap:" + capacity + ",num_orders:" + numOrders +
+                ",remaining_cap:" + remainingCap + ",trips_left:" + remainFuel + ",flown_by:" +
+                p.getFirstName() + "_" + p.getLastName();
+    }
+
+    public static int compareStrings(String s1, String s2) {
+        return compare(s1,s2);
+    }
+
+    @Override
+    public int compareTo(Drone drone) {
+        return compareStrings(this.id, drone.getId());
+    }
+
+    public void addOrders(int num){
+        this.numOrders += 1;
+    }
+
+    public int getRemainFuel() {
+        return remainFuel;
+    }
+
+    public void setRemainFuel(int remainFuel) {
+        this.remainFuel = remainFuel;
+    }
+
+    public int getNumOrders() {
+        return numOrders;
+    }
+
+    public void setNumOrders(int numOrders) {
+        this.numOrders = numOrders;
+    }
+
+    public int getRemainingCap() {
+        return remainingCap;
+    }
+
+    public void initRemainingcapt(){
+        this.remainingCap = this.capacity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getFuel() {
+        return fuel;
+    }
+
+    public void setFuel(int fuel) {
+        this.fuel = fuel;
+    }
+
+    public Pilot getPilot() {
+        return pilot;
+    }
+
+    public void setPilot(Pilot pilot) {
+        this.pilot = pilot;
+    }
+
+}
