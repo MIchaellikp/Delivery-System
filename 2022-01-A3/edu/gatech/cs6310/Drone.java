@@ -10,6 +10,7 @@ public class Drone implements Comparable<Drone>{
     private int numOrders;
     private int remainingCap;
     private Pilot pilot;
+    //private pilotid pilot
     private int remainFuel;
 
     /**

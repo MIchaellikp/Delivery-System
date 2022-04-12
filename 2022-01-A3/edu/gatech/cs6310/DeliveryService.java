@@ -1,15 +1,29 @@
 package edu.gatech.cs6310;
 import jdk.jfr.Category;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 public class DeliveryService {
 
-    public void commandLoop() {
+    public void commandLoop(String username, Connection con) {
         Scanner commandLineInput = new Scanner(System.in);
         String wholeInputLine;
         String[] tokens;
         ArrayList<Pilot> pilots = new ArrayList<Pilot>();
+        try {
+            Statement state = con.createStatement();
+            String sql = "Select * from Pilots";
+            ResultSet rs = state.executeQuery(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         TreeMap<String,Customer> customers = new TreeMap<String, Customer>();
         TreeMap<String,Store> stores = new TreeMap<String,Store>();
 
@@ -29,6 +43,10 @@ public class DeliveryService {
                      * @param tokens[1] the content of storename
                      * @param tokens[2 the content of store revenue
                      */
+                    // 1. find store by the name
+                    // 2. insert store
+                    // 3. insert command into log
+                    // 4. timeStamp - SQL auto
                     Store newStore = new Store(tokens[1], Integer.parseInt(tokens[2]));
                     if(stores.containsKey(newStore.getName())){
                         System.out.println("ERROR:store_identifier_already_exists");
@@ -41,6 +59,7 @@ public class DeliveryService {
                     /**
                      * Helper method to display all stores in system
                      */
+                    // 1. use SQL Select ALL
                     for(Map.Entry<String,Store> s: stores.entrySet()){
                         System.out.println(s.getValue().toString());
                     }

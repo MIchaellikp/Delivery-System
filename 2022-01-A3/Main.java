@@ -1,4 +1,5 @@
 import edu.gatech.cs6310.DeliveryService;
+import edu.gatech.cs6310.SQL.SQLtools;
 //import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.*;
@@ -29,6 +30,8 @@ public class Main {
         Scanner password = new Scanner(System.in);
         //find the User or password
         try {
+            SQLtools st = new SQLtools(con);
+
             Statement state = con.createStatement();
             String sql = "Select * from Users where username = " + username + "and password = " + password;
             ResultSet rs = state.executeQuery(sql);
@@ -41,8 +44,12 @@ public class Main {
             e.printStackTrace();
         }
 
-
+        // add into userName
         DeliveryService simulator = new DeliveryService();
-        simulator.commandLoop();
+        //init data = new init(con);
+        // data.getcustomers
+        // data.getpolots
+        // data.getstores
+        simulator.commandLoop(String.valueOf(username), con);
     }
 }
