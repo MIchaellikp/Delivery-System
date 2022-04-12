@@ -30,10 +30,14 @@ create table System_Log
 create table Customers
 (
    customerID varchar(100) not null,
+   fristName varchar(100) not null,
+   lastName varchar(100) not null,
+   phoneNumber varchar(100) not null,
    rating int not null,
    credits int not null,
    remainingCredit int not null,
-   timeStamp datatime,
+   timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
+   flag boolean DEFAULT false,
    primary key (customerID)
 );
 
@@ -41,7 +45,8 @@ create table Stores
 (
 	storeName varchar(100) not null,
 	revenue int not null,
-    timeStamp datatime,
+    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
+    flag boolean DEFAULT false,
 	primary key (storeName)
 );
 
@@ -53,7 +58,8 @@ create table Orders
     totalWeight int not null,
     customerID varchar(100) not null,
     status varchar(100) not null,
-    timeStamp datatime,
+    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
+    flag boolean DEFAULT false,
     primary key(orderID)
 );
 
@@ -62,12 +68,13 @@ create table Drones
 	droneID varchar(100) not null,
     storeName varchar(100) not null,
     capacity int not null,
-    remainCap int not null,
+    remainingCap int not null,
     numsOrders int not null,
     fuel int not null,
     remainFuel int not null,
-    pilotID varchar(100) not null,
-    timeStamp datatime,
+    pilotID varchar(100),
+    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
+    flag boolean DEFAULT false,
     primary key(droneID)
 );
 
@@ -75,18 +82,20 @@ create table items
 (
 	itemName varchar(100) not null,
     storeName varchar(100) not null,
-    price int not null,
     weight int not null,
     primary key(itemName, storeName)
 );
 
-create table itemLine
-(	
+create table itemLines
+(
+    storeName varchar(100) not null,
 	orderId varchar(100) not null,
     itemName varchar(100) not null,
-    totalQuantity int not null,
-    totalCost int not null,
-    timeStamp datatime,
+    lineQuantity int not null,
+    lineCost int not null,
+    lineWeight int not null,
+    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
+    flag boolean DEFAULT false,
     primary key(orderId, itemName)
 );
 
@@ -100,7 +109,8 @@ create table Pilots
     licenseID varchar(100) not null,
     expcLevel int not null,
     droneID varchar(100),
-    timeStamp datatime,
+    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
+    flag boolean DEFAULT false,
     primary key(accountID),
     unique key AK_nq_licenseID(licenseID)
 );

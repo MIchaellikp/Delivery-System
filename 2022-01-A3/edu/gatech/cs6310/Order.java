@@ -31,6 +31,15 @@ public class Order implements Comparable<Order>{
         this.totalweight = 0;
     }
 
+    public Order(String orderId, Customer customer, Drone drone,int totalcost, int totalweight) {
+        this.itemLines = new ArrayList<ItemLine>();
+        this.orderId = orderId;
+        this.customer = customer;
+        this.drone = drone;
+        this.totalcost = totalcost;
+        this.totalweight = totalweight;
+    }
+
     /**
      * Helper method to display all itemlines in order
      *
@@ -67,6 +76,11 @@ public class Order implements Comparable<Order>{
         Collections.sort(itemLines);
         this.getDrone().addOrderLine(lineweight);
         this.getCustomer().changeRemainingCredits(linecost);
+    }
+
+    public void addItemline2(ItemLine itemLine){
+        this.itemLines.add(itemLine);
+        Collections.sort(itemLines);
     }
 
 

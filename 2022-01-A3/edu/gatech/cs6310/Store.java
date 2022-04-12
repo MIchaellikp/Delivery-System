@@ -301,4 +301,34 @@ public class Store implements Comparable<Store>{
         return catalog;
     }
 
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+    public Order getOrder(String orderId) {
+        for(Order o : this.orders){
+            if (o.getOrderId().equals(orderId)){
+                return o;
+            }
+        }
+        return null;
+    }
+
+    public Item getItem(String itemName) {
+        for(Item i : this.catalog){
+            if (i.getName().equals(itemName)){
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public Drone getDrone(String droneID) {
+        for(Drone d : this.drones){
+            if (d.getId().equals(droneID)){
+                return d;
+            }
+        }
+        return null;
+    }
+
 }
