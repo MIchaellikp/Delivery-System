@@ -2,6 +2,7 @@ package edu.gatech.cs6310;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import static java.lang.CharSequence.compare;
 
@@ -13,6 +14,10 @@ public class Order implements Comparable<Order>{
      private Drone drone;
      private int totalcost;
      private int totalweight;
+
+     Date timeStamp;
+
+     private boolean flag;
 
     /**
      * Helper method to initialize the order
@@ -29,9 +34,12 @@ public class Order implements Comparable<Order>{
         this.drone = drone;
         this.totalcost = 0;
         this.totalweight = 0;
+        this.timeStamp = new Date();
+        this.flag = false;
     }
 
-    public Order(String orderId, Customer customer, Drone drone,int totalcost, int totalweight) {
+
+    public Order(String orderId, Customer customer, Drone drone, int totalcost, int totalweight) {
         this.itemLines = new ArrayList<ItemLine>();
         this.orderId = orderId;
         this.customer = customer;
@@ -132,4 +140,19 @@ public class Order implements Comparable<Order>{
         this.totalweight = totalweight;
     }
 
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 }
