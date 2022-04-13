@@ -23,7 +23,7 @@ create table System_Log
     username varchar(100) not null,
     commandLine varchar(100) not null,
     resultMessage varchar(100) not null,
-    timeStamp datetime,
+    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
     primary key(logID)
 );
 
@@ -83,6 +83,7 @@ create table items
 	itemName varchar(100) not null,
     storeName varchar(100) not null,
     weight int not null,
+    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
     primary key(itemName, storeName)
 );
 
