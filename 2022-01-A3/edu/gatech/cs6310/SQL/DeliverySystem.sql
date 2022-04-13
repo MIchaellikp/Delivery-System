@@ -51,8 +51,9 @@ create table Stores
 );
 
 create table Orders
-( 
-	orderID varchar(100) not null,
+(
+    storeName varchar(100) not null,
+    orderID varchar(100) not null,
 	droneID varchar(100) not null,
     totalCost int not null,
     totalWeight int not null,
