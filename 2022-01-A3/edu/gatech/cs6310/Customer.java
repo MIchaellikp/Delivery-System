@@ -1,5 +1,8 @@
 package edu.gatech.cs6310;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import static java.lang.CharSequence.compare;
 
 public class Customer implements Comparable<Customer>{
@@ -10,6 +13,8 @@ public class Customer implements Comparable<Customer>{
     private int rating;
     private int credits;
     private int remainingCredits;
+    private boolean flag;
+    private Date dataStamp;
 
     /**
      * Helper method to initialize a Customer
@@ -24,6 +29,8 @@ public class Customer implements Comparable<Customer>{
         this.rating = rating;
         this.credits = credits;
         this.remainingCredits = credits;
+        this.flag = false;
+        this.dataStamp = new Date();
     }
 
     @Override
@@ -103,5 +110,21 @@ public class Customer implements Comparable<Customer>{
 
     public void setCredits(int credits) {
         this.credits = credits;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public Date getDataStamp() {
+        return dataStamp;
+    }
+
+    public void setDataStamp(Date dataStamp) {
+        this.dataStamp = dataStamp;
     }
 }
