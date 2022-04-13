@@ -17,6 +17,7 @@ public class Init {
      */
     private TreeMap<String, Customer> customers = new TreeMap<String, Customer>();
     private ArrayList<Drone> drones = new ArrayList<Drone>();
+    private TreeMap<String, Store> stores = new TreeMap<String, Store>();
     private Connection con;
 
     public Init(Connection con) {
@@ -47,7 +48,7 @@ public class Init {
         return customers;
     }
 
-    public void getitem() {
+    public void getItems() {
         Statement state = null;
         try {
             state = con.createStatement();
@@ -66,7 +67,7 @@ public class Init {
         }
     }
 
-    public void getItemLine() throws ParseException {
+    public void getItemLines() throws ParseException {
         Statement state = null;
         try {
             state = con.createStatement();
@@ -119,11 +120,6 @@ public class Init {
         }
     }
 
-
-
-
-
-
     public void getDrones() throws ParseException {
         Statement state = null;
         try {
@@ -158,4 +154,94 @@ public class Init {
     }
 
 
+    public TreeMap<String, Store> getStores() throws ParseException{
+        TreeMap<String, Store> stores = new TreeMap<>();
+        Statement state = null;
+        try {
+            state = con.createStatement();
+            String sql = "select * from stores";
+            ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                String storeName = rs.getString("storeName");
+                int revenue = rs.getInt("revenue");
+                Store s = new Store(storeName, revenue);
+                this.initStore(s);
+                stores.put(storeName, s);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stores;
+    }
+
+    private void initStore(Store s) throws ParseException {
+        this.initStoreCatalog(s);
+        this.initStoreDrones(s);
+        this.initStoreOrders(s);
+    }
+    private void initStoreCatalog(Store s){
+        ArrayList<Item> items = new ArrayList<>();
+        try {
+            Statement state = con.createStatement();
+            String sql = "select * from items where storeName = "+s.getName();
+            ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                String itemName = rs.getString("itemName");
+                int weight = rs.getInt("weight");
+                s.addItem(new Item(itemName, weight));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initStoreDrones(Store s){
+        try {
+            Statement state = con.createStatement();
+            String sql = "select * from drones where storeName = "+s.getName();
+            ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                String droneID = rs.getString("droneID");
+                int capacity = rs.getInt("capacity");
+                int fuel = rs.getInt("fuel");
+                int numOrders = rs.getInt("numsOrders");
+                int remainingCap = rs.getInt("remainingCap");
+                int remainFuel = rs.getInt("remainFuel");
+                String pilotID = rs.getString("pilotID"); //todo drone-pilot reference
+                Drone d = new Drone(s.getName(), droneID, capacity, fuel);
+                d.setNumOrders(numOrders);
+                d.setRemainFuel(remainFuel);
+                d.setRemainingCap(remainingCap);
+                s.addDrone(d);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initStoreOrders(Store s) throws ParseException {
+        try {
+            Statement state = con.createStatement();
+            String sql = "select * from orders where storeName = "+s.getName();
+            ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                String orderID = rs.getString("orderID");
+                String droneID = rs.getString("droneID");
+                String customerID = rs.getString("customerID");
+                int totalCost = rs.getInt("totalCost");
+                int totalWeight = rs.getInt("totalWeight");
+                String status = rs.getString("status");
+                Date timeStamp = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
+                boolean flag = Boolean.parseBoolean(rs.getString("flag"));
+
+                Drone d = s.getDrone(droneID);
+                Customer c = this.customers.get(customerID);
+                Order o = new Order(orderID, c, d, totalCost, totalWeight, status, timeStamp, flag);
+                s.addOrder(o);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
