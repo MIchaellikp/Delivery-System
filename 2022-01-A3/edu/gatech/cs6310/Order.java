@@ -38,6 +38,17 @@ public class Order implements Comparable<Order>{
         this.flag = false;
     }
 
+    public Order(String orderId, Customer customer, Drone drone,
+                 int totalCost, int totalWeight, String status, Date timeStamp, boolean flag) {
+        this.itemLines = new ArrayList<ItemLine>();
+        this.orderId = orderId;
+        this.customer = customer;
+        this.drone = drone;
+        this.totalcost = totalCost;
+        this.totalweight = totalWeight;
+        this.timeStamp = timeStamp;
+        this.flag = flag;
+    }
 
     public Order(String orderId, Customer customer, Drone drone, int totalcost, int totalweight) {
         this.itemLines = new ArrayList<ItemLine>();
