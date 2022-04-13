@@ -12,6 +12,34 @@ public class SQLend {
         this.con = con;
     }
 
+    public void updateStore(TreeMap<String, Store> stores) throws SQLException {
+        Statement state = con.createStatement();
+        for(Map.Entry<String,Store> s: stores.entrySet()){
+            String sql = "select * from stores where storeName =" + s.getKey();
+            ResultSet rs = state.executeQuery(sql);
+            if(rs.next()){
+                //update
+                String update = "update Stores set revenue = ?, timestamp = ? ," +
+                        "flag = ? where storeName = " + s.getKey();
+                PreparedStatement ps = con.prepareStatement(update);
+
+                ps.setInt(1, (s.getValue().getRevenue()));
+                ps.setDate(2, (Date) s.getValue().getDataStamp());
+                ps.setBoolean(3, (s.getValue().isFlag()));
+                ps.executeUpdate();
+            } else {
+                //insert
+                String insert = "insert into Stores (storeName, revenue,timeStamp,flag ) values(?,?,?,?)" ;
+                PreparedStatement ps = con.prepareStatement(insert);
+                ps.setString(1,s.getKey());
+                ps.setInt(2, s.getValue().getRevenue());
+                ps.setDate(3, (Date) s.getValue().getDataStamp());
+                ps.setBoolean(4, (s.getValue().isFlag()));
+                ps.executeUpdate();
+            }
+        }
+    }
+
     public void updateCustomer(TreeMap<String,Customer> customers) throws SQLException {
         /*if custmersid 在sql update
             not in SQL 的话 insert
