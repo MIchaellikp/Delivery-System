@@ -141,7 +141,7 @@ public class Store implements Comparable<Store>{
                     if(c.getValue().getAccount().equals(customerID)){
                         Order order = new Order(orderID,c.getValue(),d);
                         order.getDrone().addOrders(1);
-                        this.orders.add(order);
+                        this.addOrder(order);
                         Collections.sort(orders);
                         System.out.println("OK:change_completed");
                         return;
@@ -230,7 +230,7 @@ public class Store implements Comparable<Store>{
                         c.purchase(o.getTotalcost());
                         d.finishOrder(1, o.getTotalweight(),1);
                         this.revenue += o.getTotalcost();
-                        this.orders.remove(o);
+                        this.orders.remove(o); // todo - update database flag order status to completed and archive
                         System.out.println("OK:change_completed");
                         return;
                     }else {
@@ -331,4 +331,7 @@ public class Store implements Comparable<Store>{
         return null;
     }
 
+    public void addOrder(Order o){
+        this.orders.add(o);
+    }
 }
