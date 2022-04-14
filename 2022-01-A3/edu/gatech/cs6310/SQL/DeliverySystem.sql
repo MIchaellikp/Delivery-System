@@ -117,7 +117,8 @@ create table Pilots
     unique key AK_nq_licenseID(licenseID)
 );
 
-# alter table Orders add constraint FK_order_drone foreign key (droneID)
+/*
+ alter table Orders add constraint FK_order_drone foreign key (droneID)
 #       references Drones(droneID) on delete restrict on update restrict;
 # alter table Orders add constraint FK_order_customer foreign key (customerID)
 #       references Customers (customerID) on delete restrict on update restrict;
@@ -133,3 +134,5 @@ create table Pilots
 #       references Items (itemName) on delete restrict on update restrict;
 # alter table Pilots add constraint FK_pilot_drone foreign key (droneID)
 #       references Drones (droneID) on delete restrict on update restrict;
+
+ */
