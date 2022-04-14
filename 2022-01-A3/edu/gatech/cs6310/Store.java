@@ -1,11 +1,7 @@
 package edu.gatech.cs6310;
-import java.security.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.lang.Boolean;
-
 import static java.lang.CharSequence.compare;
-import static java.lang.System.currentTimeMillis;
+
 
 
 public class Store implements Comparable<Store>{
@@ -224,7 +220,7 @@ public class Store implements Comparable<Store>{
      * @param orderId the content of order's ID
      */
 
-    public void finishOrder(String orderId) {
+    public String finishOrder(String orderId) {
         Customer c;
         Drone d;
         for (Order o : orders) {
@@ -237,20 +233,20 @@ public class Store implements Comparable<Store>{
                         d.finishOrder(1, o.getTotalweight(),1);
                         this.revenue += o.getTotalcost();
                         this.orders.remove(o); // todo - update database flag order status to completed and archive
-                        System.out.println("OK:change_completed");
-                        return;
+                        //System.out.println("OK:change_completed");
+                        return "OK:change_completed";
                     }else {
-                        System.out.println("ERROR:drone_needs_fuel");
-                        return;
+                        //System.out.println("ERROR:drone_needs_fuel");
+                        return "ERROR:drone_needs_fuel";
                     }
                 } else {
-                    System.out.println("ERROR:drone_needs_pilot");
-                    return;
+                    //System.out.println("ERROR:drone_needs_pilot");
+                    return "ERROR:drone_needs_pilot";
                 }
             }
         }
-        System.out.println("ERROR:order_identifier_does_not_exist");
-        return;
+        //System.out.println("ERROR:order_identifier_does_not_exist");
+        return "ERROR:order_identifier_does_not_exist";
     }
 
     /**
@@ -259,18 +255,18 @@ public class Store implements Comparable<Store>{
      * @param orderId the content of order's ID
      */
 
-    public void cancelOrder(String orderId){
+    public String cancelOrder(String orderId){
         for(Order o: orders){
             if(o.getOrderId().equals(orderId)){
                 o.getDrone().cancelOrder(o.getTotalweight());
                 o.getCustomer().changeRemainingCredits(-o.getTotalcost());
                 orders.remove(o);
-                System.out.println("OK:change_completed");
-                return;
+                //System.out.println("OK:change_completed");
+                return "OK:change_completed";
             }
         }
-        System.out.println("ERROR:order_identifier_does_not_exist");
-        return;
+        //System.out.println("ERROR:order_identifier_does_not_exist");
+        return "ERROR:order_identifier_does_not_exist";
     }
 
     public static int compareStrings(String s1, String s2) {
