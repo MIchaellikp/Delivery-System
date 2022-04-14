@@ -113,20 +113,21 @@ create table Pilots
     primary key(accountID),
     unique key AK_nq_licenseID(licenseID)
 );
-
-# alter table Orders add constraint FK_order_drone foreign key (droneID)
-#       references Drones(droneID) on delete restrict on update restrict;
-# alter table Orders add constraint FK_order_customer foreign key (customerID)
-#       references Customers (customerID) on delete restrict on update restrict;
-# alter table Drones add constraint FK_drone_store foreign key (storeName)
-#       references Stores (storeName) on delete restrict on update restrict;
-# alter table Drones add constraint FK_drone_pilots foreign key (pilotID)
-#       references Pilots (accountID) on delete restrict on update restrict;
-# alter table items add constraint FK_item_store foreign key (storeName)
-#       references Stores (storeName) on delete restrict on update restrict;
-# alter table itemLines add constraint FK_itemLine_order foreign key (orderID)
-#       references Orders (orderID) on delete restrict on update restrict;
-# alter table itemLines add constraint FK_itemLine_item foreign key (itemName)
-#       references Items (itemName) on delete restrict on update restrict;
-# alter table Pilots add constraint FK_pilot_drone foreign key (droneID)
-#       references Drones (droneID) on delete restrict on update restrict;
+/*
+alter table Orders add constraint FK_order_drone foreign key (droneID)
+      references Drones(droneID) on delete restrict on update restrict;
+alter table Orders add constraint FK_order_customer foreign key (customerID)
+      references Customers (customerID) on delete restrict on update restrict;
+alter table Drones add constraint FK_drone_store foreign key (storeName)
+      references Stores (storeName) on delete restrict on update restrict;
+alter table Drones add constraint FK_drone_pilots foreign key (pilotID)
+      references Pilots (accountID) on delete restrict on update restrict;
+alter table items add constraint FK_item_store foreign key (storeName)
+      references Stores (storeName) on delete restrict on update restrict;
+alter table itemLines add constraint FK_itemLine_order foreign key (orderID)
+      references Orders (orderID) on delete restrict on update restrict;
+alter table itemLines add constraint FK_itemLine_item foreign key (itemName)
+      references Items (itemName) on delete restrict on update restrict;
+alter table Pilots add constraint FK_pilot_drone foreign key (droneID)
+      references Drones (droneID) on delete restrict on update restrict;
+*/
