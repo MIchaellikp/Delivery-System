@@ -1,5 +1,7 @@
 package edu.gatech.cs6310;
 
+import java.util.Date;
+
 import static java.lang.CharSequence.compare;
 
 public class Drone implements Comparable<Drone>{
@@ -10,8 +12,9 @@ public class Drone implements Comparable<Drone>{
     private int numOrders;
     private int remainingCap;
     private Pilot pilot;
-    //private pilotid pilot
     private int remainFuel;
+    private boolean flag;
+    private Date timeStamp;
 
     /**
      * Helper method to initialize a drone
@@ -27,7 +30,23 @@ public class Drone implements Comparable<Drone>{
         this.numOrders = 0;
         this.remainingCap = capacity;
         this.pilot = null;
+        this.flag = false;
+        this.timeStamp = new Date();
     }
+
+    public Drone(String storeName,String id, int capacity ,int remainingCap, int fuel, int remainFuel, int numOrders, Pilot pilot ) {
+        this.id = id;
+        this.storeName = storeName;
+        this.capacity = capacity;
+        this.fuel = fuel;
+        this.remainFuel = remainFuel;
+        this.numOrders = numOrders;
+        this.remainingCap = remainingCap;
+        this.pilot = pilot;
+        this.flag = false;
+        this.timeStamp = new Date();
+    }
+
 
     /**
      * Helper method to help drone to finish a order
@@ -158,4 +177,19 @@ public class Drone implements Comparable<Drone>{
         this.pilot = pilot;
     }
 
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 }
