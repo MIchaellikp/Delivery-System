@@ -232,7 +232,9 @@ public class Store implements Comparable<Store>{
                         c.purchase(o.getTotalcost());
                         d.finishOrder(1, o.getTotalweight(),1);
                         this.revenue += o.getTotalcost();
-                        this.orders.remove(o); // todo - update database flag order status to completed and archive
+                        o.setStatus("Delivered");
+                        o.setFlag(true);
+                        this.orders.remove(o);
                         //System.out.println("OK:change_completed");
                         return "OK:change_completed";
                     }else {

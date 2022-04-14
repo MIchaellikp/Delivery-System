@@ -84,7 +84,6 @@ create table items
 	itemName varchar(100) not null,
     storeName varchar(100) not null,
     weight int not null,
-    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
     primary key(itemName, storeName)
 );
 
@@ -96,8 +95,6 @@ create table itemLines
     lineQuantity int not null,
     lineCost int not null,
     lineWeight int not null,
-    timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
-    flag boolean DEFAULT false,
     primary key(orderId, itemName)
 );
 
