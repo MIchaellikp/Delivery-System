@@ -3,10 +3,14 @@ import edu.gatech.cs6310.Init;
 import edu.gatech.cs6310.SQL.logTool;
 //import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.*;
 import java.text.ParseException;
 import java.util.Scanner;
 
@@ -15,26 +19,38 @@ public class Main {
     //private static DriverManagerDataSource ds;
 
     private static void initConenction() throws SQLException{
-        //todo
-        // Run SQL Script in JAVA: http://hulen.com/run-a-mysql-script-using-java/
-
-        final String url = "jdbc:mysql://localhost:3306/delivery";
+        final String url = "jdbc:mysql://localhost:3306/delivery?allowMultiQueries=true";
         final String userName = "demo_java";
         final String password = "1234";
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(url, userName, password);
             System.out.println("Connection established!");
-//        } catch (ClassNotFoundException | SQLException e) {
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         }
     }
     //todo - create tables
+    private static void initDatabase() throws SQLException, IOException {
+        try{
+            Statement stmt = con.createStatement();
+            String sqlStr = Files.readString(Paths.get("2022-01-A3/edu/gatech/cs6310/SQL/DeliverySystem.sql"));
+            stmt.execute(sqlStr);
+            System.out.println("Database initialization completed!");
+        } catch (IOException e) {
+            System.out.format("I/O error: %s%n", e);
+            throw e;
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
 
-    public static void main(String[] args) throws ParseException, SQLException, ClassNotFoundException {
+    }
+
+    public static void main(String[] args) throws ParseException, SQLException, IOException {
         initConenction();
+        initDatabase();
+
 
         System.out.println("Welcome to the Grocery Express Delivery Service!");
         System.out.println("Please Login");
