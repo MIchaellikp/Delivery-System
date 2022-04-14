@@ -2,17 +2,6 @@
   <library name="java">
     <CLASSES />
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/build/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/demo/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/generated/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/legacy/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/main/core-api/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/main/core-impl/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/main/protocol-impl/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/main/user-api/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/main/user-impl/java" />
-      <root url="jar://$PROJECT_DIR$/2022-01-A3/lib/mysql-connector-java-8.0.28 (1).zip!/mysql-connector-java-8.0.28/src/test/java" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
