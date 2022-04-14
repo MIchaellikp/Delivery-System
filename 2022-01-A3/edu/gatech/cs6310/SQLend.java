@@ -27,6 +27,7 @@ public class SQLend {
                 ps.setBoolean(3, (s.getValue().isFlag()));
                 ps.executeUpdate();
                 updateDrone(s.getValue());
+                updateOrder(s.getValue());
             } else {
                 //insert
                 String insert = "insert into Stores (storeName, revenue,timeStamp,flag ) values(?,?,?,?)" ;
@@ -37,6 +38,7 @@ public class SQLend {
                 ps.setBoolean(4, (s.getValue().isFlag()));
                 ps.executeUpdate();
                 updateDrone(s.getValue());
+                updateOrder(s.getValue());
             }
 
         }
@@ -139,7 +141,6 @@ public class SQLend {
                 //insert
                 String insert = "insert into Stores (storeName, revenue,timeStamp,flag ) values(?,?,?,?)" ;
                 PreparedStatement ps = con.prepareStatement(insert);
-
                 ps.setString(1,d.getStoreName());
                 ps.setInt(2,d.getRemainingCap());
                 ps.setInt(3,d.getNumOrders());
@@ -156,27 +157,31 @@ public class SQLend {
             ResultSet rs = state.executeQuery(sql);
             if(rs.next()){
                 //update
-                String update = "update Drones set storeName = ?, remainingCap = ? , " +
-                        "numsOrders = ?, remainingFuel = ?, pilotID = ?, timestamp = ?," +
-                        " flag = ? where storeName = " + d.getId();
+                String update = "update Orders set totalCost = ? , " +
+                        "totalWeight = ?, status = ?, timestamp = ?," +
+                        " flag = ? where orderID = " +o.getOrderId();
                 PreparedStatement ps = con.prepareStatement(update);
-                ps.setString(1,d.getStoreName());
-                ps.setInt(2,d.getRemainingCap());
-                ps.setInt(3,d.getNumOrders());
-                ps.setInt(4, d.getRemainFuel());
-                ps.setString(5,(d.getPilot() == null ? null: d.getPilot().getAccountID()));
-                ps.setDate(6, (Date) d.getTimeStamp());
-                ps.setBoolean(3, (d.isFlag()));
+                ps.setInt(1,o.getTotalcost());
+                ps.setInt(2,o.getTotalweight());
+                ps.setString(3,o.getStatus());
+                ps.setDate(4, (Date) o.getTimeStamp());
+                ps.setBoolean(5, (o.isFlag()));
                 ps.executeUpdate();
             } else {
                 //insert
-                String insert = "insert into Stores (storeName, revenue,timeStamp,flag ) values(?,?,?,?)" ;
+                String insert = "insert into Orders (storeName, orderID, droneID,totalCost, totalWeight, customerID," +
+                        "status,  timeStamp, flag ) values(?,?,?,?,?,?,?,?,?)" ;
                 PreparedStatement ps = con.prepareStatement(insert);
 
-                ps.setString(1,d.getStoreName());
-                ps.setInt(2,d.getRemainingCap());
-                ps.setInt(3,d.getNumOrders());
-                ps.setInt(4, d.getRemainFuel());
+                ps.setString(1,s.getName());
+                ps.setString(2,o.getOrderId());
+                ps.setString(3,o.getDrone().getId());
+                ps.setInt(4,o.getTotalcost());
+                ps.setInt(5,o.getTotalweight());
+                ps.setString(6,o.getCustomer().getAccount());
+                ps.setString(7,o.getStatus());
+                ps.setDate(8, (Date) o.getTimeStamp());
+                ps.setBoolean(9, (o.isFlag()));
                 ps.executeUpdate();
             }
         }
