@@ -352,4 +352,20 @@ public class Store implements Comparable<Store>{
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
+
+    public void setCatalog(ArrayList<Item> catalog) {
+        this.catalog = catalog;
+    }
+
+    public ArrayList<Drone> getDrones() {
+        return drones;
+    }
+
+    public void setDrones(ArrayList<Drone> drones) {
+        this.drones = drones;
+    }
+
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
+    }
 }
