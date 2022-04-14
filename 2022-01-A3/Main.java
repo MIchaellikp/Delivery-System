@@ -15,6 +15,9 @@ public class Main {
     //private static DriverManagerDataSource ds;
 
     private static void initConenction() throws SQLException{
+        //todo
+        // Run SQL Script in JAVA: http://hulen.com/run-a-mysql-script-using-java/
+
         final String url = "jdbc:mysql://localhost:3306/delivery";
         final String userName = "demo_java";
         final String password = "1234";
