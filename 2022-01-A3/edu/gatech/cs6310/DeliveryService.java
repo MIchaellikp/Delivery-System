@@ -1,9 +1,8 @@
 package edu.gatech.cs6310;
 import edu.gatech.cs6310.SQL.logTool;
 import jdk.jfr.Category;
-
+import java.util.Date;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -270,18 +269,26 @@ public class DeliveryService {
                      * Helper method to help customer to purchase an order
                      */
                     if(stores.containsKey(tokens[1])) {
-                        stores.get(tokens[1]).finishOrder(tokens[2]);
+                        result = stores.get(tokens[1]).finishOrder(tokens[2]);
                     }else{
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        //System.out.println("ERROR:store_identifier_does_not_exist");
+                        result = "ERROR:store_identifier_does_not_exist";
                     }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
                 } else if (tokens[0].equals("cancel_order")) {
                     if(stores.containsKey(tokens[1])) {
-                        stores.get(tokens[1]).cancelOrder(tokens[2]);
+                        result = stores.get(tokens[1]).cancelOrder(tokens[2]);
                     }else{
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        //System.out.println("ERROR:store_identifier_does_not_exist");
+                        result = "ERROR:store_identifier_does_not_exist"
                     }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
                 } else if (tokens[0].equals("stop")) {
-                    System.out.println("stop acknowledged");
+                    result = "stop acknowledged";
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
                     //Backupdatabase
                     SQLend sqLend = new SQLend(con);
                     break;
