@@ -4,6 +4,7 @@ import edu.gatech.cs6310.SQL.SQLtools;
 //import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Main {
@@ -22,8 +23,9 @@ public class Main {
         }
 
     }
+    //todo - create tables
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         System.out.println("Welcome to the Grocery Express Delivery Service!");
         System.out.println("Please Login");
         Scanner username = new Scanner(System.in);

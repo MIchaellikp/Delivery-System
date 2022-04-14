@@ -289,6 +289,7 @@ public class DeliveryService {
                 } else if (tokens[0].equals("stop")) {
                     result = "stop acknowledged";
                     System.out.println(result);
+                    // todo - determine archive flag before storing back to DB
                     logTool.insertLog(username, date, wholeInputLine, result);
                     //Backupdatabase
                     SQLend sqLend = new SQLend(con);
