@@ -1,11 +1,11 @@
 package edu.gatech.cs6310;
-import java.util.ArrayList;
+import java.security.Timestamp;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.lang.Boolean;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
 
 import static java.lang.CharSequence.compare;
+import static java.lang.System.currentTimeMillis;
 
 
 public class Store implements Comparable<Store>{
@@ -15,6 +15,8 @@ public class Store implements Comparable<Store>{
     private ArrayList<Item> catalog;
     private ArrayList<Drone> drones;
     private ArrayList<Order> orders;
+    private boolean flag;
+    private Date timeStamp;
 
     public Store(String name, int revenue) {
         this.name = name;
@@ -22,6 +24,8 @@ public class Store implements Comparable<Store>{
         this.catalog = new ArrayList<Item>();
         this.drones = new ArrayList<Drone>();
         this.orders = new ArrayList<Order>();
+        this.flag = false;
+        this.timeStamp = new Date();
     }
 
     /**
@@ -47,11 +51,11 @@ public class Store implements Comparable<Store>{
      *
      */
 
-    public void displayItems(){
+    public String displayItems(){
         for(Item item: this.catalog){
             System.out.println(item.getName() + "," + item.getWeight());
         }
-        System.out.println("OK:display_completed");
+        return ("OK:display_completed");
     }
 
     /**
@@ -60,16 +64,17 @@ public class Store implements Comparable<Store>{
      * @param nd the content of new Drone Class
      */
 
-    public void addDrone(Drone nd){
+    public String addDrone(Drone nd){
         for(Drone d: this.drones){
             if(d.getId().equals(nd.getId())){
-                System.out.println("ERROR:drone_identifier_already_exists");
-                return;
+                //System.out.println("ERROR:drone_identifier_already_exists");
+                return "ERROR:drone_identifier_already_exists";
             }
         }
         this.drones.add(nd);
         Collections.sort(this.drones);
-        System.out.println("OK:change_completed");
+        //System.out.println("OK:change_completed");
+        return "OK:change_completed";
     }
 
     /**
@@ -77,7 +82,7 @@ public class Store implements Comparable<Store>{
      *
      */
 
-    public void displayDrones(){
+    public String displayDrones(){
         for(Drone d : this.drones){
             if(d.getPilot() != null){
                 System.out.println(d.toString(d.getPilot()));
@@ -85,7 +90,7 @@ public class Store implements Comparable<Store>{
                 System.out.println(d.toString());
             }
         }
-        System.out.println("OK:display_completed");
+        return "OK:display_completed";
     }
 
     /**
@@ -96,7 +101,7 @@ public class Store implements Comparable<Store>{
      * @param pilots the content of all pilots in system
      */
 
-    public void flyDrone(String droneID, String pilotID,ArrayList<Pilot> pilots){
+    public String flyDrone(String droneID, String pilotID,ArrayList<Pilot> pilots){
         for(Drone d:this.drones){
             if (d.getId().equals(droneID)){
                 for(Pilot p: pilots){
@@ -106,15 +111,15 @@ public class Store implements Comparable<Store>{
                         }
                         d.setPilot(p);
                         p.setDrone(d);
-                        System.out.println("OK:change_completed");
-                        return;
+                        //System.out.println("OK:change_completed");
+                        return "OK:change_completed";
                     }
                 }
-                System.out.println("ERROR:pilot_identifier_does_not_exist");
-                return;
+                //System.out.println("ERROR:pilot_identifier_does_not_exist");
+                return "ERROR:pilot_identifier_does_not_exist";
             }
         }
-        System.out.println("ERROR:drone_identifier_does_not_exist");
+        return "ERROR:drone_identifier_does_not_exist";
     }
 
     /**
@@ -125,13 +130,13 @@ public class Store implements Comparable<Store>{
      * @param customers the content of all customers in the system
      */
 
-    public void createOrder(String orderID, String droneID,
+    public String createOrder(String orderID, String droneID,
                             String customerID, TreeMap<String, Customer> customers){
         if(this.orders != null) {
             for (Order o : this.orders) {
                 if (o.getOrderId().equals(orderID)) {
-                    System.out.println("ERROR:order_identifier_already_exists");
-                    return;
+                    //System.out.println("ERROR:order_identifier_already_exists");
+                    return "ERROR:order_identifier_already_exists";
                 }
             }
         }
@@ -143,15 +148,16 @@ public class Store implements Comparable<Store>{
                         order.getDrone().addOrders(1);
                         this.addOrder(order);
                         Collections.sort(orders);
-                        System.out.println("OK:change_completed");
-                        return;
+                        //System.out.println("OK:change_completed");
+                        return "OK:change_completed";
                     }
                 }
-                System.out.println("ERROR:customer_identifier_does_not_exist");
-                return;
+                //System.out.println("ERROR:customer_identifier_does_not_exist");
+                return "ERROR:customer_identifier_does_not_exist";
             }
         }
-        System.out.println("ERROR:drone_identifier_does_not_exist");
+        //System.out.println("ERROR:drone_identifier_does_not_exist");
+        return "ERROR:drone_identifier_does_not_exist";
     }
 
     /**
@@ -176,15 +182,15 @@ public class Store implements Comparable<Store>{
      * @param price the content of item's price
      */
 
-    public void requestItem(String orderId, String item, int quantity, int price) {
+    public String requestItem(String orderId, String item, int quantity, int price) {
         for (Order o : this.orders) {
             if (o.getOrderId().equals(orderId)) {
                 for (Item i : this.catalog) {
                     if (i.getName().equals(item)) {
                         for (ItemLine itemline : o.getItemLines()) {
                             if (itemline.getItem().getName().equals(i.getName())) {
-                                System.out.println("ERROR:item_already_ordered");
-                                return;
+                                //System.out.println("ERROR:item_already_ordered");
+                                return "ERROR:item_already_ordered";
                             }
                         }
                         int total_cost = quantity * price;
@@ -193,23 +199,23 @@ public class Store implements Comparable<Store>{
                             if (o.getDrone().getRemainingCap() >= total_weight) {
                                 ItemLine newItemLine = new ItemLine(i,total_cost,total_weight,quantity);
                                 o.addItemline(newItemLine, total_weight, total_cost);
-                                System.out.println("OK:change_completed");
-                                return;
+                                //System.out.println("OK:change_completed");
+                                return "OK:change_completed";
                             } else {
-                                System.out.println("ERROR:drone_cant_carry_new_item");
-                                return;
+                                //System.out.println("ERROR:drone_cant_carry_new_item");
+                                return "ERROR:drone_cant_carry_new_item";
                             }
                         } else {
-                            System.out.println("ERROR:customer_cant_afford_new_item");
-                            return;
+                            //System.out.println("ERROR:customer_cant_afford_new_item");
+                            return "ERROR:customer_cant_afford_new_item";
                         }
                     }
                 }
-                System.out.println("ERROR:item_identifier_does_not_exist");
-                return;
+                //System.out.println("ERROR:item_identifier_does_not_exist");
+                return "ERROR:item_identifier_does_not_exist";
             }
         }
-        System.out.println("ERROR:order_identifier_does_not_exist");
+        return "ERROR:order_identifier_does_not_exist";
     }
 
     /**
@@ -333,5 +339,21 @@ public class Store implements Comparable<Store>{
 
     public void addOrder(Order o){
         this.orders.add(o);
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }
