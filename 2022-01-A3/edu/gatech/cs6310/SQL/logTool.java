@@ -1,10 +1,10 @@
 package edu.gatech.cs6310.SQL;
-
+import java.util.Date;
 import java.sql.*;
 
-public class SQLtools {
+public class logTool {
     private Connection con;
-    public SQLtools (Connection con){
+    public logTool (Connection con){
         this.con = con;
     }
 
@@ -15,7 +15,7 @@ public class SQLtools {
         ps.setString(1,username);
         ps.setString(2,command);
         ps.setString(3,result);
-        ps.setDate(4,timeStamp);
+        ps.setDate(4, (java.sql.Date) timeStamp);
         ps.executeUpdate();
 
     }
