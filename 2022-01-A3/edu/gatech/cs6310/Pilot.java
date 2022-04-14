@@ -35,6 +35,19 @@ public class Pilot implements Comparable<Pilot>{
         this.timeStamp = new Date();
     }
 
+    public Pilot(String accountID, String firstName, String lastName, String phoneNumber, String taxID, String licenseID, int expcLevel, Date timeStamp, boolean flag) {
+        this.accountID = accountID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.taxID = taxID;
+        this.licenseID = licenseID;
+        this.expcLevel = expcLevel;
+        this.drone = null;
+        this.flag = flag;
+        this.timeStamp = timeStamp;
+    }
+
     /**
      * Helper method to add pilot'e experience
      *

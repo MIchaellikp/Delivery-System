@@ -97,11 +97,6 @@ public class Order implements Comparable<Order>{
         this.getCustomer().changeRemainingCredits(linecost);
     }
 
-    public void addItemline2(ItemLine itemLine){
-        this.itemLines.add(itemLine);
-        Collections.sort(itemLines);
-    }
-
 
     public Customer getCustomer() {
         return customer;
@@ -125,6 +120,7 @@ public class Order implements Comparable<Order>{
 
     public void setItemLines(ArrayList<ItemLine> itemLines) {
         this.itemLines = itemLines;
+        Collections.sort(this.itemLines);
     }
 
     public String getOrderId() {

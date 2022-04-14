@@ -11,23 +11,23 @@ import java.util.Date;
 import java.util.TreeMap;
 
 public class Init {
-    /* connection
-    1. 执行语句 创建Class
 
-     */
     private TreeMap<String, Customer> customers = new TreeMap<String, Customer>();
-    private ArrayList<Drone> drones = new ArrayList<Drone>();
+    private ArrayList<Pilot> pilots = new ArrayList<>();
     private TreeMap<String, Store> stores = new TreeMap<String, Store>();
     private Connection con;
 
-    public Init(Connection con) {
+    public Init(Connection con) throws ParseException {
         this.con = con;
+        this.customers = this.initCustomers();
+        this.pilots = this.initPilots();
+        this.stores = this.initStores();
     }
 
-    public TreeMap getCustomers() throws ParseException {
-        Statement state = null;
+    private TreeMap initCustomers() throws ParseException {
+        TreeMap<String, Customer> customers = new TreeMap<>();
         try {
-            state = con.createStatement();
+            Statement state = con.createStatement();
             String sql = "select * from customers";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
@@ -48,113 +48,33 @@ public class Init {
         return customers;
     }
 
-    public void getItems() {
-        Statement state = null;
+    private ArrayList<Pilot> initPilots() throws ParseException{
+        ArrayList<Pilot> pilots = new ArrayList<>();
         try {
-            state = con.createStatement();
-            String sql = "select * from items";
+            Statement state = con.createStatement();
+            String sql = "select * from pilots";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
-                String storeName = rs.getString("storeName");
-                Store s = stores.get(storeName);
-                String id = rs.getString("itemName");
-                int weight = Integer.getInteger(rs.getString("weight"));
-                Item item = new Item(id, weight);
-                s.addItem(item);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void getItemLines() throws ParseException {
-        Statement state = null;
-        try {
-            state = con.createStatement();
-            String sql = "select * from itemLines";
-            ResultSet rs = state.executeQuery(sql);
-            while (rs.next()) {
-                String storeName = rs.getString("storeName");
-                Store s = stores.get(storeName);
-                String orderID = rs.getString("orderID");
-                Order o = s.getOrder(orderID);
-                String itemName = rs.getString("itemName");
-                Item item = s.getItem(itemName);
-                int lineQuantity = Integer.getInteger(rs.getString("lineQuantity"));
-                int lineCost = Integer.getInteger(rs.getString("lineCost"));
-                int lineWeight = Integer.getInteger(rs.getString("totalWeight"));
-                Date time = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
+                String accountID = rs.getString("accountID");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastnName");
+                String phoneNumber = rs.getString("phoneNumber");
+                String taxID = rs.getString("taxID");
+                String licenseID = rs.getString("licenseID");
+                int expcLevel = rs.getInt("expcLevel");
+//                String droneID = rs.getString("droneID");
+                Date timeStamp = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
                 boolean flag = Boolean.parseBoolean(rs.getString("flag"));
-                ItemLine itemline = new ItemLine(item, lineCost, lineWeight, lineQuantity);
-                o.addItemline2(itemline);
+                pilots.add(new Pilot(accountID, firstName, lastName,
+                        phoneNumber, taxID, licenseID, expcLevel, timeStamp, flag));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return pilots;
     }
 
-    public void getOrders() throws ParseException {
-        Statement state = null;
-        try {
-            state = con.createStatement();
-            String sql = "select * from itemLines";
-            ResultSet rs = state.executeQuery(sql);
-            while (rs.next()) {
-                String storeName = rs.getString("storeName");
-                Store s = stores.get(storeName);
-                String orderID = rs.getString("orderID");
-                String customerID = rs.getString("customerID");
-                String droneID = rs.getString("droneID");
-                int totalCost = Integer.getInteger(rs.getString("totalCost"));
-                int totalWeight = Integer.getInteger(rs.getString("totalWeight"));
-                Date time = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
-                boolean flag = Boolean.parseBoolean(rs.getString("flag"));
-                Drone d = s.getDrone(droneID);
-                Customer c = customers.get(customerID);
-                ArrayList orders = s.getOrders();
-                Order o = new Order(orderID,c,d, totalCost, totalWeight);
-                orders.add(o);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void getDrones() throws ParseException {
-        Statement state = null;
-        try {
-            state = con.createStatement();
-            String sql = "select * from Drones";
-            ResultSet rs = state.executeQuery(sql);
-            while (rs.next()) {
-                String storeName = rs.getString("storeName");
-                Store s = stores.get(storeName);
-                String id = rs.getString("droneID");
-                int capacity = Integer.getInteger(rs.getString("capacity"));
-                int remainingCap = Integer.getInteger(rs.getString("remainingCap"));
-                int numOrders = Integer.getInteger(rs.getString("numOrders"));
-                int fuel = Integer.getInteger(rs.getString("fuel"));
-                int remainFuel = Integer.getInteger(rs.getString("fuel"));
-                Date time = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
-                boolean flag = Boolean.parseBoolean(rs.getString("flag"));
-                String pilotID = rs.getString("pilotID");
-
-                if (pilotID == null) {
-                    Drone drone = new Drone(storeName, id, capacity, remainingCap, fuel, remainFuel, numOrders, null);
-                    s.add(drone);
-                } else {
-                    Pilot np = pilots.get(pilotID);
-                    Drone drone = new Drone(storeName, id, capacity, remainingCap, fuel, remainFuel, numOrders, np);
-                    s.add(drone);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public TreeMap<String, Store> getStores() throws ParseException{
+    private TreeMap<String, Store> initStores() throws ParseException{
         TreeMap<String, Store> stores = new TreeMap<>();
         Statement state = null;
         try {
@@ -164,7 +84,11 @@ public class Init {
             while (rs.next()) {
                 String storeName = rs.getString("storeName");
                 int revenue = rs.getInt("revenue");
+                Date timeStamp = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
+                boolean flag = Boolean.parseBoolean(rs.getString("flag"));
                 Store s = new Store(storeName, revenue);
+                s.setTimeStamp(timeStamp);
+                s.setFlag(flag);
                 this.initStore(s);
                 stores.put(storeName, s);
             }
@@ -183,7 +107,7 @@ public class Init {
         ArrayList<Item> items = new ArrayList<>();
         try {
             Statement state = con.createStatement();
-            String sql = "select * from items where storeName = "+s.getName();
+            String sql = "select * from items where storeName = '"+s.getName()+"'";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String itemName = rs.getString("itemName");
@@ -198,7 +122,7 @@ public class Init {
     private void initStoreDrones(Store s){
         try {
             Statement state = con.createStatement();
-            String sql = "select * from drones where storeName = "+s.getName();
+            String sql = "select * from drones where storeName = '"+s.getName()+"'";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String droneID = rs.getString("droneID");
@@ -212,7 +136,15 @@ public class Init {
                 d.setNumOrders(numOrders);
                 d.setRemainFuel(remainFuel);
                 d.setRemainingCap(remainingCap);
+                for(Pilot p:this.pilots){
+                    if(p.getAccountID().equals(pilotID)){
+                        d.setPilot(p);
+                        p.setDrone(d);
+                        break;
+                    }
+                }
                 s.addDrone(d);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -222,7 +154,7 @@ public class Init {
     private void initStoreOrders(Store s) throws ParseException {
         try {
             Statement state = con.createStatement();
-            String sql = "select * from orders where storeName = "+s.getName();
+            String sql = "select * from orders where storeName = '"+s.getName()+"'";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String orderID = rs.getString("orderID");
@@ -237,11 +169,50 @@ public class Init {
                 Drone d = s.getDrone(droneID);
                 Customer c = this.customers.get(customerID);
                 Order o = new Order(orderID, c, d, totalCost, totalWeight, status, timeStamp, flag);
+                this.initOrder(o);
                 s.addOrder(o);
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void initOrder(Order o) throws ParseException {
+        ArrayList<ItemLine> itemLines = new ArrayList<ItemLine>();
+        try {
+            Statement state = con.createStatement();
+            String sql = "select * from itemLines where orderId = '"+ o.getOrderId()+"'";
+            ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                String storeName = rs.getString("storeName");
+                String orderID = rs.getString("orderID");
+                String itemName = rs.getString("itemName");
+                int lineQuantity = rs.getInt("lineQuantity");
+                int lineCost = rs.getInt("lineCost");
+                int lineWeight = rs.getInt("lineWeight");
+
+                Item i = this.stores.get(storeName).getItem(itemName);
+                ItemLine itemLine = new ItemLine(i, lineCost, lineWeight, lineQuantity);
+                itemLines.add(itemLine);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        o.setItemLines(itemLines);
+    }
+
+
+    public TreeMap<String, Customer> getCustomers() {
+        return customers;
+    }
+
+    public TreeMap<String, Store> getStores() {
+        return stores;
+    }
+
+    public ArrayList<Pilot> getPilots() {
+        return pilots;
     }
 }

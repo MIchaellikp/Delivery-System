@@ -15,15 +15,16 @@ public class DeliveryService {
         Scanner commandLineInput = new Scanner(System.in);
         String wholeInputLine;
         String[] tokens;
-        ArrayList<Pilot> pilots = data.getPilot();
+        ArrayList<Pilot> pilots = data.getPilots();
         TreeMap<String,Customer> customers = data.getCustomers();
         TreeMap<String,Store> stores = data.getStores();
         logTool logTool = new logTool(con);
-        Date date = new Date();
+
 
         final String DELIMITER = ",";
 
         while (true) {
+            Date date = new Date();
             try {
                 // Determine the next command and echo it to the monitor for testing purposes
                 wholeInputLine = commandLineInput.nextLine();
@@ -281,7 +282,7 @@ public class DeliveryService {
                         result = stores.get(tokens[1]).cancelOrder(tokens[2]);
                     }else{
                         //System.out.println("ERROR:store_identifier_does_not_exist");
-                        result = "ERROR:store_identifier_does_not_exist"
+                        result = "ERROR:store_identifier_does_not_exist";
                     }
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
