@@ -10,7 +10,7 @@ public class logTool {
 
     public void insertLog(String username, Date timeStamp, String command, String result) throws SQLException {
         Statement state = con.createStatement();
-        String sql = "insert into System_Log (username, commandLine, resultMessage , timeStamp) values(?,?,?,?,?)";
+        String sql = "insert into System_Log (username, commandLine, resultMessage , timeStamp) values(?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1,username);
         ps.setString(2,command);

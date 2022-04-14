@@ -26,6 +26,7 @@ public class SQLend {
                 ps.setDate(2, (Date) s.getValue().getTimeStamp());
                 ps.setBoolean(3, (s.getValue().isFlag()));
                 ps.executeUpdate();
+                updateDrone(s.getValue());
             } else {
                 //insert
                 String insert = "insert into Stores (storeName, revenue,timeStamp,flag ) values(?,?,?,?)" ;
@@ -35,7 +36,9 @@ public class SQLend {
                 ps.setDate(3, (Date) s.getValue().getTimeStamp());
                 ps.setBoolean(4, (s.getValue().isFlag()));
                 ps.executeUpdate();
+                updateDrone(s.getValue());
             }
+
         }
     }
 
@@ -85,7 +88,7 @@ public class SQLend {
             if(rs.next()){
                 //update
                 String update = "update Pilot set expcLevel = ?, droneID = ? ," +
-                        "flag = ? where storeName = " + p.getAccountID();
+                        "flag = ? where accountID = " + p.getAccountID();
                 PreparedStatement ps = con.prepareStatement(update);
 
                 ps.setInt(1, (p.getExpcLevel()));
@@ -108,6 +111,72 @@ public class SQLend {
                 ps.setString(8,(p.getDrone() == null ? null: p.getDrone().getId()));
                 ps.setDate(9, (Date) p.getTimeStamp());
                 ps.setBoolean(10, (p.isFlag()));
+                ps.executeUpdate();
+            }
+        }
+    }
+
+    public void updateDrone(Store s) throws SQLException {
+        Statement state = con.createStatement();
+        for(Drone d: s.getDrones()){
+            String sql = "select * from Drones where droneID =" + d.getId();
+            ResultSet rs = state.executeQuery(sql);
+            if(rs.next()){
+                //update
+                String update = "update Drones set storeName = ?, remainingCap = ? , " +
+                        "numsOrders = ?, remainingFuel = ?, pilotID = ?, timestamp = ?," +
+                        " flag = ? where storeName = " + d.getId();
+                PreparedStatement ps = con.prepareStatement(update);
+                ps.setString(1,d.getStoreName());
+                ps.setInt(2,d.getRemainingCap());
+                ps.setInt(3,d.getNumOrders());
+                ps.setInt(4, d.getRemainFuel());
+                ps.setString(5,(d.getPilot() == null ? null: d.getPilot().getAccountID()));
+                ps.setDate(6, (Date) d.getTimeStamp());
+                ps.setBoolean(3, (d.isFlag()));
+                ps.executeUpdate();
+            } else {
+                //insert
+                String insert = "insert into Stores (storeName, revenue,timeStamp,flag ) values(?,?,?,?)" ;
+                PreparedStatement ps = con.prepareStatement(insert);
+
+                ps.setString(1,d.getStoreName());
+                ps.setInt(2,d.getRemainingCap());
+                ps.setInt(3,d.getNumOrders());
+                ps.setInt(4, d.getRemainFuel());
+                ps.executeUpdate();
+            }
+        }
+    }
+
+    public void updateOrder(Store s) throws SQLException {
+        Statement state = con.createStatement();
+        for(Order o: s.getOrders()){
+            String sql = "select * from Order where orderID =" + o.getOrderId();
+            ResultSet rs = state.executeQuery(sql);
+            if(rs.next()){
+                //update
+                String update = "update Drones set storeName = ?, remainingCap = ? , " +
+                        "numsOrders = ?, remainingFuel = ?, pilotID = ?, timestamp = ?," +
+                        " flag = ? where storeName = " + d.getId();
+                PreparedStatement ps = con.prepareStatement(update);
+                ps.setString(1,d.getStoreName());
+                ps.setInt(2,d.getRemainingCap());
+                ps.setInt(3,d.getNumOrders());
+                ps.setInt(4, d.getRemainFuel());
+                ps.setString(5,(d.getPilot() == null ? null: d.getPilot().getAccountID()));
+                ps.setDate(6, (Date) d.getTimeStamp());
+                ps.setBoolean(3, (d.isFlag()));
+                ps.executeUpdate();
+            } else {
+                //insert
+                String insert = "insert into Stores (storeName, revenue,timeStamp,flag ) values(?,?,?,?)" ;
+                PreparedStatement ps = con.prepareStatement(insert);
+
+                ps.setString(1,d.getStoreName());
+                ps.setInt(2,d.getRemainingCap());
+                ps.setInt(3,d.getNumOrders());
+                ps.setInt(4, d.getRemainFuel());
                 ps.executeUpdate();
             }
         }

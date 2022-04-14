@@ -1,4 +1,5 @@
 import edu.gatech.cs6310.DeliveryService;
+import edu.gatech.cs6310.Init;
 import edu.gatech.cs6310.SQL.SQLtools;
 //import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -46,10 +47,7 @@ public class Main {
 
         // add into userName
         DeliveryService simulator = new DeliveryService();
-        //init data = new init(con);
-        // data.getcustomers
-        // data.getpolots
-        // data.getstores
-        simulator.commandLoop(String.valueOf(username), con);
+        Init data = new Init(con);
+        simulator.commandLoop(String.valueOf(username), data, con);
     }
 }

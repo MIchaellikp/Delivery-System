@@ -306,6 +306,7 @@ public class Store implements Comparable<Store>{
     public ArrayList<Order> getOrders() {
         return orders;
     }
+
     public Order getOrder(String orderId) {
         for(Order o : this.orders){
             if (o.getOrderId().equals(orderId)){
