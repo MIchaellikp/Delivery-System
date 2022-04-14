@@ -1,6 +1,7 @@
 package edu.gatech.cs6310;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -8,9 +9,7 @@ public class SQLend {
 
     private Connection con;
 
-    public SQLend(Connection con) {
-        this.con = con;
-    }
+    public SQLend(Connection con) { this.con = con;}
 
     public void updateStore(TreeMap<String, Store> stores) throws SQLException {
         Statement state = con.createStatement();
@@ -24,7 +23,7 @@ public class SQLend {
                 PreparedStatement ps = con.prepareStatement(update);
 
                 ps.setInt(1, (s.getValue().getRevenue()));
-                ps.setDate(2, (Date) s.getValue().getDataStamp());
+                ps.setDate(2, (Date) s.getValue().getTimeStamp());
                 ps.setBoolean(3, (s.getValue().isFlag()));
                 ps.executeUpdate();
             } else {
@@ -33,7 +32,7 @@ public class SQLend {
                 PreparedStatement ps = con.prepareStatement(insert);
                 ps.setString(1,s.getKey());
                 ps.setInt(2, s.getValue().getRevenue());
-                ps.setDate(3, (Date) s.getValue().getDataStamp());
+                ps.setDate(3, (Date) s.getValue().getTimeStamp());
                 ps.setBoolean(4, (s.getValue().isFlag()));
                 ps.executeUpdate();
             }
@@ -41,9 +40,6 @@ public class SQLend {
     }
 
     public void updateCustomer(TreeMap<String,Customer> customers) throws SQLException {
-        /*if custmersid 在sql update
-            not in SQL 的话 insert
-         */
         Statement state = null;
         for(Map.Entry<String,Customer> c: customers.entrySet()){
             state = con.createStatement();
@@ -58,7 +54,7 @@ public class SQLend {
                 ps.setInt(1, (c.getValue().getRating()));
                 ps.setInt(2, (c.getValue().getCredits()));
                 ps.setInt(3, c.getValue().getRemainingCredits());
-                ps.setDate(4, (Date) c.getValue().getDataStamp());
+                ps.setDate(4, (Date) c.getValue().getTimeStamp());
                 ps.setBoolean(5, (c.getValue().isFlag()));
                 ps.executeUpdate();
             } else {
@@ -73,14 +69,48 @@ public class SQLend {
                 ps.setInt(5, (c.getValue().getRating()));
                 ps.setInt(6, (c.getValue().getCredits()));
                 ps.setInt(7, c.getValue().getRemainingCredits());
-                ps.setDate(8, (Date) c.getValue().getDataStamp());
+                ps.setDate(8, (Date) c.getValue().getTimeStamp());
                 ps.setBoolean(9, (c.getValue().isFlag()));
                 ps.executeUpdate();
             }
 
         }
+    }
 
+    public void updatePilot(ArrayList<Pilot> pilots) throws SQLException {
+        Statement state = con.createStatement();
+        for(Pilot p: pilots){
+            String sql = "select * from pilots where accountID =" + p.getAccountID();
+            ResultSet rs = state.executeQuery(sql);
+            if(rs.next()){
+                //update
+                String update = "update Pilot set expcLevel = ?, droneID = ? ," +
+                        "flag = ? where storeName = " + p.getAccountID();
+                PreparedStatement ps = con.prepareStatement(update);
 
+                ps.setInt(1, (p.getExpcLevel()));
+                ps.setString(1, (p.getDrone().getId()));
+                ps.setDate(2, (Date) p.getTimeStamp());
+                ps.setBoolean(3, (p.isFlag()));
+                ps.executeUpdate();
+            } else {
+                //insert
+                String insert = "insert into Pilot (accountid, firstName,lastName,phoneNumber,taxID," +
+                                "licenseID, expcLevel, droneID, timeStamp,flag ) values(?,?,?,?,?,?,?,?,?,?)" ;
+                PreparedStatement ps = con.prepareStatement(insert);
+                ps.setString(1,p.getAccountID());
+                ps.setString(2,p.getFirstName());
+                ps.setString(3,p.getLastName());
+                ps.setString(4,p.getPhoneNumber());
+                ps.setString(5,p.getTaxID());
+                ps.setString(6,p.getLicenseID());
+                ps.setInt(7, p.getExpcLevel());
+                ps.setString(8,(p.getDrone() == null ? null: p.getDrone().getId()));
+                ps.setDate(9, (Date) p.getTimeStamp());
+                ps.setBoolean(10, (p.isFlag()));
+                ps.executeUpdate();
+            }
+        }
     }
 
 
