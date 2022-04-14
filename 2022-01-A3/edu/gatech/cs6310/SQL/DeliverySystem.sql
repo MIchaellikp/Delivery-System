@@ -1,23 +1,14 @@
+Create Database if not exists DeliveryService;
 Use DeliveryService;
 
-drop table if exists itemLine;
-drop table if exists items;
-drop table if exists Orders;
-drop table if exists Customers;
-drop table if exists Drones;
-drop table if exists Stores;
-drop table if exists Pilots;
-drop table if exists Users;
-drop table if exists System_Log;
-
-create table Users
+create table IF NOT EXISTS Users
 (
 	username varchar(100) not null,
     password varchar(100) not null,
     primary key(username)
 );
 
-create table System_Log
+create table IF NOT EXISTS System_Log
 (
 	logID int not null auto_increment,
     username varchar(100) not null,
@@ -27,7 +18,7 @@ create table System_Log
     primary key(logID)
 );
 
-create table Customers
+create table IF NOT EXISTS Customers
 (
    customerID varchar(100) not null,
    fristName varchar(100) not null,
@@ -41,7 +32,7 @@ create table Customers
    primary key (customerID)
 );
 
-create table Stores
+create table IF NOT EXISTS Stores
 (
 	storeName varchar(100) not null,
 	revenue int not null,
@@ -50,7 +41,7 @@ create table Stores
 	primary key (storeName)
 );
 
-create table Orders
+create table IF NOT EXISTS Orders
 (
     storeName varchar(100) not null,
     orderID varchar(100) not null,
@@ -64,7 +55,7 @@ create table Orders
     primary key(orderID)
 );
 
-create table Drones
+create table IF NOT EXISTS Drones
 (
 	droneID varchar(100) not null,
     storeName varchar(100) not null,
@@ -79,7 +70,7 @@ create table Drones
     primary key(droneID)
 );
 
-create table items
+create table IF NOT EXISTS items
 (
 	itemName varchar(100) not null,
     storeName varchar(100) not null,
@@ -87,7 +78,7 @@ create table items
     primary key(itemName, storeName)
 );
 
-create table itemLines
+create table IF NOT EXISTS itemLines
 (
     storeName varchar(100) not null,
 	orderId varchar(100) not null,
@@ -98,7 +89,7 @@ create table itemLines
     primary key(orderId, itemName)
 );
 
-create table Pilots
+create table IF NOT EXISTS Pilots
 (
 	accountID varchar(100) not null,
     firstName varchar(100) not null,
