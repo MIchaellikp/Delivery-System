@@ -15,6 +15,8 @@ public class Order implements Comparable<Order>{
      private int totalcost;
      private int totalweight;
 
+     private String status; // Pending, Delivered, Cancelled
+
      Date timeStamp;
 
      private boolean flag;
@@ -34,6 +36,7 @@ public class Order implements Comparable<Order>{
         this.drone = drone;
         this.totalcost = 0;
         this.totalweight = 0;
+        this.status = "Pending";
         this.timeStamp = new Date();
         this.flag = false;
     }
@@ -46,6 +49,7 @@ public class Order implements Comparable<Order>{
         this.drone = drone;
         this.totalcost = totalCost;
         this.totalweight = totalWeight;
+        this.status = status;
         this.timeStamp = timeStamp;
         this.flag = flag;
     }
@@ -161,5 +165,13 @@ public class Order implements Comparable<Order>{
 
     public void setFlag(boolean flag) {
         this.flag = flag;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
