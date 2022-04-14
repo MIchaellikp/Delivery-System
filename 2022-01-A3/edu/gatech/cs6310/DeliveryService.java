@@ -1,31 +1,26 @@
 package edu.gatech.cs6310;
+import edu.gatech.cs6310.SQL.logTool;
 import jdk.jfr.Category;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.*;
 
 public class DeliveryService {
 
-    public void commandLoop(String username, Connection con) {
+    public void commandLoop(String username, Init data, Connection con) throws ParseException {
         Scanner commandLineInput = new Scanner(System.in);
         String wholeInputLine;
         String[] tokens;
-        ArrayList<Pilot> pilots = new ArrayList<Pilot>();
-        try {
-            Statement state = con.createStatement();
-            String sql = "Select * from Pilots";
-            ResultSet rs = state.executeQuery(sql);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        TreeMap<String,Customer> customers = new TreeMap<String, Customer>();
-        TreeMap<String,Store> stores = new TreeMap<String,Store>();
+        ArrayList<Pilot> pilots = data.getPilot();
+        TreeMap<String,Customer> customers = data.getCustomers();
+        TreeMap<String,Store> stores = data.getStores();
+        logTool logTool = new logTool(con);
+        Date date = new Date();
 
         final String DELIMITER = ",";
 
@@ -35,7 +30,7 @@ public class DeliveryService {
                 wholeInputLine = commandLineInput.nextLine();
                 tokens = wholeInputLine.split(DELIMITER);
                 System.out.println("> " + wholeInputLine);
-
+                String result = null;
                 if (tokens[0].equals("make_store")) {
                     /**
                      * Helper method to add a new store into system
@@ -49,11 +44,14 @@ public class DeliveryService {
                     // 4. timeStamp - SQL auto
                     Store newStore = new Store(tokens[1], Integer.parseInt(tokens[2]));
                     if(stores.containsKey(newStore.getName())){
+                        result = "ERROR:store_identifier_already_exists";
                         System.out.println("ERROR:store_identifier_already_exists");
                     }else{
                         stores.put(newStore.getName(), newStore);
+                        result = "OK:change_completed";
                         System.out.println("OK:change_completed");
                     }
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("display_stores")) {
                     /**
@@ -63,7 +61,9 @@ public class DeliveryService {
                     for(Map.Entry<String,Store> s: stores.entrySet()){
                         System.out.println(s.getValue().toString());
                     }
+                    result = "OK:display_completed";
                     System.out.println("OK:display_completed");
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("sell_item")) {
                     /**
@@ -78,23 +78,29 @@ public class DeliveryService {
                         Store store = stores.get(tokens[1]);
                         boolean addResult = store.addItem(newItem);
                         if (addResult) {
+                            result = "OK:change_completed";
                             System.out.println("OK:change_completed");
                         } else {
+                            result = "ERROR:item_identifier_already_exists";
                             System.out.println("ERROR:item_identifier_already_exists");
                         }
                     }else{
+                        result = "ERROR:store_identifier_does_not_exist";
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     }
-
+                    logTool.insertLog(username, date, wholeInputLine, result);
                 } else if (tokens[0].equals("display_items")) {
                     /**
                      * Helper method to display all items in store
                      */
                     if(stores.containsKey(tokens[1])){
-                        stores.get(tokens[1]).displayItems();
+                        result = stores.get(tokens[1]).displayItems();
+                        System.out.println(result);
                     }else{
+                        result = "ERROR:store_identifier_does_not_exist";
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     }
+                    logTool.insertLog(username, date, wholeInputLine, result);
                 } else if (tokens[0].equals("make_pilot")) {
                     /**
                      * Helper method to add a new item into the store
@@ -113,10 +119,12 @@ public class DeliveryService {
                     for(Pilot p: pilots){
                         if(p.getAccountID().equals(newp.getAccountID()) ){
                             finishLoop = false;
+                            result = "ERROR:pilot_identifier_already_exists";
                             System.out.println("ERROR:pilot_identifier_already_exists");
                             break;
                         }else if( p.getLicenseID().equals(newp.getLicenseID())){
                             finishLoop = false;
+                            result = "ERROR:pilot_license_already_exists";
                             System.out.println("ERROR:pilot_license_already_exists");
                             break;
                         }
@@ -124,9 +132,10 @@ public class DeliveryService {
                     if(finishLoop) {
                         pilots.add(newp);
                         Collections.sort(pilots);
+                        result = "OK:change_completed";
                         System.out.println("OK:change_completed");
                     }
-
+                    logTool.insertLog(username, date, wholeInputLine, result);
                 } else if (tokens[0].equals("display_pilots")) {
                     /**
                      * Helper method to display all pilots in system
@@ -134,7 +143,9 @@ public class DeliveryService {
                     for(Pilot p : pilots){
                         System.out.println(p.toString());
                     }
-                    System.out.println("OK:display_completed");
+                    result = "OK:display_completed";
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("make_drone")) {
                     /**
@@ -147,10 +158,12 @@ public class DeliveryService {
                      */
                     Drone newDrone = new Drone(tokens[1], tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]));
                     if(stores.containsKey(tokens[1])){
-                        stores.get(tokens[1]).addDrone(newDrone);
+                        result = stores.get(tokens[1]).addDrone(newDrone);
                     }else{
-                    System.out.println("ERROR:store_identifier_does_not_exist");
+                        result = "ERROR:store_identifier_does_not_exist";
                     }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("display_drones")) {
                     /**
@@ -160,10 +173,12 @@ public class DeliveryService {
                      */
 
                     if(stores.containsKey(tokens[1])) {
-                        stores.get(tokens[1]).displayDrones();
+                        result = stores.get(tokens[1]).displayDrones();
                     }else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        result = "ERROR:store_identifier_does_not_exist";
                     }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("fly_drone")) {
                     /**
@@ -174,10 +189,12 @@ public class DeliveryService {
                      * @param tokens[3] the content of pilot's id
                      */
                     if(stores.containsKey(tokens[1])) {
-                        stores.get(tokens[1]).flyDrone(tokens[2],tokens[3], pilots);
+                        result = stores.get(tokens[1]).flyDrone(tokens[2],tokens[3], pilots);
                     }else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        result =  "ERROR:store_identifier_does_not_exist";
                     }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("make_customer")) {
                     /**
@@ -186,12 +203,13 @@ public class DeliveryService {
                      */
                     Customer newCustomer = new Customer(tokens[1],tokens[2],tokens[3],tokens[4],Integer.parseInt(tokens[5]),Integer.parseInt(tokens[6]));
                     if(customers.containsKey(newCustomer.getAccount())){
-                        System.out.println("ERROR:customer_identifier_already_exists");
+                        result =  "ERROR:customer_identifier_already_exists";
                     }else{
                         customers.put(newCustomer.getAccount(), newCustomer);
-                        System.out.println("OK:change_completed");
+                        result =  "OK:change_completed";
                     }
-
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("display_customers")) {
                     /**
@@ -200,17 +218,22 @@ public class DeliveryService {
                     for(Map.Entry<String,Customer> c: customers.entrySet()){
                         System.out.println(c.getValue().toString());
                     }
-                    System.out.println("OK:display_completed");
+                    result = "OK:display_completed";
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("start_order")) {
                     /**
                      * Helper method to new order for a customer
                      */
                     if(stores.containsKey(tokens[1])) {
-                        stores.get(tokens[1]).createOrder(tokens[2],tokens[3],tokens[4], customers);
+                        result = stores.get(tokens[1]).createOrder(tokens[2],tokens[3],tokens[4], customers);
                     }else{
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        //System.out.println("ERROR:store_identifier_does_not_exist");
+                        result = "ERROR:store_identifier_does_not_exist";
                     }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("display_orders")) {
                     /**
@@ -220,10 +243,13 @@ public class DeliveryService {
                      */
                     if(stores.containsKey(tokens[1])) {
                         stores.get(tokens[1]).displayOrders();
-                        System.out.println("OK:display_completed");
+                        result = "OK:display_completed";
                     }else {
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        result = "ERROR:store_identifier_does_not_exist";
                     }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
+
                 } else if (tokens[0].equals("request_item")) {
                     /**
                      * Helper method to add items into the order
@@ -231,10 +257,13 @@ public class DeliveryService {
                     if(stores.containsKey(tokens[1])) {
                         int q = Integer.parseInt(tokens[4]);
                         int p = Integer.parseInt(tokens[5]);
-                        stores.get(tokens[1]).requestItem(tokens[2],tokens[3],q,p);
+                        result = stores.get(tokens[1]).requestItem(tokens[2],tokens[3],q,p);
                     }else{
-                        System.out.println("ERROR:store_identifier_does_not_exist");
+                        //System.out.println("ERROR:store_identifier_does_not_exist");
+                        result = "ERROR:store_identifier_does_not_exist";
                     }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("purchase_order")) {
                     /**
@@ -253,6 +282,8 @@ public class DeliveryService {
                     }
                 } else if (tokens[0].equals("stop")) {
                     System.out.println("stop acknowledged");
+                    //Backupdatabase
+                    SQLend sqLend = new SQLend(con);
                     break;
 
                 } else {
