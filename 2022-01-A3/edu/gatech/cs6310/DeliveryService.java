@@ -318,7 +318,7 @@ public class DeliveryService {
                     archive_all(stores, customers, pilots);
                     logTool.insertLog(username, date, wholeInputLine, result);
                     //Backupdatabase
-                    SQLend sqLend = new SQLend(con);
+                    SQLend sqLend = new SQLend(con,pilots,customers,stores);
                     break;
 
                 } else {

@@ -9,11 +9,14 @@ public class SQLend {
 
     private Connection con;
 
-    public SQLend(Connection con) {
+    public SQLend(Connection con, ArrayList<Pilot> pilots, TreeMap<String,Customer> customers, TreeMap<String,Store> stores) throws SQLException {
         this.con = con;
+        this.upsertCustomer(customers);
+        this.upsertPilots(pilots);
+        this.upsertStores(stores);
     }
 
-    public void upsertStore(TreeMap<String, Store> stores) throws SQLException {
+    public void upsertStores(TreeMap<String, Store> stores) throws SQLException {
         for(Store s: stores.values()){
             String sql = "REPLACE INTO　Stores (storeName,revenue,timeStamp,flag)" +
                     "VALUES (?,?,?,?)";
@@ -115,7 +118,7 @@ public class SQLend {
         }
     }
 
-    public void updatePilot(ArrayList<Pilot> pilots) throws SQLException {
+    public void upsertPilots(ArrayList<Pilot> pilots) throws SQLException {
         Statement state = con.createStatement();
         for(Pilot p: pilots){
             String insert = "REPLACE into Pilots (accountID, firstName,lastName,phoneNumber,taxID," +
