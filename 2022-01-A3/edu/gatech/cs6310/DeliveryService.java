@@ -11,26 +11,6 @@ import java.util.*;
 
 public class DeliveryService {
 
-    public void archive_all(TreeMap<String,Store> stores, TreeMap<String,Customer> customers, ArrayList<Pilot> pilots){
-        //Archive stores and drones
-        for(Map.Entry<String,Store> s: stores.entrySet()) {
-            s.getValue().setFlag(true);
-            for (Drone d: s.getValue().getDrones()){
-                d.setFlag(true);
-            }
-        }
-
-        //Archive customers
-        for(Map.Entry<String,Customer> c: customers.entrySet()) {
-            c.getValue().setFlag(true);
-        }
-        //Archive pilots
-        for(Pilot p: pilots){
-            p.setFlag(true);
-        }
-
-        //Orders are archived immediately after delivered in Store.finishOrder()
-    }
     public void commandLoop(String username, Init data, Connection con) throws ParseException {
         Scanner commandLineInput = new Scanner(System.in);
         String wholeInputLine;
@@ -40,6 +20,7 @@ public class DeliveryService {
         TreeMap<String,Store> stores = data.getStores();
         logTool logTool = new logTool(con);
 
+        Archive archive = new Archive(30);
 
         final String DELIMITER = ",";
 
@@ -315,10 +296,10 @@ public class DeliveryService {
                     System.out.println(result);
                     // todo - determine archive flag before storing back to DB
                     // Archive all classes on exit of DeliveryService
-                    archive_all(stores, customers, pilots);
+                    archive.archive_all(stores, customers, pilots);
                     logTool.insertLog(username, date, wholeInputLine, result);
                     //Backupdatabase
-                    SQLend sqLend = new SQLend(con);
+                    SQLend sqLend = new SQLend(con,pilots,customers,stores);
                     break;
 
                 } else {
