@@ -287,6 +287,10 @@ public class DeliveryService {
                     }
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
+                // } else if (tokens[0].equals("edit_settings")) { todo - add command loop for edit settings
+
+                // } else if (tokens[0].equals("display_system_log")) { todo - add command loop for display system log
+
                 } else if (tokens[0].equals("stop")) {
                     result = "stop acknowledged";
                     System.out.println(result);
@@ -295,7 +299,7 @@ public class DeliveryService {
                     archive.archive_all(stores, customers, pilots);
                     logTool.insertLog(username, date, wholeInputLine, result);
                     //Backupdatabase
-                    SQLend sqLend = new SQLend(con);
+                    SQLend sqLend = new SQLend(con,pilots,customers,stores);
                     break;
 
                 } else {

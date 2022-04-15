@@ -174,4 +174,8 @@ public class Order implements Comparable<Order>{
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void refreshTimeStamp(){
+        this.timeStamp = new Date();
+    }
 }

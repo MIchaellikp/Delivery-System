@@ -169,7 +169,7 @@ public class Init {
                 Drone d = s.getDrone(droneID);
                 Customer c = this.customers.get(customerID);
                 Order o = new Order(orderID, c, d, totalCost, totalWeight, status, timeStamp, flag);
-                this.initOrder(o);
+                this.initOrder(s.getName(), o);
                 s.addOrder(o);
 
             }
@@ -179,14 +179,13 @@ public class Init {
     }
 
 
-    private void initOrder(Order o) throws ParseException {
+    private void initOrder(String storeName, Order o) throws ParseException {
         ArrayList<ItemLine> itemLines = new ArrayList<ItemLine>();
         try {
             Statement state = con.createStatement();
             String sql = "select * from itemLines where orderId = '"+ o.getOrderId()+"'";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
-                String storeName = rs.getString("storeName");
                 String orderID = rs.getString("orderID");
                 String itemName = rs.getString("itemName");
                 int lineQuantity = rs.getInt("lineQuantity");

@@ -15,6 +15,7 @@ create table IF not exists Users
 (
 	username varchar(100) not null,
     password varchar(100) not null,
+    adminType varchar(50) not null default 'Admin',
     primary key(username)
 );
 
@@ -90,7 +91,6 @@ create table IF not exists items
 
 create table IF not exists itemLines
 (
-    storeName varchar(100) not null,
 	orderId varchar(100) not null,
     itemName varchar(100) not null,
     lineQuantity int not null,
@@ -111,8 +111,11 @@ create table IF not exists Pilots
     droneID varchar(100),
     timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
     flag boolean DEFAULT false,
-    primary key(accountID),
-    unique key AK_nq_licenseID(licenseID)
+    primary key(accountID)
+
+#     primary key(accountID),
+#     unique key AK_nq_licenseID(licenseID)
+
 );
 
 # alter table Orders add constraint FK_order_drone foreign key (droneID)
