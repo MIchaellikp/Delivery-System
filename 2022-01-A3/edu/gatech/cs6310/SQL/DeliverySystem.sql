@@ -15,6 +15,7 @@ create table IF not exists Users
 (
 	username varchar(100) not null,
     password varchar(100) not null,
+    adminType varchar(50) not null default 'Admin',
     primary key(username)
 );
 

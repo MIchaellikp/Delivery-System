@@ -51,7 +51,7 @@ public class Main {
         initConenction();
         initDatabase();
 
-
+//todo Signup and Signin
         System.out.println("Welcome to the Grocery Express Delivery Service!");
         System.out.println("Please Login");
         Scanner username = new Scanner(System.in);

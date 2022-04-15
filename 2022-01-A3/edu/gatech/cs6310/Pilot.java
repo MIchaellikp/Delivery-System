@@ -152,4 +152,8 @@ public class Pilot implements Comparable<Pilot>{
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
+
+    public void refreshTimeStamp(){
+        this.timeStamp = new Date();
+    }
 }

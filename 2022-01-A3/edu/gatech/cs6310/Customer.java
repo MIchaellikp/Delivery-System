@@ -126,4 +126,8 @@ public class Customer implements Comparable<Customer>{
     public void setTimeStamp(Date dataStamp) {
         this.timeStamp = dataStamp;
     }
+
+    public void refreshTimeStamp(){
+        this.timeStamp = new Date();
+    }
 }
