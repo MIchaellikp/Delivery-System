@@ -38,6 +38,15 @@ public class Customer implements Comparable<Customer>{
                 ",rating:" + rating + ",credit:" + credits;
     }
 
+    public String toString_withArchiveState(){
+        if (this.isFlag())
+            return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
+                    ",rating:" + rating + ",credit:" + credits + " (Archived)";
+        else
+            return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
+                    ",rating:" + rating + ",credit:" + credits + " (Active)";
+    }
+
     public static int compareStrings(String s1, String s2) {
         return compare(s1,s2);
     }

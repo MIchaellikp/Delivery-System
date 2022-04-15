@@ -61,7 +61,16 @@ public class Pilot implements Comparable<Pilot>{
     @Override
     public String toString() {
         return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                ",taxID:" + taxID + ",licenseID:" + licenseID + ",experience:" + expcLevel;
+            ",taxID:" + taxID + ",licenseID:" + licenseID + ",experience:" + expcLevel;
+    }
+
+    public String toString_withArchiveState() {
+        if (this.isFlag())
+            return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
+                    ",taxID:" + taxID + ",licenseID:" + licenseID + ",experience:" + expcLevel + " (Archived)";
+        else
+            return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
+                    ",taxID:" + taxID + ",licenseID:" + licenseID + ",experience:" + expcLevel + " (Active)";
     }
 
     public static int compareStrings(String s1, String s2) {

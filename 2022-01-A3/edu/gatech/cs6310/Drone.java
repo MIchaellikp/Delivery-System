@@ -94,10 +94,30 @@ public class Drone implements Comparable<Drone>{
                 ",remaining_cap:" + remainingCap + ",trips_left:" + remainFuel;
     }
 
+    public String toString_withArchiveState(){
+        if (this.isFlag())
+            return "droneID:" + this.id +",total_cap:" + capacity + ",num_orders:" + numOrders +
+                ",remaining_cap:" + remainingCap + ",trips_left:" + remainFuel + " (Archived)";
+        else
+            return "droneID:" + this.id +",total_cap:" + capacity + ",num_orders:" + numOrders +
+                    ",remaining_cap:" + remainingCap + ",trips_left:" + remainFuel + " (Active)";
+    }
+
     public String toString(Pilot p){
         return "droneID:" + this.id +",total_cap:" + capacity + ",num_orders:" + numOrders +
                 ",remaining_cap:" + remainingCap + ",trips_left:" + remainFuel + ",flown_by:" +
                 p.getFirstName() + "_" + p.getLastName();
+    }
+
+    public String toString_withArchiveState(Pilot p){
+        if (this.isFlag())
+            return "droneID:" + this.id +",total_cap:" + capacity + ",num_orders:" + numOrders +
+                    ",remaining_cap:" + remainingCap + ",trips_left:" + remainFuel + ",flown_by:" +
+                    p.getFirstName() + "_" + p.getLastName() + " (Archived)";
+        else
+            return "droneID:" + this.id +",total_cap:" + capacity + ",num_orders:" + numOrders +
+                    ",remaining_cap:" + remainingCap + ",trips_left:" + remainFuel + ",flown_by:" +
+                    p.getFirstName() + "_" + p.getLastName() + " (Active)";
     }
 
     public static int compareStrings(String s1, String s2) {
