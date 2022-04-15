@@ -192,4 +192,8 @@ public class Drone implements Comparable<Drone>{
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
+
+    public void refreshTimeStamp(){
+        this.timeStamp = new Date();
+    }
 }

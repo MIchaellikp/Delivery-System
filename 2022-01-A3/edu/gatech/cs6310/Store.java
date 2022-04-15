@@ -371,4 +371,8 @@ public class Store implements Comparable<Store>{
     public void setOrders(ArrayList<Order> orders) {
         this.orders = orders;
     }
+
+    public void refreshTimeStamp(){
+        this.timeStamp = new Date();
+    }
 }
