@@ -15,7 +15,7 @@ public class logTool {
         ps.setString(1,username);
         ps.setString(2,command);
         ps.setString(3,result);
-        ps.setDate(4, (java.sql.Date) timeStamp);
+        ps.setTimestamp(4, new java.sql.Timestamp(timeStamp.getTime()));
         ps.executeUpdate();
 
     }
