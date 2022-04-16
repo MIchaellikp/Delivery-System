@@ -20,7 +20,7 @@ public class DeliveryService {
         TreeMap<String,Store> stores = data.getStores();
         logTool logTool = new logTool(con);
 
-        Archive archive = new Archive(30);
+        Archive archive = new Archive(30, logTool);
 
         final String DELIMITER = ",";
 
@@ -363,8 +363,8 @@ public class DeliveryService {
                     System.out.println(result);
                     // todo - determine archive flag before storing back to DB
                     // Archive all classes on exit of DeliveryService
-                    archive.archive_all(stores, customers, pilots);
                     logTool.insertLog(username, date, wholeInputLine, result);
+                    archive.archive_all(stores, customers, pilots);
                     //Backupdatabase
                     SQLend sqLend = new SQLend(con,pilots,customers,stores);
                     break;

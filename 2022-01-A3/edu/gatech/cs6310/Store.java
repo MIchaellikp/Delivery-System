@@ -266,7 +266,7 @@ public class Store implements Comparable<Store>{
     public String finishOrder(String orderId) {
         Customer c;
         Drone d;
-        this.refreshTimeStamp();
+        //this.refreshTimeStamp();
         for (Order o : orders) {
             if (o.getOrderId().equals(orderId)) {
                 c = o.getCustomer();
@@ -278,7 +278,7 @@ public class Store implements Comparable<Store>{
                         this.revenue += o.getTotalcost();
                         o.setStatus("Delivered");
                         o.setFlag(true);
-                        this.orders.remove(o);
+                        //this.orders.remove(o);
                         //System.out.println("OK:change_completed");
                         this.refreshTimeStamp(); // Update store Timestamp
                         o.refreshTimeStamp(); // Update order Timestamp
@@ -306,14 +306,16 @@ public class Store implements Comparable<Store>{
      */
 
     public String cancelOrder(String orderId){
-        this.refreshTimeStamp();
         for(Order o: orders){
             if(o.getOrderId().equals(orderId)){
                 o.getDrone().cancelOrder(o.getTotalweight());
                 o.getCustomer().changeRemainingCredits(-o.getTotalcost());
-                orders.remove(o);
+                //orders.remove(o);
                 o.getCustomer().refreshTimeStamp();
                 o.getDrone().refreshTimeStamp();
+                o.refreshTimeStamp();
+                this.refreshTimeStamp();
+                o.setStatus("Cancelled");
                 o.setFlag(true);
                 //System.out.println("OK:change_completed");
                 return "OK:change_completed";
