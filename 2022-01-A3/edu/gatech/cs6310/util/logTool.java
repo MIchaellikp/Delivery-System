@@ -1,4 +1,4 @@
-package edu.gatech.cs6310.SQL;
+package edu.gatech.cs6310.util;
 import java.util.Date;
 import java.sql.*;
 
@@ -18,6 +18,23 @@ public class logTool {
         ps.setTimestamp(4, new java.sql.Timestamp(timeStamp.getTime()));
         ps.executeUpdate();
 
+    }
+
+    public void printLog(){
+        try {
+            Statement state = con.createStatement();
+            String sql = "select * from System_Log";
+            ResultSet rs = state.executeQuery(sql);
+
+            while(rs.next()){
+                System.out.println(rs.getString("username")+ " / " +
+                                rs.getString("commandLine") + " / " +
+                                rs.getString("resultMessage")+ " / " +
+                                rs.getString("timeStamp"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
 //

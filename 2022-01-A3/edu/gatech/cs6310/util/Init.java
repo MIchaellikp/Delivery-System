@@ -1,4 +1,6 @@
-package edu.gatech.cs6310;
+package edu.gatech.cs6310.util;
+
+import edu.gatech.cs6310.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

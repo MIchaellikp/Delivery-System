@@ -1,11 +1,14 @@
 package edu.gatech.cs6310;
-import edu.gatech.cs6310.SQL.logTool;
-import jdk.jfr.Category;
-import java.util.Date;
-import java.sql.Connection;
+import edu.gatech.cs6310.util.Archive;
+import edu.gatech.cs6310.util.Init;
+import edu.gatech.cs6310.util.logTool;
+import edu.gatech.cs6310.util.SQLend;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
+import java.sql.Connection;
 import java.text.ParseException;
 import java.util.*;
 
@@ -39,10 +42,6 @@ public class DeliveryService {
                      * @param tokens[1] the content of storename
                      * @param tokens[2 the content of store revenue
                      */
-                    // 1. find store by the name
-                    // 2. insert store
-                    // 3. insert command into log
-                    // 4. timeStamp - SQL auto
                     Store newStore = new Store(tokens[1], Integer.parseInt(tokens[2]));
                     if(stores.containsKey(newStore.getName())){
                         result = "ERROR:store_identifier_already_exists";
@@ -58,7 +57,6 @@ public class DeliveryService {
                     /**
                      * Helper method to display all stores in system
                      */
-                    // 1. use SQL Select ALL
                     for(Map.Entry<String,Store> s: stores.entrySet()){
                         if (!s.getValue().isFlag())
                             System.out.println(s.getValue().toString());
@@ -356,8 +354,8 @@ public class DeliveryService {
                     logTool.insertLog(username, date, wholeInputLine, result);
                 // } else if (tokens[0].equals("edit_settings")) { todo - add command loop for edit settings
 
-                // } else if (tokens[0].equals("display_system_log")) { todo - add command loop for display system log
-
+                } else if (tokens[0].equals("display_system_log")){ // { todo - add command loop for display system log
+                        logTool.printLog();
                 } else if (tokens[0].equals("stop")) {
                     result = "stop acknowledged";
                     System.out.println(result);

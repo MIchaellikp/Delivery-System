@@ -1,6 +1,7 @@
-package edu.gatech.cs6310;
+package edu.gatech.cs6310.util;
 
-import edu.gatech.cs6310.SQL.logTool;
+import edu.gatech.cs6310.*;
+import edu.gatech.cs6310.util.logTool;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Archive {
         this.logTool = logTool;
     }
 
-    public void archive_all(TreeMap<String,Store> stores, TreeMap<String,Customer> customers, ArrayList<Pilot> pilots) throws SQLException {
+    public void archive_all(TreeMap<String, Store> stores, TreeMap<String, Customer> customers, ArrayList<Pilot> pilots) throws SQLException {
 
         Date date = new Date();
 

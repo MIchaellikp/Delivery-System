@@ -1,4 +1,6 @@
-package edu.gatech.cs6310;
+package edu.gatech.cs6310.util;
+
+import edu.gatech.cs6310.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ public class SQLend {
 
     private Connection con;
 
-    public SQLend(Connection con, ArrayList<Pilot> pilots, TreeMap<String,Customer> customers, TreeMap<String,Store> stores) throws SQLException {
+    public SQLend(Connection con, ArrayList<Pilot> pilots, TreeMap<String, Customer> customers, TreeMap<String, Store> stores) throws SQLException {
         this.con = con;
         this.upsertCustomer(customers);
         this.upsertPilots(pilots);
