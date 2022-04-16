@@ -32,6 +32,7 @@ public class Store implements Comparable<Store>{
      */
 
     public boolean addItem(Item newItem) {
+        this.refreshTimeStamp(); // Update Store TimeStamp when new items added to the store
         for (Item item:this.catalog){
             if (item.getName().equals(newItem.getName())){
                 return false;
@@ -61,6 +62,7 @@ public class Store implements Comparable<Store>{
      */
 
     public String addDrone(Drone nd){
+        this.refreshTimeStamp(); // Update Store TimeStamp when new drones are added to the store
         for(Drone d: this.drones){
             if(d.getId().equals(nd.getId())){
                 //System.out.println("ERROR:drone_identifier_already_exists");
@@ -68,6 +70,7 @@ public class Store implements Comparable<Store>{
             }
         }
         this.drones.add(nd);
+        nd.refreshTimeStamp(); // Update Drone TimeStamp when it's added to a store
         Collections.sort(this.drones);
         //System.out.println("OK:change_completed");
         return "OK:change_completed";
@@ -81,9 +84,22 @@ public class Store implements Comparable<Store>{
     public String displayDrones(){
         for(Drone d : this.drones){
             if(d.getPilot() != null){
-                System.out.println(d.toString(d.getPilot()));
+                if (!d.isFlag())
+                    System.out.println(d.toString(d.getPilot()));
             } else{
-                System.out.println(d.toString());
+                if (!d.isFlag())
+                    System.out.println(d.toString());
+            }
+        }
+        return "OK:display_completed";
+    }
+
+    public String displayDrones_withArchiveState(){
+        for(Drone d : this.drones){
+            if(d.getPilot() != null){
+                System.out.println(d.toString_withArchiveState(d.getPilot()));
+            } else{
+                System.out.println(d.toString_withArchiveState());
             }
         }
         return "OK:display_completed";
@@ -107,6 +123,9 @@ public class Store implements Comparable<Store>{
                         }
                         d.setPilot(p);
                         p.setDrone(d);
+                        d.refreshTimeStamp(); // Update Drone TimeStamp
+                        p.refreshTimeStamp(); // Update pilot TimeStamp
+                        this.refreshTimeStamp(); // Update store Timestamp
                         //System.out.println("OK:change_completed");
                         return "OK:change_completed";
                     }
@@ -143,6 +162,10 @@ public class Store implements Comparable<Store>{
                         Order order = new Order(orderID,c.getValue(),d);
                         order.getDrone().addOrders(1);
                         this.addOrder(order);
+                        this.refreshTimeStamp(); // Update store Timestamp
+                        order.refreshTimeStamp(); // Update order Timestamp
+                        order.getDrone().refreshTimeStamp(); // Update drone Timestamp
+                        c.getValue().refreshTimeStamp(); // Update customer Timestamp
                         Collections.sort(orders);
                         //System.out.println("OK:change_completed");
                         return "OK:change_completed";
@@ -163,8 +186,24 @@ public class Store implements Comparable<Store>{
 
     public void displayOrders(){
         for(Order o: this.orders){
-            System.out.println("orderID:" + o.getOrderId());
-            o.displayItems();
+            if (!o.isFlag()) {
+                System.out.println("orderID:" + o.getOrderId());
+                o.displayItems();
+            }
+        }
+        return;
+    }
+
+    public void displayOrders_withArchiveState(){
+        for(Order o: this.orders){
+            if (o.isFlag()) {
+                System.out.println("orderID:" + o.getOrderId() + " (Archived)");
+                o.displayItems();
+            }
+            else {
+                System.out.println("orderID:" + o.getOrderId() + " (Active)");
+                o.displayItems();
+            }
         }
         return;
     }
@@ -195,6 +234,10 @@ public class Store implements Comparable<Store>{
                             if (o.getDrone().getRemainingCap() >= total_weight) {
                                 ItemLine newItemLine = new ItemLine(i,total_cost,total_weight,quantity);
                                 o.addItemline(newItemLine, total_weight, total_cost);
+                                o.refreshTimeStamp(); // Update order Timestamp
+                                o.getDrone().refreshTimeStamp(); // Update drone Timestamp
+                                o.getCustomer().refreshTimeStamp(); // Update customer Timestamp
+                                this.refreshTimeStamp(); // Update store Timestamp
                                 //System.out.println("OK:change_completed");
                                 return "OK:change_completed";
                             } else {
@@ -223,6 +266,7 @@ public class Store implements Comparable<Store>{
     public String finishOrder(String orderId) {
         Customer c;
         Drone d;
+        this.refreshTimeStamp();
         for (Order o : orders) {
             if (o.getOrderId().equals(orderId)) {
                 c = o.getCustomer();
@@ -236,6 +280,10 @@ public class Store implements Comparable<Store>{
                         o.setFlag(true);
                         this.orders.remove(o);
                         //System.out.println("OK:change_completed");
+                        this.refreshTimeStamp(); // Update store Timestamp
+                        o.refreshTimeStamp(); // Update order Timestamp
+                        c.refreshTimeStamp(); // Update customer Timestamp
+                        d.refreshTimeStamp(); // Update drone Timestamp
                         return "OK:change_completed";
                     }else {
                         //System.out.println("ERROR:drone_needs_fuel");
@@ -258,11 +306,15 @@ public class Store implements Comparable<Store>{
      */
 
     public String cancelOrder(String orderId){
+        this.refreshTimeStamp();
         for(Order o: orders){
             if(o.getOrderId().equals(orderId)){
                 o.getDrone().cancelOrder(o.getTotalweight());
                 o.getCustomer().changeRemainingCredits(-o.getTotalcost());
                 orders.remove(o);
+                o.getCustomer().refreshTimeStamp();
+                o.getDrone().refreshTimeStamp();
+                o.setFlag(true);
                 //System.out.println("OK:change_completed");
                 return "OK:change_completed";
             }
@@ -283,6 +335,13 @@ public class Store implements Comparable<Store>{
     @Override
     public String toString(){
         return "name:" + this.name + ",revenue:" + this.revenue;
+    }
+
+    public String toString_withArchiveState(){
+        if (this.isFlag())
+            return "name:" + this.name + ",revenue:" + this.revenue + " (Archived)";
+        else
+            return "name:" + this.name + ",revenue:" + this.revenue + " (Active)";
     }
 
     public void setName(String name) {

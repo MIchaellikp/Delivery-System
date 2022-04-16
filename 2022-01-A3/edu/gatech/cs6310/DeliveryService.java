@@ -60,7 +60,20 @@ public class DeliveryService {
                      */
                     // 1. use SQL Select ALL
                     for(Map.Entry<String,Store> s: stores.entrySet()){
-                        System.out.println(s.getValue().toString());
+                        if (!s.getValue().isFlag())
+                            System.out.println(s.getValue().toString());
+                    }
+                    result = "OK:display_completed";
+                    System.out.println("OK:display_completed");
+                    logTool.insertLog(username, date, wholeInputLine, result);
+
+                } else if (tokens[0].equals("display_all_stores")) {
+                    /**
+                     * Helper method to display all stores in system
+                     */
+                    // 1. use SQL Select ALL
+                    for(Map.Entry<String,Store> s: stores.entrySet()){
+                        System.out.println(s.getValue().toString_withArchiveState());
                     }
                     result = "OK:display_completed";
                     System.out.println("OK:display_completed");
@@ -142,7 +155,19 @@ public class DeliveryService {
                      * Helper method to display all pilots in system
                      */
                     for(Pilot p : pilots){
-                        System.out.println(p.toString());
+                        if (!p.isFlag())
+                            System.out.println(p.toString());
+                    }
+                    result = "OK:display_completed";
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
+
+                } else if (tokens[0].equals("display_all_pilots")) {
+                    /**
+                     * Helper method to display all pilots in system
+                     */
+                    for(Pilot p : pilots){
+                        System.out.println(p.toString_withArchiveState());
                     }
                     result = "OK:display_completed";
                     System.out.println(result);
@@ -175,6 +200,21 @@ public class DeliveryService {
 
                     if(stores.containsKey(tokens[1])) {
                         result = stores.get(tokens[1]).displayDrones();
+                    }else {
+                        result = "ERROR:store_identifier_does_not_exist";
+                    }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
+
+                } else if (tokens[0].equals("display_all_drones")) {
+                    /**
+                     * Helper method to display all pilots in a store
+                     *
+                     * @param tokens[1] the content of store's name
+                     */
+
+                    if(stores.containsKey(tokens[1])) {
+                        result = stores.get(tokens[1]).displayDrones_withArchiveState();
                     }else {
                         result = "ERROR:store_identifier_does_not_exist";
                     }
@@ -217,7 +257,19 @@ public class DeliveryService {
                      * Helper method to display all customers in system
                      */
                     for(Map.Entry<String,Customer> c: customers.entrySet()){
-                        System.out.println(c.getValue().toString());
+                        if (!c.getValue().isFlag())
+                            System.out.println(c.getValue().toString());
+                    }
+                    result = "OK:display_completed";
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
+
+                } else if (tokens[0].equals("display_all_customers")) {
+                    /**
+                     * Helper method to display all customers in system
+                     */
+                    for(Map.Entry<String,Customer> c: customers.entrySet()){
+                        System.out.println(c.getValue().toString_withArchiveState());
                     }
                     result = "OK:display_completed";
                     System.out.println(result);
@@ -244,6 +296,21 @@ public class DeliveryService {
                      */
                     if(stores.containsKey(tokens[1])) {
                         stores.get(tokens[1]).displayOrders();
+                        result = "OK:display_completed";
+                    }else {
+                        result = "ERROR:store_identifier_does_not_exist";
+                    }
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
+
+                } else if (tokens[0].equals("display_all_orders")) {
+                    /**
+                     * Helper method to display all orders in store
+                     *
+                     * @param tokens[1] the content of storename
+                     */
+                    if(stores.containsKey(tokens[1])) {
+                        stores.get(tokens[1]).displayOrders_withArchiveState();
                         result = "OK:display_completed";
                     }else {
                         result = "ERROR:store_identifier_does_not_exist";
