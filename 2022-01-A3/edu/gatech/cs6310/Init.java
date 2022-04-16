@@ -21,24 +21,24 @@ public class Init {
         this.con = con;
         this.customers = this.initCustomers();
         this.pilots = this.initPilots();
-        this.stores = this.initStores();
+        this.initStores();
     }
 
     private TreeMap initCustomers() throws ParseException {
         TreeMap<String, Customer> customers = new TreeMap<>();
         try {
             Statement state = con.createStatement();
-            String sql = "select * from customers";
+            String sql = "select * from Customers";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String customerID = rs.getString("customerID");
                 String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastnName");
+                String lastName = rs.getString("lastName");
                 String phoneNumber = rs.getString("phoneNumber");
-                int rating = Integer.getInteger(rs.getString("rating"));
-                int credits = Integer.getInteger(rs.getString("credits"));
-                Date time = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
-                boolean flag = Boolean.parseBoolean(rs.getString("flag"));
+                int rating = rs.getInt("rating");
+                int credits = rs.getInt("credits");
+                Date time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("timeStamp"));
+                boolean flag = rs.getBoolean("flag");
                 Customer c = new Customer(customerID, firstName, lastName, phoneNumber, rating, credits);
                 customers.put(customerID, c);
             }
@@ -52,19 +52,19 @@ public class Init {
         ArrayList<Pilot> pilots = new ArrayList<>();
         try {
             Statement state = con.createStatement();
-            String sql = "select * from pilots";
+            String sql = "select * from Pilots";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String accountID = rs.getString("accountID");
                 String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastnName");
+                String lastName = rs.getString("lastName");
                 String phoneNumber = rs.getString("phoneNumber");
                 String taxID = rs.getString("taxID");
                 String licenseID = rs.getString("licenseID");
                 int expcLevel = rs.getInt("expcLevel");
 //                String droneID = rs.getString("droneID");
-                Date timeStamp = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
-                boolean flag = Boolean.parseBoolean(rs.getString("flag"));
+                Date timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("timeStamp"));
+                boolean flag = rs.getBoolean("flag");
                 pilots.add(new Pilot(accountID, firstName, lastName,
                         phoneNumber, taxID, licenseID, expcLevel, timeStamp, flag));
             }
@@ -74,28 +74,27 @@ public class Init {
         return pilots;
     }
 
-    private TreeMap<String, Store> initStores() throws ParseException{
-        TreeMap<String, Store> stores = new TreeMap<>();
+    private void initStores() throws ParseException{
+        //TreeMap<String, Store> stores = new TreeMap<>();
         Statement state = null;
         try {
             state = con.createStatement();
-            String sql = "select * from stores";
+            String sql = "select * from Stores";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String storeName = rs.getString("storeName");
                 int revenue = rs.getInt("revenue");
-                Date timeStamp = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
-                boolean flag = Boolean.parseBoolean(rs.getString("flag"));
+                Date timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("timeStamp"));
+                boolean flag = rs.getBoolean("flag");
                 Store s = new Store(storeName, revenue);
                 s.setTimeStamp(timeStamp);
                 s.setFlag(flag);
+                this.stores.put(storeName, s);
                 this.initStore(s);
-                stores.put(storeName, s);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return stores;
     }
 
     private void initStore(Store s) throws ParseException {
@@ -122,7 +121,7 @@ public class Init {
     private void initStoreDrones(Store s){
         try {
             Statement state = con.createStatement();
-            String sql = "select * from drones where storeName = '"+s.getName()+"'";
+            String sql = "select * from Drones where storeName = '"+s.getName()+"'";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String droneID = rs.getString("droneID");
@@ -154,7 +153,7 @@ public class Init {
     private void initStoreOrders(Store s) throws ParseException {
         try {
             Statement state = con.createStatement();
-            String sql = "select * from orders where storeName = '"+s.getName()+"'";
+            String sql = "select * from Orders where storeName = '"+s.getName()+"'";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String orderID = rs.getString("orderID");
@@ -163,8 +162,8 @@ public class Init {
                 int totalCost = rs.getInt("totalCost");
                 int totalWeight = rs.getInt("totalWeight");
                 String status = rs.getString("status");
-                Date timeStamp = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss").parse(rs.getString("timeStamp"));
-                boolean flag = Boolean.parseBoolean(rs.getString("flag"));
+                Date timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("timeStamp"));
+                boolean flag = rs.getBoolean("flag");
 
                 Drone d = s.getDrone(droneID);
                 Customer c = this.customers.get(customerID);

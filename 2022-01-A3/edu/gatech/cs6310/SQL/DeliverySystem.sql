@@ -32,7 +32,7 @@ create table IF not exists System_Log
 create table IF not exists Customers
 (
    customerID varchar(100) not null,
-   fristName varchar(100) not null,
+   firstName varchar(100) not null,
    lastName varchar(100) not null,
    phoneNumber varchar(100) not null,
    rating int not null,

@@ -54,9 +54,11 @@ public class Main {
 //todo Signup and Signin
         System.out.println("Welcome to the Grocery Express Delivery Service!");
         System.out.println("Please Login");
-        Scanner username = new Scanner(System.in);
+        //Scanner username = new Scanner(System.in);
         System.out.println("Please Password");
-        Scanner password = new Scanner(System.in);
+        //Scanner password = new Scanner(System.in);
+        String username = "a";
+        String password = "a";
         //find the User or password
 //        try {
 //            SQLtools st = new SQLtools(con);

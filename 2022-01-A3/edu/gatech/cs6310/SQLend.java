@@ -18,12 +18,12 @@ public class SQLend {
 
     public void upsertStores(TreeMap<String, Store> stores) throws SQLException {
         for(Store s: stores.values()){
-            String sql = "REPLACE INTO　Stores (storeName,revenue,timeStamp,flag)" +
+            String sql = "REPLACE INTO Stores (storeName,revenue,timeStamp,flag)" +
                     "VALUES (?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1,s.getName());
             ps.setInt(2, s.getRevenue());
-            ps.setDate(3, (Date) s.getTimeStamp());
+            ps.setTimestamp(3, new java.sql.Timestamp(s.getTimeStamp().getTime()));
             ps.setBoolean(4, (s.isFlag()));
             ps.executeUpdate();
             String storeName = s.getName();
@@ -36,7 +36,7 @@ public class SQLend {
 
     public void upsertCatalog(String storeName, ArrayList<Item> catalog) throws SQLException {
         for(Item i: catalog){
-            String sql = "REPLACE INTO　items (itemName,storeName,weight)" +
+            String sql = "REPLACE INTO items (itemName,storeName,weight)" +
                     "VALUES (?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, i.getName());
@@ -60,14 +60,14 @@ public class SQLend {
             ps.setInt(6, d.getFuel());
             ps.setInt(7, d.getRemainFuel());
             ps.setObject(8, d.getPilot().getAccountID(), Types.VARCHAR);
-            ps.setDate(9, (Date) d.getTimeStamp());
+            ps.setTimestamp(9, new java.sql.Timestamp(d.getTimeStamp().getTime()));
             ps.setBoolean(10, d.isFlag());
             ps.executeUpdate();
         }
     }
     public void upsertOrders(String storeName, ArrayList<Order> orders) throws SQLException{
         for(Order o: orders){
-            String sql = "REPLACE INTO Drones (storeName,orderID,droneID,totalCost,totalWeight," +
+            String sql = "REPLACE INTO Orders (storeName,orderID,droneID,totalCost,totalWeight," +
                     "customerID,status,timeStamp,flag)" +
                     "VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -78,7 +78,7 @@ public class SQLend {
             ps.setInt(5, o.getTotalweight());
             ps.setString(6, o.getCustomer().getAccount());
             ps.setString(7, o.getStatus());
-            ps.setDate(8, (Date) o.getTimeStamp());
+            ps.setTimestamp(8, new java.sql.Timestamp(o.getTimeStamp().getTime()));
             ps.setBoolean(9, o.isFlag());
             ps.executeUpdate();
             this.upsertItemLines(o.getOrderId(),o.getItemLines());
@@ -102,7 +102,7 @@ public class SQLend {
 
     public void upsertCustomer(TreeMap<String,Customer> customers) throws SQLException {
         for(Customer c: customers.values()){
-            String insert = "REPLACE into customers (customerID, firstName, lastName, phoneNumber," +
+            String insert = "REPLACE into Customers (customerID, firstName, lastName, phoneNumber," +
                     " rating,credits, remainingCredit,timeStamp,flag ) values(?,?,?,?,?,?,?,?,?)" ;
             PreparedStatement ps = con.prepareStatement(insert);
             ps.setString(1,c.getAccount());
@@ -112,7 +112,7 @@ public class SQLend {
             ps.setInt(5, c.getRating());
             ps.setInt(6, c.getCredits());
             ps.setInt(7, c.getRemainingCredits());
-            ps.setDate(8, (Date) c.getTimeStamp());
+            ps.setTimestamp(8, new java.sql.Timestamp(c.getTimeStamp().getTime()));
             ps.setBoolean(9, (c.isFlag()));
             ps.executeUpdate();
         }
@@ -132,7 +132,7 @@ public class SQLend {
             ps.setString(6,p.getLicenseID());
             ps.setInt(7, p.getExpcLevel());
             ps.setObject(8, p.getDrone().getId(), Types.VARCHAR);
-            ps.setDate(9, (Date) p.getTimeStamp());
+            ps.setTimestamp(9, new java.sql.Timestamp(p.getTimeStamp().getTime()));
             ps.setBoolean(10, (p.isFlag()));
             ps.executeUpdate();
         }
