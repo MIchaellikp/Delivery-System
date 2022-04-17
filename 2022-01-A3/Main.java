@@ -1,6 +1,5 @@
 import edu.gatech.cs6310.DeliveryService;
-import edu.gatech.cs6310.Init;
-import edu.gatech.cs6310.SQL.logTool;
+import edu.gatech.cs6310.util.Init;
 //import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.io.IOException;
