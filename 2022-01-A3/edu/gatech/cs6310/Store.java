@@ -81,11 +81,11 @@ public class Store implements Comparable<Store>{
      *
      */
 
-    public String displayDrones(){
+    public String displayDrones(AppSettings settings){
         for(Drone d : this.drones){
             if(d.getPilot() != null){
                 if (!d.isFlag())
-                    System.out.println(d.toString(d.getPilot()));
+                    System.out.println(d.toString(d.getPilot(),settings));
             } else{
                 if (!d.isFlag())
                     System.out.println(d.toString());
@@ -94,12 +94,12 @@ public class Store implements Comparable<Store>{
         return "OK:display_completed";
     }
 
-    public String displayDrones_withArchiveState(){
+    public String displayDrones_withArchiveState(AppSettings settings){
         for(Drone d : this.drones){
             if(d.getPilot() != null){
-                System.out.println(d.toString_withArchiveState(d.getPilot()));
+                System.out.println(d.toString_withArchiveState(d.getPilot(), settings));
             } else{
-                System.out.println(d.toString_withArchiveState());
+                System.out.println(d.toString_withArchiveState(settings));
             }
         }
         return "OK:display_completed";
