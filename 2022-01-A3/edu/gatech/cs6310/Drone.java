@@ -20,6 +20,9 @@ public class Drone implements Comparable<Drone>{
      * Helper method to initialize a drone
      *
      */
+    public Drone(String storeName,String id) {
+        Drone(String storeName, String id, , )
+    }
 
     public Drone(String storeName,String id,  int capacity, int fuel) {
         this.id = id;

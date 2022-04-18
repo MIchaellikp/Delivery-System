@@ -1,60 +1,84 @@
 package edu.gatech.cs6310;
 
+import java.util.HashMap;
+
 public final class AppSettings {
 
-    public static boolean isPilotAllowedWorkingMultipleStores;
 
-    public static WeightUnit weightUnit;
+    private static String displayWeightUnit;
 
-    public static Currency currency;
+    private static String displayCurrency;
+
+    private static int defaultLiftCapacity;
+
+    private static int defaultFuel;
+
+    private static int threshold;
+
+
+    private final static HashMap<String, Double> multiplierLookup = new HashMap<String, Double>() {{
+        put("RMB", 6.37);
+        put("EUR", 0.93);
+        put("JPY", 126.62);
+        put("USD", 1.00);
+        put("LB", 1.00);
+        put("KG", 0.45);
+    }};
+
 
     public AppSettings() {
-        weightUnit = WeightUnit.lbs;
-        currency = Currency.USD;
-        DronesSetting = new DronesSetting();
+        displayWeightUnit = "LB";
+        displayCurrency = "USD";
+        defaultLiftCapacity = 10;
+        defaultFuel = 100;
+        threshold = 30;
     }
 
-    public static void allowPilotWorkingMultipleStores(boolean allow) {
-        isPilotAllowedWorkingMultipleStores = allow;
+    public static double getWeightMultiplier() {
+        return multiplierLookup.get(displayWeightUnit);
     }
 
-    public static void setWeightUnit(WeightUnit unit) {
-        weightUnit = unit;
+    public static double getCurrencyMultiplier() {
+        return multiplierLookup.get(displayCurrency);
     }
 
-    public static void setCurrency(Currency currency) {
+    public static String getDisplayWeightUnit() {
+        return displayWeightUnit;
+    }
+
+    public static String getDisplayCurrency() {
+        return displayCurrency;
+    }
+
+    public static void setWeightUnit(String unit) {
+        displayWeightUnit = unit;
+    }
+
+    public static void setCurrency(String currency) {
         currency = currency;
     }
 
-    public DronesSetting DronesSetting;
-
-    public static class DronesSetting {
-        public static int liftCapacity;
-
-        public static int fuel;
-
-        public DronesSetting(){
-            liftCapacity = 10;
-            fuel = 100;
-        }
-
-        public static void setLiftCapacity(int capacity) {
-            liftCapacity = capacity;
-        }
-
-        public static void setFuel(int fuel) {
-            fuel = fuel;
-        }
+    public static int getThreshold() {
+        return threshold;
     }
-}
-enum WeightUnit{
-    lbs,
-    kg
-}
 
-enum Currency{
-    USD,
-    EUR,
-    RMB,
-    JPY
+    public static void setThreshold(int threshold) {
+        AppSettings.threshold = threshold;
+    }
+
+    public static int getDefaultLiftCapacity() {
+        return defaultLiftCapacity;
+    }
+
+    public static void setDefaultLiftCapacity(int defaultLiftCapacity) {
+        AppSettings.defaultLiftCapacity = defaultLiftCapacity;
+    }
+
+    public static int getDefaultFuel() {
+        return defaultFuel;
+    }
+
+    public static void setDefaultFuel(int defaultFuel) {
+        defaultFuel = defaultFuel;
+    }
 }

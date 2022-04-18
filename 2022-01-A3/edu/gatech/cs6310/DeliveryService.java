@@ -23,7 +23,7 @@ public class DeliveryService {
         TreeMap<String,Store> stores = data.getStores();
         logTool logTool = new logTool(con);
 
-        Archive archive = new Archive(30, logTool);
+        Archive archive = new Archive(AppSettings.getThreshold(), logTool);
 
         final String DELIMITER = ",";
 
@@ -178,6 +178,10 @@ public class DeliveryService {
                      * @param tokens[1] the content of storename
                      * @param tokens[2] the content of drone's id
                      */
+                    make_drone,store,droneId
+                    int capacity;
+                    int fuel;
+                    if tokens.length
                     Drone newDrone = new Drone(tokens[1], tokens[2], settings.DronesSetting.liftCapacity, settings.DronesSetting.fuel);
                     if(stores.containsKey(tokens[1])){
                         result = stores.get(tokens[1]).addDrone(newDrone);
