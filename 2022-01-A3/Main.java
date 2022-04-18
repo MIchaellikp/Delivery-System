@@ -28,7 +28,7 @@ public class Main {
             throw e;
         }
     }
-    //todo - create tables
+
     private static void initDatabase() throws SQLException, IOException {
         try{
             Statement stmt = con.createStatement();
@@ -64,7 +64,7 @@ public class Main {
                     System.out.println("Passwords do not match.");
                 }
                 System.out.println("Do you want to quit? (Y/N)");
-                String toQuit = scanner.nextLine();
+                String toQuit = scanner.nextLine().toUpperCase();
                 if(toQuit.equals("Y")){
                     return null;
                 }
@@ -90,7 +90,7 @@ public class Main {
                 }
 
                 System.out.println("Do you want to quit? (Y/N)");
-                String toQuit = scanner.nextLine();
+                String toQuit = scanner.nextLine().toUpperCase();
                 if(toQuit.equals("Y")){
                     return null;
                 }
@@ -105,13 +105,12 @@ public class Main {
         initConenction();
         initDatabase();
 
-//todo Signup and Signin
         System.out.println("Welcome to the Grocery Express Delivery Service!");
         System.out.println("Please type L to Log in or type S to Sign up or E to Exit:");
         Scanner commandLineInput = new Scanner(System.in);
         String username = null;
         while(username == null) {
-            String wholeInputLine = commandLineInput.nextLine();
+            String wholeInputLine = commandLineInput.nextLine().toUpperCase();
             if (wholeInputLine.equals("S")) {
                 username = signUp(commandLineInput);
             } else if (wholeInputLine.equals("L")) {

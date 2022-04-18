@@ -34,7 +34,7 @@ public class Customer implements Comparable<Customer>{
 
     public String toString(AppSettings settings){
         return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayWeightUnit() ;
+                ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayCurrency() ;
     }
 
     public String toString_withArchiveState(AppSettings settings){
@@ -43,7 +43,7 @@ public class Customer implements Comparable<Customer>{
                     ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayCurrency()  + " (Archived)";
         else
             return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                    ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayCurrency() + " (Active)";
+                    ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier()  +settings.getDisplayCurrency() + " (Active)";
     }
 
     public static int compareStrings(String s1, String s2) {
