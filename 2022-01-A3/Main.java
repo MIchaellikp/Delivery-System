@@ -72,6 +72,21 @@ public class Main {
             String username = "a";
             String password = "a";
             // look up from database
+            //find the User or password
+//        try {
+//            SQLtools st = new SQLtools(con);
+//
+//            Statement state = con.createStatement();
+//            String sql = "Select * from Users where username = " + username + "and password = " + password;
+//            ResultSet rs = state.executeQuery(sql);
+//            if(rs.next()){
+//                //execute the system
+//            }else{
+//                //recall the Name & Password
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }*/
         } catch (IOException e) {
             System.out.format("I/O error: %s%n", e);
             throw e;
@@ -103,21 +118,7 @@ public class Main {
         //Scanner password = new Scanner(System.in);
         String username = "a";
         String password = "a";
-        //find the User or password
-//        try {
-//            SQLtools st = new SQLtools(con);
-//
-//            Statement state = con.createStatement();
-//            String sql = "Select * from Users where username = " + username + "and password = " + password;
-//            ResultSet rs = state.executeQuery(sql);
-//            if(rs.next()){
-//                //execute the system
-//            }else{
-//                //recall the Name & Password
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+
 
         // add into userName
         DeliveryService simulator = new DeliveryService(username);
