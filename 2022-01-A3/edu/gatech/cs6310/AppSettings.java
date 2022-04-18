@@ -2,7 +2,7 @@ package edu.gatech.cs6310;
 
 import java.util.HashMap;
 
-public final class AppSettings {
+public class AppSettings {
 
 
     private static String displayWeightUnit;

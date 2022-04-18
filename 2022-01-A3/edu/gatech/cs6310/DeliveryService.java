@@ -23,7 +23,7 @@ public class DeliveryService {
         TreeMap<String,Store> stores = data.getStores();
         logTool logTool = new logTool(con);
 
-        Archive archive = new Archive(AppSettings.getThreshold(), logTool);
+        Archive archive = new Archive(settings.getThreshold(), logTool);
 
         final String DELIMITER = ",";
 
