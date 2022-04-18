@@ -59,8 +59,9 @@ public class Main {
                 if (password1.equals(password2) ){
                     if (signintool.isUniqueUsername(username)) {
                         signintool.insertUser(username, password1);
+                        String result = username;
                         scanner.close();
-                        return username;
+                        return result;
                     }else{
                         System.out.println("Username already exists.");
                     }
@@ -78,6 +79,7 @@ public class Main {
             e.printStackTrace();
             throw e;
         }
+
     }
     private static String logIn() throws SQLException, IOException {
         SignInTool signintool = new SignInTool(con);
@@ -89,8 +91,9 @@ public class Main {
                 System.out.println("Please enter password");
                 String password = scanner.nextLine();
                 if (signintool.signInUser(username, password)) {
+                    String result = username;
                     scanner.close();
-                    return username;
+                    return result;
                 }else{
                     System.out.println("Username or password is wrong.");
                 }
