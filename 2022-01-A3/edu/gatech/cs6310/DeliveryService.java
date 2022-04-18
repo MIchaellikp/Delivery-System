@@ -14,8 +14,7 @@ import java.util.*;
 
 public class DeliveryService {
 
-    public void commandLoop(String username, Init data, Connection con) throws ParseException {
-        Scanner commandLineInput = new Scanner(System.in);
+    public void commandLoop(String username, Init data, Connection con, Scanner commandLineInput) throws ParseException {
         String wholeInputLine;
         String[] tokens;
         ArrayList<Pilot> pilots = data.getPilots();
@@ -370,7 +369,7 @@ public class DeliveryService {
                     break;
 
                 } else {
-                    //System.out.println(wholeInputLine);
+                    System.out.println(wholeInputLine);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

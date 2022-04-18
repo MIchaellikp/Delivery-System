@@ -45,9 +45,8 @@ public class Main {
             throw e;
         }
     }
-    private static String signUp() throws SQLException, IOException {
+    private static String signUp(Scanner scanner) throws SQLException, IOException {
         SignInTool signintool = new SignInTool(con);
-        Scanner scanner = new Scanner(System.in);
         try{
             while(true) {
                 System.out.println("Please enter username");
@@ -59,9 +58,7 @@ public class Main {
                 if (password1.equals(password2) ){
                     if (signintool.isUniqueUsername(username)) {
                         signintool.insertUser(username, password1);
-                        String result = username;
-                        scanner.close();
-                        return result;
+                        return username;
                     }else{
                         System.out.println("Username already exists.");
                     }
@@ -71,7 +68,6 @@ public class Main {
                 System.out.println("Do you want to quit? (Y/N)");
                 String toQuit = scanner.nextLine();
                 if(toQuit.equals("Y")){
-                    scanner.close();
                     return null;
                 }
             }
@@ -81,9 +77,8 @@ public class Main {
         }
 
     }
-    private static String logIn() throws SQLException, IOException {
+    private static String logIn(Scanner scanner) throws SQLException, IOException {
         SignInTool signintool = new SignInTool(con);
-        Scanner scanner = new Scanner(System.in);
         try{
             while(true) {
                 System.out.println("Please enter username");
@@ -91,9 +86,7 @@ public class Main {
                 System.out.println("Please enter password");
                 String password = scanner.nextLine();
                 if (signintool.signInUser(username, password)) {
-                    String result = username;
-                    scanner.close();
-                    return result;
+                    return username;
                 }else{
                     System.out.println("Username or password is wrong.");
                 }
@@ -101,7 +94,6 @@ public class Main {
                 System.out.println("Do you want to quit? (Y/N)");
                 String toQuit = scanner.nextLine();
                 if(toQuit.equals("Y")){
-                    scanner.close();
                     return null;
                 }
             }
@@ -119,28 +111,25 @@ public class Main {
         System.out.println("Welcome to the Grocery Express Delivery Service!");
         System.out.println("Please type L to Log in or type S to Sign up or E to Exit:");
         Scanner commandLineInput = new Scanner(System.in);
+//        String username = "a";
         String username = null;
         while(username == null) {
             String wholeInputLine = commandLineInput.nextLine();
             if (wholeInputLine.equals("S")) {
-                System.out.println("Before signup");
-                username = signUp();
-                System.out.println("After signup");
-                break;
+                username = signUp(commandLineInput);
             } else if (wholeInputLine.equals("L")) {
-                System.out.println("Before login");
-                username = logIn();
+                username = logIn(commandLineInput);
             } else if (wholeInputLine.equals("E")) {
-                System.out.println("Before exit");
                 return;
             } else {
                 System.out.println("Please type L to Log in or type S to Sign up or E to Exit:");
             }
         }
-        commandLineInput.close();
-        // add into userName
+
+        System.out.println("Welcome user, "+username);
+
         DeliveryService simulator = new DeliveryService();
         Init data = new Init(con);
-        simulator.commandLoop(username, data, con);
+        simulator.commandLoop(username, data, con, commandLineInput);
     }
 }
