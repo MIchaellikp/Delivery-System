@@ -43,7 +43,42 @@ public class Main {
             e.printStackTrace();
             throw e;
         }
-
+    }
+    private static void signUp() throws SQLException, IOException {
+        try{
+            System.out.println("Please enter username");
+            Scanner username = new Scanner(System.in);
+            System.out.println("Please enter password");
+            Scanner password1 = new Scanner(System.in);
+            System.out.println("Please enter password again (Note: it must matches with password)");
+            Scanner password2 = new Scanner(System.in);
+            // String username = "a";
+            // String password = "a";
+            // save to sql database
+        } catch (IOException e) {
+            System.out.format("I/O error: %s%n", e);
+            throw e;
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    private static void logIn() throws SQLException, IOException {
+        try{
+            System.out.println("Please enter username");
+            Scanner username = new Scanner(System.in);
+            System.out.println("Please enter password");
+            Scanner password = new Scanner(System.in);
+            String username = "a";
+            String password = "a";
+            // look up from database
+        } catch (IOException e) {
+            System.out.format("I/O error: %s%n", e);
+            throw e;
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public static void main(String[] args) throws ParseException, SQLException, IOException {
@@ -52,7 +87,17 @@ public class Main {
 
 //todo Signup and Signin
         System.out.println("Welcome to the Grocery Express Delivery Service!");
-        System.out.println("Please Login");
+        System.out.println("Please type L to Log in or type S to Sign up");
+        Scanner commandLineInput = new Scanner(System.in);
+        wholeInputLine = commandLineInput.nextLine();
+        if (wholeInputLine.equals("S")) {
+            signUp();
+        }
+        else if (wholeInputLine.equals("L")) {
+            logIn();
+        }
+
+
         //Scanner username = new Scanner(System.in);
         System.out.println("Please Password");
         //Scanner password = new Scanner(System.in);
@@ -75,7 +120,7 @@ public class Main {
 //        }
 
         // add into userName
-        DeliveryService simulator = new DeliveryService();
+        DeliveryService simulator = new DeliveryService(username);
         Init data = new Init(con);
         simulator.commandLoop(String.valueOf(username), data, con);
     }
