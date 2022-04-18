@@ -32,19 +32,18 @@ public class Customer implements Comparable<Customer>{
         this.timeStamp = new Date();
     }
 
-    @Override
-    public String toString(){
+    public String toString(AppSettings settings){
         return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                ",rating:" + rating + ",credit:" + credits;
+                ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayWeightUnit() ;
     }
 
-    public String toString_withArchiveState(){
+    public String toString_withArchiveState(AppSettings settings){
         if (this.isFlag())
             return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                    ",rating:" + rating + ",credit:" + credits + " (Archived)";
+                    ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayWeightUnit()  + " (Archived)";
         else
             return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                    ",rating:" + rating + ",credit:" + credits + " (Active)";
+                    ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayWeightUnit() + " (Active)";
     }
 
     public static int compareStrings(String s1, String s2) {

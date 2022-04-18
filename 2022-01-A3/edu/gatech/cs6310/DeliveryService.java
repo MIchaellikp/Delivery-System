@@ -178,11 +178,7 @@ public class DeliveryService {
                      * @param tokens[1] the content of storename
                      * @param tokens[2] the content of drone's id
                      */
-                    make_drone,store,droneId
-                    int capacity;
-                    int fuel;
-                    if tokens.length
-                    Drone newDrone = new Drone(tokens[1], tokens[2], settings.DronesSetting.liftCapacity, settings.DronesSetting.fuel);
+                    Drone newDrone = new Drone(tokens[1], tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]));
                     if(stores.containsKey(tokens[1])){
                         result = stores.get(tokens[1]).addDrone(newDrone);
                     }else{
@@ -258,7 +254,7 @@ public class DeliveryService {
                      */
                     for(Map.Entry<String,Customer> c: customers.entrySet()){
                         if (!c.getValue().isFlag())
-                            System.out.println(c.getValue().toString());
+                            System.out.println(c.getValue().toString(settings));
                     }
                     result = "OK:display_completed";
                     System.out.println(result);
@@ -269,7 +265,7 @@ public class DeliveryService {
                      * Helper method to display all customers in system
                      */
                     for(Map.Entry<String,Customer> c: customers.entrySet()){
-                        System.out.println(c.getValue().toString_withArchiveState());
+                        System.out.println(c.getValue().toString_withArchiveState(settings));
                     }
                     result = "OK:display_completed";
                     System.out.println(result);
