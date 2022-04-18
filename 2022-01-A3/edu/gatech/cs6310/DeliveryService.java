@@ -101,6 +101,7 @@ public class DeliveryService {
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     }
                     logTool.insertLog(username, date, wholeInputLine, result);
+
                 } else if (tokens[0].equals("display_items")) {
                     /**
                      * Helper method to display all items in store
@@ -113,6 +114,7 @@ public class DeliveryService {
                         System.out.println("ERROR:store_identifier_does_not_exist");
                     }
                     logTool.insertLog(username, date, wholeInputLine, result);
+
                 } else if (tokens[0].equals("make_pilot")) {
                     /**
                      * Helper method to add a new item into the store
@@ -148,6 +150,7 @@ public class DeliveryService {
                         System.out.println("OK:change_completed");
                     }
                     logTool.insertLog(username, date, wholeInputLine, result);
+
                 } else if (tokens[0].equals("display_pilots")) {
                     /**
                      * Helper method to display all pilots in system
@@ -341,6 +344,7 @@ public class DeliveryService {
                     }
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
+
                 } else if (tokens[0].equals("cancel_order")) {
                     if(stores.containsKey(tokens[1])) {
                         result = stores.get(tokens[1]).cancelOrder(tokens[2]);
@@ -350,6 +354,7 @@ public class DeliveryService {
                     }
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
+
                  } else if (tokens[0].equals("edit_settings")) { //todo - add command loop for edit settings
                     // 1 change currency or
                     // 2 weight unit or
@@ -361,27 +366,26 @@ public class DeliveryService {
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
 
-                } else if (tokens[0].equals("display_system_log")){ // { todo - add command loop for display system log
+                } else if (tokens[0].equals("display_system_log")){
                     result = logTool.printLog(username);
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
                 } else if (tokens[0].equals("stop")) {
                     result = "stop acknowledged";
                     System.out.println(result);
-                    // todo - determine archive flag before storing back to DB
-                    // Archive all classes on exit of DeliveryService
                     logTool.insertLog(username, date, wholeInputLine, result);
                     archive.archive_all(stores, customers, pilots);
-                    //Backupdatabase
                     SQLend sqLend = new SQLend(con,pilots,customers,stores);
                     break;
 
                 } else {
                     System.out.println(wholeInputLine);
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println();
+
             }
         }
 
