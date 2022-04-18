@@ -45,9 +45,9 @@ public class Store implements Comparable<Store>{
      *
      */
 
-    public String displayItems(){
+    public String displayItems(AppSettings settings){
         for(Item item: this.catalog){
-            System.out.println(item.getName() + "," + item.getWeight());
+            System.out.println(item.getName() + "," + item.getWeight() * settings.getWeightMultiplier() + settings.getDisplayWeightUnit());
         }
         return ("OK:display_completed");
     }

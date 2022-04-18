@@ -107,7 +107,7 @@ public class DeliveryService {
                      * Helper method to display all items in store
                      */
                     if(stores.containsKey(tokens[1])){
-                        result = stores.get(tokens[1]).displayItems();
+                        result = stores.get(tokens[1]).displayItems(settings);
                         System.out.println(result);
                     }else{
                         result = "ERROR:store_identifier_does_not_exist";
@@ -355,12 +355,18 @@ public class DeliveryService {
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
 
-                 } else if (tokens[0].equals("edit_settings")) { //todo - add command loop for edit settings
-                    // 1 change currency or
-                    // 2 weight unit or
-                    // 3 archive threshold
+                 } else if (tokens[0].equals("edit_settings")) {
 
-                    result = "OK:edit_setting_completed";
+                    int response = settings.editSettings(tokens[1], tokens[2]);
+                    if (response == 1) {
+                        result = "OK:edit_setting_completed";
+                    }
+                    else if (response == 2){
+                        result = "ERROR:setting_name_does_not_exist";
+                    }
+                    else if (response == 3){
+                        result = "ERROR:setting_value_is_not_valid";
+                    }
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
 
