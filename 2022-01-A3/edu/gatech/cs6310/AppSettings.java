@@ -9,6 +9,8 @@ public final class AppSettings {
     public static Currency currency;
 
     public AppSettings() {
+        weightUnit = WeightUnit.lbs;
+        currency = Currency.USD;
         DronesSetting = new DronesSetting();
     }
 
@@ -30,6 +32,11 @@ public final class AppSettings {
         public static int liftCapacity;
 
         public static int fuel;
+
+        public DronesSetting(){
+            liftCapacity = 10;
+            fuel = 100;
+        }
 
         public static void setLiftCapacity(int capacity) {
             liftCapacity = capacity;
