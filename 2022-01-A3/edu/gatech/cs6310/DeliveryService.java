@@ -59,7 +59,7 @@ public class DeliveryService {
                      */
                     for(Map.Entry<String,Store> s: stores.entrySet()){
                         if (!s.getValue().isFlag())
-                            System.out.println(s.getValue().toString());
+                            System.out.println(s.getValue().toString(settings));
                     }
                     result = "OK:display_completed";
                     System.out.println("OK:display_completed");
@@ -71,7 +71,7 @@ public class DeliveryService {
                      */
                     // 1. use SQL Select ALL
                     for(Map.Entry<String,Store> s: stores.entrySet()){
-                        System.out.println(s.getValue().toString_withArchiveState());
+                        System.out.println(s.getValue().toString_withArchiveState(settings));
                     }
                     result = "OK:display_completed";
                     System.out.println("OK:display_completed");

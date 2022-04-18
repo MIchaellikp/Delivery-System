@@ -309,16 +309,15 @@ public class Store implements Comparable<Store>{
         return compareStrings(this.name, store.getName());
     }
 
-    @Override
-    public String toString(){
-        return "name:" + this.name + ",revenue:" + this.revenue;
+    public String toString(AppSettings settings){
+        return "name:" + this.name + ",revenue:" + this.revenue * settings.getCurrencyMultiplier() + settings.getDisplayCurrency();
     }
 
-    public String toString_withArchiveState(){
+    public String toString_withArchiveState(AppSettings settings){
         if (this.isFlag())
-            return "name:" + this.name + ",revenue:" + this.revenue + " (Archived)";
+            return "name:" + this.name + ",revenue:" + this.revenue * settings.getCurrencyMultiplier() + settings.getDisplayCurrency() + " (Archived)";
         else
-            return "name:" + this.name + ",revenue:" + this.revenue + " (Active)";
+            return "name:" + this.name + ",revenue:" + this.revenue * settings.getCurrencyMultiplier() + settings.getDisplayCurrency() + " (Active)";
     }
 
     public void setName(String name) {
