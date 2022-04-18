@@ -355,7 +355,9 @@ public class DeliveryService {
                 // } else if (tokens[0].equals("edit_settings")) { todo - add command loop for edit settings
 
                 } else if (tokens[0].equals("display_system_log")){ // { todo - add command loop for display system log
-                        logTool.printLog();
+                    result = logTool.printLog(username);
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
                 } else if (tokens[0].equals("stop")) {
                     result = "stop acknowledged";
                     System.out.println(result);

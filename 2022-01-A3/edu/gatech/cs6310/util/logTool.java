@@ -20,10 +20,16 @@ public class logTool {
 
     }
 
-    public void printLog(){
+    public String printLog(String username ){
         try {
             Statement state = con.createStatement();
-            String sql = "select * from System_Log";
+            String sql;
+            if(username.equals("Security_Admin")){
+                 sql = "select * from System_Log";
+            }else{
+                 sql = "select * from System_Log where username = " + username;
+            }
+
             ResultSet rs = state.executeQuery(sql);
 
             while(rs.next()){
@@ -32,8 +38,10 @@ public class logTool {
                                 rs.getString("resultMessage")+ " / " +
                                 rs.getString("timeStamp"));
             }
+            return "OK:display_completed";
         }catch (SQLException e){
             e.printStackTrace();
+            return "OK:display_completed";
         }
     }
 
