@@ -350,7 +350,16 @@ public class DeliveryService {
                     }
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
-                // } else if (tokens[0].equals("edit_settings")) { todo - add command loop for edit settings
+                 } else if (tokens[0].equals("edit_settings")) { //todo - add command loop for edit settings
+                    // 1 change currency or
+                    // 2 weight unit or
+                    // 3 default capacity or
+                    // 4 default fuel or
+                    // 5 archive threshold
+
+                    result = "OK:edit_setting_completed";
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
 
                 } else if (tokens[0].equals("display_system_log")){ // { todo - add command loop for display system log
                     result = logTool.printLog(username);
