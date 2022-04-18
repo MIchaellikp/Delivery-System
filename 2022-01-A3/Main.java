@@ -1,5 +1,6 @@
 import edu.gatech.cs6310.DeliveryService;
 import edu.gatech.cs6310.util.Init;
+import edu.gatech.cs6310.util.SignInTool;
 //import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.io.IOException;
@@ -44,53 +45,64 @@ public class Main {
             throw e;
         }
     }
-    private static void signUp() throws SQLException, IOException {
+    private static String signUp() throws SQLException, IOException {
+        SignInTool signintool = new SignInTool(con);
+        Scanner scanner = new Scanner(System.in);
         try{
-            System.out.println("Please enter username");
-            Scanner username = new Scanner(System.in);
-            System.out.println("Please enter password");
-            Scanner password1 = new Scanner(System.in);
-            System.out.println("Please enter password again (Note: it must matches with password)");
-            Scanner password2 = new Scanner(System.in);
-            // String username = "a";
-            // String password = "a";
-            // save to sql database
-        } catch (IOException e) {
-            System.out.format("I/O error: %s%n", e);
-            throw e;
-        }catch (SQLException e){
+            while(true) {
+                System.out.println("Please enter username");
+                String username = scanner.nextLine();
+                System.out.println("Please enter password");
+                String password1 = scanner.nextLine();
+                System.out.println("Please enter password again (Note: it must matches with password)");
+                String password2 = scanner.nextLine();
+                if (password1.equals(password2) ){
+                    if (signintool.isUniqueUsername(username)) {
+                        signintool.insertUser(username, password1);
+                        scanner.close();
+                        return username;
+                    }else{
+                        System.out.println("Username already exists.");
+                    }
+                } else {
+                    System.out.println("Passwords do not match.");
+                }
+                System.out.println("Do you want to quit? (Y/N)");
+                String toQuit = scanner.nextLine();
+                if(toQuit.equals("Y")){
+                    scanner.close();
+                    return null;
+                }
+            }
+        } catch (SQLException e){
             e.printStackTrace();
             throw e;
         }
     }
-    private static void logIn() throws SQLException, IOException {
+    private static String logIn() throws SQLException, IOException {
+        SignInTool signintool = new SignInTool(con);
+        Scanner scanner = new Scanner(System.in);
         try{
-            System.out.println("Please enter username");
-            Scanner username = new Scanner(System.in);
-            System.out.println("Please enter password");
-            Scanner password = new Scanner(System.in);
-            String username = "a";
-            String password = "a";
-            // look up from database
-            //find the User or password
-//        try {
-//            SQLtools st = new SQLtools(con);
-//
-//            Statement state = con.createStatement();
-//            String sql = "Select * from Users where username = " + username + "and password = " + password;
-//            ResultSet rs = state.executeQuery(sql);
-//            if(rs.next()){
-//                //execute the system
-//            }else{
-//                //recall the Name & Password
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }*/
-        } catch (IOException e) {
-            System.out.format("I/O error: %s%n", e);
-            throw e;
-        }catch (SQLException e){
+            while(true) {
+                System.out.println("Please enter username");
+                String username = scanner.nextLine();
+                System.out.println("Please enter password");
+                String password = scanner.nextLine();
+                if (signintool.signInUser(username, password)) {
+                    scanner.close();
+                    return username;
+                }else{
+                    System.out.println("Username or password is wrong.");
+                }
+
+                System.out.println("Do you want to quit? (Y/N)");
+                String toQuit = scanner.nextLine();
+                if(toQuit.equals("Y")){
+                    scanner.close();
+                    return null;
+                }
+            }
+        } catch (SQLException e){
             e.printStackTrace();
             throw e;
         }
@@ -102,27 +114,30 @@ public class Main {
 
 //todo Signup and Signin
         System.out.println("Welcome to the Grocery Express Delivery Service!");
-        System.out.println("Please type L to Log in or type S to Sign up");
+        System.out.println("Please type L to Log in or type S to Sign up or E to Exit:");
         Scanner commandLineInput = new Scanner(System.in);
-        wholeInputLine = commandLineInput.nextLine();
-        if (wholeInputLine.equals("S")) {
-            signUp();
+        String username = null;
+        while(username == null) {
+            String wholeInputLine = commandLineInput.nextLine();
+            if (wholeInputLine.equals("S")) {
+                System.out.println("Before signup");
+                username = signUp();
+                System.out.println("After signup");
+                break;
+            } else if (wholeInputLine.equals("L")) {
+                System.out.println("Before login");
+                username = logIn();
+            } else if (wholeInputLine.equals("E")) {
+                System.out.println("Before exit");
+                return;
+            } else {
+                System.out.println("Please type L to Log in or type S to Sign up or E to Exit:");
+            }
         }
-        else if (wholeInputLine.equals("L")) {
-            logIn();
-        }
-
-
-        //Scanner username = new Scanner(System.in);
-        System.out.println("Please Password");
-        //Scanner password = new Scanner(System.in);
-        String username = "a";
-        String password = "a";
-
-
+        commandLineInput.close();
         // add into userName
-        DeliveryService simulator = new DeliveryService(username);
+        DeliveryService simulator = new DeliveryService();
         Init data = new Init(con);
-        simulator.commandLoop(String.valueOf(username), data, con);
+        simulator.commandLoop(username, data, con);
     }
 }

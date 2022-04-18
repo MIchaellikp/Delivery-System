@@ -19,6 +19,9 @@ create table IF not exists Users
     primary key(username)
 );
 
+REPLACE INTO Users(username, password, adminType)
+values("Security_Admin", "1234", "Security Admin");
+
 create table IF not exists System_Log
 (
 	logID int not null auto_increment,
