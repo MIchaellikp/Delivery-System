@@ -2,10 +2,7 @@ package edu.gatech.cs6310;
 import java.util.*;
 import static java.lang.CharSequence.compare;
 
-
-
 public class Store implements Comparable<Store>{
-
     private String name;
     private int revenue;
     private ArrayList<Item> catalog;
@@ -65,14 +62,12 @@ public class Store implements Comparable<Store>{
         this.refreshTimeStamp(); // Update Store TimeStamp when new drones are added to the store
         for(Drone d: this.drones){
             if(d.getId().equals(nd.getId())){
-                //System.out.println("ERROR:drone_identifier_already_exists");
                 return "ERROR:drone_identifier_already_exists";
             }
         }
         this.drones.add(nd);
         nd.refreshTimeStamp(); // Update Drone TimeStamp when it's added to a store
         Collections.sort(this.drones);
-        //System.out.println("OK:change_completed");
         return "OK:change_completed";
     }
 
@@ -126,11 +121,9 @@ public class Store implements Comparable<Store>{
                         d.refreshTimeStamp(); // Update Drone TimeStamp
                         p.refreshTimeStamp(); // Update pilot TimeStamp
                         this.refreshTimeStamp(); // Update store Timestamp
-                        //System.out.println("OK:change_completed");
                         return "OK:change_completed";
                     }
                 }
-                //System.out.println("ERROR:pilot_identifier_does_not_exist");
                 return "ERROR:pilot_identifier_does_not_exist";
             }
         }
@@ -150,7 +143,6 @@ public class Store implements Comparable<Store>{
         if(this.orders != null) {
             for (Order o : this.orders) {
                 if (o.getOrderId().equals(orderID)) {
-                    //System.out.println("ERROR:order_identifier_already_exists");
                     return "ERROR:order_identifier_already_exists";
                 }
             }
@@ -167,15 +159,12 @@ public class Store implements Comparable<Store>{
                         order.getDrone().refreshTimeStamp(); // Update drone Timestamp
                         c.getValue().refreshTimeStamp(); // Update customer Timestamp
                         Collections.sort(orders);
-                        //System.out.println("OK:change_completed");
                         return "OK:change_completed";
                     }
                 }
-                //System.out.println("ERROR:customer_identifier_does_not_exist");
                 return "ERROR:customer_identifier_does_not_exist";
             }
         }
-        //System.out.println("ERROR:drone_identifier_does_not_exist");
         return "ERROR:drone_identifier_does_not_exist";
     }
 
@@ -224,7 +213,6 @@ public class Store implements Comparable<Store>{
                     if (i.getName().equals(item)) {
                         for (ItemLine itemline : o.getItemLines()) {
                             if (itemline.getItem().getName().equals(i.getName())) {
-                                //System.out.println("ERROR:item_already_ordered");
                                 return "ERROR:item_already_ordered";
                             }
                         }
@@ -238,19 +226,15 @@ public class Store implements Comparable<Store>{
                                 o.getDrone().refreshTimeStamp(); // Update drone Timestamp
                                 o.getCustomer().refreshTimeStamp(); // Update customer Timestamp
                                 this.refreshTimeStamp(); // Update store Timestamp
-                                //System.out.println("OK:change_completed");
                                 return "OK:change_completed";
                             } else {
-                                //System.out.println("ERROR:drone_cant_carry_new_item");
                                 return "ERROR:drone_cant_carry_new_item";
                             }
                         } else {
-                            //System.out.println("ERROR:customer_cant_afford_new_item");
                             return "ERROR:customer_cant_afford_new_item";
                         }
                     }
                 }
-                //System.out.println("ERROR:item_identifier_does_not_exist");
                 return "ERROR:item_identifier_does_not_exist";
             }
         }
@@ -266,7 +250,6 @@ public class Store implements Comparable<Store>{
     public String finishOrder(String orderId) {
         Customer c;
         Drone d;
-        //this.refreshTimeStamp();
         for (Order o : orders) {
             if (o.getOrderId().equals(orderId)) {
                 c = o.getCustomer();
@@ -278,24 +261,19 @@ public class Store implements Comparable<Store>{
                         this.revenue += o.getTotalcost();
                         o.setStatus("Delivered");
                         o.setFlag(true);
-                        //this.orders.remove(o);
-                        //System.out.println("OK:change_completed");
                         this.refreshTimeStamp(); // Update store Timestamp
                         o.refreshTimeStamp(); // Update order Timestamp
                         c.refreshTimeStamp(); // Update customer Timestamp
                         d.refreshTimeStamp(); // Update drone Timestamp
                         return "OK:change_completed";
                     }else {
-                        //System.out.println("ERROR:drone_needs_fuel");
                         return "ERROR:drone_needs_fuel";
                     }
                 } else {
-                    //System.out.println("ERROR:drone_needs_pilot");
                     return "ERROR:drone_needs_pilot";
                 }
             }
         }
-        //System.out.println("ERROR:order_identifier_does_not_exist");
         return "ERROR:order_identifier_does_not_exist";
     }
 
@@ -310,18 +288,15 @@ public class Store implements Comparable<Store>{
             if(o.getOrderId().equals(orderId)){
                 o.getDrone().cancelOrder(o.getTotalweight());
                 o.getCustomer().changeRemainingCredits(-o.getTotalcost());
-                //orders.remove(o);
                 o.getCustomer().refreshTimeStamp();
                 o.getDrone().refreshTimeStamp();
                 o.refreshTimeStamp();
                 this.refreshTimeStamp();
                 o.setStatus("Cancelled");
                 o.setFlag(true);
-                //System.out.println("OK:change_completed");
                 return "OK:change_completed";
             }
         }
-        //System.out.println("ERROR:order_identifier_does_not_exist");
         return "ERROR:order_identifier_does_not_exist";
     }
 

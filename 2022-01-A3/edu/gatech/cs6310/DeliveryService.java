@@ -358,9 +358,7 @@ public class DeliveryService {
                  } else if (tokens[0].equals("edit_settings")) { //todo - add command loop for edit settings
                     // 1 change currency or
                     // 2 weight unit or
-                    // 3 default capacity or
-                    // 4 default fuel or
-                    // 5 archive threshold
+                    // 3 archive threshold
 
                     result = "OK:edit_setting_completed";
                     System.out.println(result);

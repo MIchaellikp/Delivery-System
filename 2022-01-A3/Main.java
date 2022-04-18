@@ -1,7 +1,6 @@
 import edu.gatech.cs6310.DeliveryService;
 import edu.gatech.cs6310.util.Init;
 import edu.gatech.cs6310.util.SignInTool;
-//import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,7 +15,6 @@ import java.util.Scanner;
 
 public class Main {
     private static Connection con;
-    //private static DriverManagerDataSource ds;
 
     private static void initConenction() throws SQLException{
         final String url = "jdbc:mysql://localhost:3306/delivery?allowMultiQueries=true";
@@ -111,7 +109,6 @@ public class Main {
         System.out.println("Welcome to the Grocery Express Delivery Service!");
         System.out.println("Please type L to Log in or type S to Sign up or E to Exit:");
         Scanner commandLineInput = new Scanner(System.in);
-//        String username = "a";
         String username = null;
         while(username == null) {
             String wholeInputLine = commandLineInput.nextLine();

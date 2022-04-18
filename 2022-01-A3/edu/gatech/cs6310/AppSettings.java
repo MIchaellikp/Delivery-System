@@ -9,10 +9,6 @@ public class AppSettings {
 
     private static String displayCurrency;
 
-    private static int defaultLiftCapacity;
-
-    private static int defaultFuel;
-
     private static int threshold;
 
 
@@ -29,8 +25,6 @@ public class AppSettings {
     public AppSettings() {
         displayWeightUnit = "LB";
         displayCurrency = "USD";
-        defaultLiftCapacity = 10;
-        defaultFuel = 100;
         threshold = 30;
     }
 
@@ -66,19 +60,4 @@ public class AppSettings {
         AppSettings.threshold = threshold;
     }
 
-    public static int getDefaultLiftCapacity() {
-        return defaultLiftCapacity;
-    }
-
-    public static void setDefaultLiftCapacity(int defaultLiftCapacity) {
-        AppSettings.defaultLiftCapacity = defaultLiftCapacity;
-    }
-
-    public static int getDefaultFuel() {
-        return defaultFuel;
-    }
-
-    public static void setDefaultFuel(int defaultFuel) {
-        defaultFuel = defaultFuel;
-    }
 }
