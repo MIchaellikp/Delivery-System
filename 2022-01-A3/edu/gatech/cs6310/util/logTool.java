@@ -27,7 +27,7 @@ public class logTool {
             if(username.equals("Security_Admin")){
                  sql = "select * from System_Log";
             }else{
-                 sql = "select * from System_Log where username = " + username;
+                 sql = "select * from System_Log where username = '" + username+"'";
             }
 
             ResultSet rs = state.executeQuery(sql);
