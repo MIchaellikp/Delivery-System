@@ -14,10 +14,10 @@ import java.util.*;
 
 public class DeliveryService {
 
-    public void commandLoop(String username, Init data, Connection con) throws ParseException {
-        Scanner commandLineInput = new Scanner(System.in);
+    public void commandLoop(String username, Init data, Connection con, Scanner commandLineInput) throws ParseException {
         String wholeInputLine;
         String[] tokens;
+        AppSettings settings = new AppSettings();
         ArrayList<Pilot> pilots = data.getPilots();
         TreeMap<String,Customer> customers = data.getCustomers();
         TreeMap<String,Store> stores = data.getStores();
@@ -177,10 +177,8 @@ public class DeliveryService {
                      *
                      * @param tokens[1] the content of storename
                      * @param tokens[2] the content of drone's id
-                     * @param tokens[3] the content of new drone's weight
-                     * @param tokens[3] the content of new drone's fuel
                      */
-                    Drone newDrone = new Drone(tokens[1], tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]));
+                    Drone newDrone = new Drone(tokens[1], tokens[2], settings.DronesSetting.liftCapacity, settings.DronesSetting.fuel);
                     if(stores.containsKey(tokens[1])){
                         result = stores.get(tokens[1]).addDrone(newDrone);
                     }else{
@@ -370,7 +368,7 @@ public class DeliveryService {
                     break;
 
                 } else {
-                    //System.out.println(wholeInputLine);
+                    System.out.println(wholeInputLine);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
