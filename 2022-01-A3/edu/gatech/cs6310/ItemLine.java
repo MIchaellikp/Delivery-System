@@ -22,10 +22,11 @@ public class ItemLine implements Comparable<ItemLine>{
         this.totalQuantity = totalQuantity;
     }
 
-    @Override
-    public String toString() {
+
+    public String toString(AppSettings settings) {
         return "item_name:" + this.item.getName() + ",total_quantity:" + this.totalQuantity+ ",total_cost:"
-                +  this.totalCost + ",total_weight:" + this.totalWeight;
+                +  this.totalCost * settings.getCurrencyMultiplier() + settings.getDisplayCurrency() + ",total_weight:"
+                + this.totalWeight * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() ;
     }
 
     public static int compareStrings(String s1, String s2) {
