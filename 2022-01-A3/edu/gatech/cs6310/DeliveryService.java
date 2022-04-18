@@ -195,7 +195,7 @@ public class DeliveryService {
                      */
 
                     if(stores.containsKey(tokens[1])) {
-                        result = stores.get(tokens[1]).displayDrones();
+                        result = stores.get(tokens[1]).displayDrones(settings);
                     }else {
                         result = "ERROR:store_identifier_does_not_exist";
                     }
@@ -210,7 +210,7 @@ public class DeliveryService {
                      */
 
                     if(stores.containsKey(tokens[1])) {
-                        result = stores.get(tokens[1]).displayDrones_withArchiveState();
+                        result = stores.get(tokens[1]).displayDrones_withArchiveState(settings);
                     }else {
                         result = "ERROR:store_identifier_does_not_exist";
                     }
