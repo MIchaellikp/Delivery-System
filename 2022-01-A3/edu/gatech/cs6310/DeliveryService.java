@@ -281,7 +281,6 @@ public class DeliveryService {
                     if(stores.containsKey(tokens[1])) {
                         result = stores.get(tokens[1]).createOrder(tokens[2],tokens[3],tokens[4], customers);
                     }else{
-                        //System.out.println("ERROR:store_identifier_does_not_exist");
                         result = "ERROR:store_identifier_does_not_exist";
                     }
                     System.out.println(result);
@@ -339,7 +338,6 @@ public class DeliveryService {
                     if(stores.containsKey(tokens[1])) {
                         result = stores.get(tokens[1]).finishOrder(tokens[2]);
                     }else{
-                        //System.out.println("ERROR:store_identifier_does_not_exist");
                         result = "ERROR:store_identifier_does_not_exist";
                     }
                     System.out.println(result);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import static java.lang.CharSequence.compare;
 
 public class ItemLine implements Comparable<ItemLine>{
+    private String storeName;
     private Item item;
     private int totalCost;
     private int totalWeight;
@@ -68,5 +69,13 @@ public class ItemLine implements Comparable<ItemLine>{
 
     public void setTotalQuantity(int totalQuantity) {
         this.totalQuantity = totalQuantity;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 }

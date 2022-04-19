@@ -89,14 +89,15 @@ public class SQLend {
 
     public void upsertItemLines(String orderId, ArrayList<ItemLine> itemLines) throws SQLException{
         for(ItemLine il: itemLines){
-            String sql = "REPLACE INTO itemLines (orderId,itemName,lineQuantity,lineCost,lineWeight)" +
+            String sql = "REPLACE INTO itemLines (storeName,orderId,itemName,lineQuantity,lineCost,lineWeight)" +
                     "VALUES (?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, orderId);
-            ps.setString(2, il.getItem().getName());
-            ps.setInt(3, il.getTotalQuantity());
-            ps.setInt(4, il.getTotalCost());
-            ps.setInt(5, il.getTotalWeight());
+            ps.setString(1,il.getStoreName());
+            ps.setString(2, orderId);
+            ps.setString(3, il.getItem().getName());
+            ps.setInt(4, il.getTotalQuantity());
+            ps.setInt(5, il.getTotalCost());
+            ps.setInt(6, il.getTotalWeight());
             ps.executeUpdate();
         }
     }
