@@ -184,7 +184,7 @@ public class Init {
         ArrayList<ItemLine> itemLines = new ArrayList<ItemLine>();
         try {
             Statement state = con.createStatement();
-            String sql = "select * from itemLines where orderId = '"+ o.getOrderId()+"'";
+            String sql = "select * from itemLines where storeName = '"+storeName+"' AND orderId = '"+ o.getOrderId()+"'";
             ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 String orderID = rs.getString("orderID");
