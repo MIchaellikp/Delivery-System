@@ -66,6 +66,7 @@ public class Main {
                 System.out.println("Do you want to quit? (Y/N)");
                 String toQuit = scanner.nextLine().toUpperCase();
                 if(toQuit.equals("Y")){
+                    System.out.println("Please type L to Log in or type S to Sign up or E to Exit:");
                     return null;
                 }
             }
@@ -92,6 +93,7 @@ public class Main {
                 System.out.println("Do you want to quit? (Y/N)");
                 String toQuit = scanner.nextLine().toUpperCase();
                 if(toQuit.equals("Y")){
+                    System.out.println("Please type L to Log in or type S to Sign up or E to Exit:");
                     return null;
                 }
             }
