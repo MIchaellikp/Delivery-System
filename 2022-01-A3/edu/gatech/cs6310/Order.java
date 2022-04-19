@@ -68,9 +68,9 @@ public class Order implements Comparable<Order>{
      *
      */
 
-    public void displayItems(){
+    public void displayItems(AppSettings settings){
         for(ItemLine il: this.itemLines){
-            System.out.println( il.toString());
+            System.out.println( il.toString(settings));
         }
         return;
     }

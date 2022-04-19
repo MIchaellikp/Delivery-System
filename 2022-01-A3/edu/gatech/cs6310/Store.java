@@ -83,7 +83,7 @@ public class Store implements Comparable<Store>{
                     System.out.println(d.toString(d.getPilot(),settings));
             } else{
                 if (!d.isFlag())
-                    System.out.println(d.toString());
+                    System.out.println(d.toString(settings));
             }
         }
         return "OK:display_completed";
@@ -173,25 +173,25 @@ public class Store implements Comparable<Store>{
      *
      */
 
-    public void displayOrders(){
+    public void displayOrders(AppSettings settings){
         for(Order o: this.orders){
             if (!o.isFlag()) {
                 System.out.println("orderID:" + o.getOrderId());
-                o.displayItems();
+                o.displayItems(settings);
             }
         }
         return;
     }
 
-    public void displayOrders_withArchiveState(){
+    public void displayOrders_withArchiveState(AppSettings settings){
         for(Order o: this.orders){
             if (o.isFlag()) {
                 System.out.println("orderID:" + o.getOrderId() + " (Archived)");
-                o.displayItems();
+                o.displayItems(settings);
             }
             else {
                 System.out.println("orderID:" + o.getOrderId() + " (Active)");
-                o.displayItems();
+                o.displayItems(settings);
             }
         }
         return;
@@ -209,6 +209,7 @@ public class Store implements Comparable<Store>{
     public String requestItem(String orderId, String item, int quantity, int price) {
         for (Order o : this.orders) {
             if (o.getOrderId().equals(orderId)) {
+                if (o.isFlag()) return "ERROR:order_already_archived";
                 for (Item i : this.catalog) {
                     if (i.getName().equals(item)) {
                         for (ItemLine itemline : o.getItemLines()) {
@@ -252,6 +253,7 @@ public class Store implements Comparable<Store>{
         Drone d;
         for (Order o : orders) {
             if (o.getOrderId().equals(orderId)) {
+                if (o.isFlag()) return "ERROR:order_already_archived";
                 c = o.getCustomer();
                 d = o.getDrone();
                 if (d.getPilot() != null) {
@@ -286,6 +288,7 @@ public class Store implements Comparable<Store>{
     public String cancelOrder(String orderId){
         for(Order o: orders){
             if(o.getOrderId().equals(orderId)){
+                if (o.isFlag()) return "ERROR:order_already_archived";
                 o.getDrone().cancelOrder(o.getTotalweight());
                 o.getCustomer().changeRemainingCredits(-o.getTotalcost());
                 o.getCustomer().refreshTimeStamp();

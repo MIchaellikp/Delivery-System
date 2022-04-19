@@ -13,7 +13,7 @@ public class AppSettings {
 
 
     private final static HashMap<String, Double> multiplierLookup_currency = new HashMap<String, Double>() {{
-        put("RMB", 6.37);
+        put("CNY", 6.37);
         put("EUR", 0.93);
         put("JPY", 126.62);
         put("USD", 1.00);
@@ -38,16 +38,16 @@ public class AppSettings {
             this.setThreshold(Integer.parseInt(value));
             return 1;
         }
-        else if (name.equals("displayWeightUnit")) {
-            if (multiplierLookup_currency.getOrDefault(name, null) != null) {
-                this.setWeightUnit(value);
+        else if (name.equals("displayCurrency")) {
+            if (multiplierLookup_currency.containsKey(value)) {
+                this.setCurrency(value);
                 return 1;
             }
             return 3;
         }
-        else if (name.equals("displayCurrency")) {
-            if (multiplierLookup_weight.getOrDefault(name, null) != null) {
-                this.setCurrency(value);
+        else if (name.equals("displayWeightUnit")) {
+            if (multiplierLookup_weight.containsKey(value)) {
+                this.setWeightUnit(value);
                 return 1;
             }
             return 3;

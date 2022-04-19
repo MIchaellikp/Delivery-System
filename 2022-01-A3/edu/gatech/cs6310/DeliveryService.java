@@ -294,7 +294,7 @@ public class DeliveryService {
                      * @param tokens[1] the content of storename
                      */
                     if(stores.containsKey(tokens[1])) {
-                        stores.get(tokens[1]).displayOrders();
+                        stores.get(tokens[1]).displayOrders(settings);
                         result = "OK:display_completed";
                     }else {
                         result = "ERROR:store_identifier_does_not_exist";
@@ -309,7 +309,7 @@ public class DeliveryService {
                      * @param tokens[1] the content of storename
                      */
                     if(stores.containsKey(tokens[1])) {
-                        stores.get(tokens[1]).displayOrders_withArchiveState();
+                        stores.get(tokens[1]).displayOrders_withArchiveState(settings);
                         result = "OK:display_completed";
                     }else {
                         result = "ERROR:store_identifier_does_not_exist";

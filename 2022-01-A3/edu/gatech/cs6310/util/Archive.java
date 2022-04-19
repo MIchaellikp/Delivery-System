@@ -26,23 +26,10 @@ public class Archive {
     public void archive_all(TreeMap<String, Store> stores, TreeMap<String, Customer> customers, ArrayList<Pilot> pilots) throws SQLException {
 
         Date date = new Date();
-
+        long diff;
+        long minutes;
         //Archive stores and drones
         for(Map.Entry<String,Store> s: stores.entrySet()) {
-            long diff = date.getTime() - s.getValue().getTimeStamp().getTime();
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-            if (minutes >= threshold){
-                s.getValue().setFlag(true);
-                this.insertLog("Store: " + s.getKey());
-            }
-            for (Drone d: s.getValue().getDrones()){
-                diff = date.getTime() - d.getTimeStamp().getTime();
-                minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-                if (minutes >= threshold) {
-                    d.setFlag(true);
-                    this.insertLog("Drone: " + d.getId());
-                }
-            }
 
             for (Order o: s.getValue().getOrders()){
                 diff = date.getTime() - o.getTimeStamp().getTime();
@@ -52,22 +39,38 @@ public class Archive {
                     this.insertLog("Order: " + o.getOrderId());
                 }
             }
+
+            diff = date.getTime() - s.getValue().getTimeStamp().getTime();
+            minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+            if (minutes >= threshold && s.getValue().getOrders().isEmpty() && s.getValue().getDrones().isEmpty() && s.getValue().getCatalog().isEmpty()){
+                s.getValue().setFlag(true);
+                this.insertLog("Store: " + s.getKey());
+            }
+
+            for (Drone d: s.getValue().getDrones()){
+                diff = date.getTime() - d.getTimeStamp().getTime();
+                minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+                if (minutes >= threshold && d.getPilot() == null && d.getNumOrders() == 0) {
+                    d.setFlag(true);
+                    this.insertLog("Drone: " + d.getId());
+                }
+            }
         }
 
         //Archive customers
         for(Map.Entry<String,Customer> c: customers.entrySet()) {
-            long diff = date.getTime() - c.getValue().getTimeStamp().getTime();
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-            if (minutes >= threshold) {
+            diff = date.getTime() - c.getValue().getTimeStamp().getTime();
+            minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+            if (minutes >= threshold && c.getValue().getRemainingCredits() == c.getValue().getCredits()) {
                 c.getValue().setFlag(true);
                 this.insertLog("Customer: " + c.getKey());
             }
         }
         //Archive pilots
         for(Pilot p: pilots){
-            long diff = date.getTime() - p.getTimeStamp().getTime();
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-            if (minutes >= threshold) {
+            diff = date.getTime() - p.getTimeStamp().getTime();
+            minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+            if (minutes >= threshold && p.getDrone() == null) {
                 p.setFlag(true);
                 this.insertLog("Pilot: " + p.getAccountID());
             }
