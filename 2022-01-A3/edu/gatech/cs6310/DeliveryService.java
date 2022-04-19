@@ -355,7 +355,7 @@ public class DeliveryService {
 
                  } else if (tokens[0].equals("edit_settings")) {
 
-                    int response = settings.editSettings(tokens[1], tokens[2]);
+                    int response = settings.editSettings(tokens[1], tokens[2], archive);
                     if (response == 1) {
                         result = "OK:edit_setting_completed";
                     }
@@ -368,10 +368,19 @@ public class DeliveryService {
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
 
+                } else if (tokens[0].equals("display_settings")) {
+                    System.out.println("Archive Threshold:\t" + Integer.toString(settings.getThreshold()) + " minutes");
+                    System.out.println("Display Currency:\t" + settings.getDisplayCurrency());
+                    System.out.println("Display Weight Unit:\t" + settings.getDisplayWeightUnit());
+                    result = "OK:display_completed";
+                    System.out.println(result);
+                    logTool.insertLog(username, date, wholeInputLine, result);
+
                 } else if (tokens[0].equals("display_system_log")){
                     result = logTool.printLog(username);
                     System.out.println(result);
                     logTool.insertLog(username, date, wholeInputLine, result);
+
                 } else if (tokens[0].equals("stop")) {
                     result = "stop acknowledged";
                     System.out.println(result);

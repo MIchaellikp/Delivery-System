@@ -221,8 +221,7 @@ public class Store implements Comparable<Store>{
                         int total_weight = i.getWeight() * quantity;
                         if (o.getCustomer().getRemainingCredits() >= total_cost ) {
                             if (o.getDrone().getRemainingCap() >= total_weight) {
-                                ItemLine newItemLine = new ItemLine(i,total_cost,total_weight,quantity);
-                                newItemLine.setStoreName(this.getName());
+                                ItemLine newItemLine = new ItemLine(this.getName(),i,total_cost,total_weight,quantity);
                                 o.addItemline(newItemLine, total_weight, total_cost);
                                 o.refreshTimeStamp(); // Update order Timestamp
                                 o.getDrone().refreshTimeStamp(); // Update drone Timestamp

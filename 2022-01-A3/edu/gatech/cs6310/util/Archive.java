@@ -23,6 +23,10 @@ public class Archive {
         this.logTool = logTool;
     }
 
+    public void set_threshold(int threshold){
+        this.threshold = threshold;
+    }
+
     public void archive_all(TreeMap<String, Store> stores, TreeMap<String, Customer> customers, ArrayList<Pilot> pilots) throws SQLException {
 
         Date date = new Date();
@@ -34,7 +38,7 @@ public class Archive {
             for (Order o: s.getValue().getOrders()){
                 diff = date.getTime() - o.getTimeStamp().getTime();
                 minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-                if (minutes >= threshold) {
+                if (minutes >= threshold && !o.isFlag()) {
                     s.getValue().cancelOrder(o.getOrderId());
                     this.insertLog("Order: " + o.getOrderId());
                 }
@@ -42,7 +46,7 @@ public class Archive {
 
             diff = date.getTime() - s.getValue().getTimeStamp().getTime();
             minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-            if (minutes >= threshold && s.getValue().getOrders().isEmpty() && s.getValue().getDrones().isEmpty() && s.getValue().getCatalog().isEmpty()){
+            if (minutes >= threshold && s.getValue().getOrders().isEmpty() && s.getValue().getDrones().isEmpty() && s.getValue().getCatalog().isEmpty() && !s.getValue().isFlag()){
                 s.getValue().setFlag(true);
                 this.insertLog("Store: " + s.getKey());
             }
@@ -50,7 +54,7 @@ public class Archive {
             for (Drone d: s.getValue().getDrones()){
                 diff = date.getTime() - d.getTimeStamp().getTime();
                 minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-                if (minutes >= threshold && d.getPilot() == null && d.getNumOrders() == 0) {
+                if (minutes >= threshold && d.getPilot() == null && d.getNumOrders() == 0 && !d.isFlag()) {
                     d.setFlag(true);
                     this.insertLog("Drone: " + d.getId());
                 }
@@ -61,7 +65,7 @@ public class Archive {
         for(Map.Entry<String,Customer> c: customers.entrySet()) {
             diff = date.getTime() - c.getValue().getTimeStamp().getTime();
             minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-            if (minutes >= threshold && c.getValue().getRemainingCredits() == c.getValue().getCredits()) {
+            if (minutes >= threshold && c.getValue().getRemainingCredits() == c.getValue().getCredits() && !c.getValue().isFlag()) {
                 c.getValue().setFlag(true);
                 this.insertLog("Customer: " + c.getKey());
             }
@@ -70,7 +74,7 @@ public class Archive {
         for(Pilot p: pilots){
             diff = date.getTime() - p.getTimeStamp().getTime();
             minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
-            if (minutes >= threshold && p.getDrone() == null) {
+            if (minutes >= threshold && p.getDrone() == null && !p.isFlag()) {
                 p.setFlag(true);
                 this.insertLog("Pilot: " + p.getAccountID());
             }

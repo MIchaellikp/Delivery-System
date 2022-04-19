@@ -1,15 +1,17 @@
 package edu.gatech.cs6310;
 
+import edu.gatech.cs6310.util.Archive;
+
 import java.util.HashMap;
 
 public class AppSettings {
 
 
-    private static String displayWeightUnit;
+    private String displayWeightUnit;
 
-    private static String displayCurrency;
+    private String displayCurrency;
 
-    private static int threshold;
+    private int threshold;
 
 
     private final static HashMap<String, Double> multiplierLookup_currency = new HashMap<String, Double>() {{
@@ -31,11 +33,12 @@ public class AppSettings {
         threshold = 30;
     }
 
-    public int editSettings(String name, String value){
+    public int editSettings(String name, String value, Archive archive){
         // return 1: success, 2: name doesn't exist, 3: value invalid
 
         if (name.equals("threshold")){
             this.setThreshold(Integer.parseInt(value));
+            archive.set_threshold(Integer.parseInt(value));
             return 1;
         }
         else if (name.equals("displayCurrency")) {
@@ -57,20 +60,20 @@ public class AppSettings {
         }
     }
 
-    public static double getWeightMultiplier() {
-        return multiplierLookup_weight.get(displayWeightUnit);
+    public double getWeightMultiplier() {
+        return multiplierLookup_weight.get(this.displayWeightUnit);
     }
 
-    public static double getCurrencyMultiplier() {
-        return multiplierLookup_currency.get(displayCurrency);
+    public double getCurrencyMultiplier() {
+        return multiplierLookup_currency.get(this.displayCurrency);
     }
 
-    public static String getDisplayWeightUnit() {
-        return displayWeightUnit;
+    public String getDisplayWeightUnit() {
+        return this.displayWeightUnit;
     }
 
-    public static String getDisplayCurrency() {
-        return displayCurrency;
+    public String getDisplayCurrency() {
+        return this.displayCurrency;
     }
 
     public void setWeightUnit(String unit) {
@@ -81,8 +84,8 @@ public class AppSettings {
         this.displayCurrency = currency;
     }
 
-    public static int getThreshold() {
-        return threshold;
+    public int getThreshold() {
+        return this.threshold;
     }
 
     public void setThreshold(int threshold) {

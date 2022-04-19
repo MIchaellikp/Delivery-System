@@ -194,7 +194,7 @@ public class Init {
                 int lineWeight = rs.getInt("lineWeight");
 
                 Item i = this.stores.get(storeName).getItem(itemName);
-                ItemLine itemLine = new ItemLine(i, lineCost, lineWeight, lineQuantity);
+                ItemLine itemLine = new ItemLine(storeName, i, lineCost, lineWeight, lineQuantity);
                 itemLines.add(itemLine);
             }
         } catch (SQLException e) {

@@ -16,7 +16,8 @@ public class ItemLine implements Comparable<ItemLine>{
      *
      */
 
-    public ItemLine(Item item, int totalPrice, int totalWeight, int totalQuantity) {
+    public ItemLine(String storeName, Item item, int totalPrice, int totalWeight, int totalQuantity) {
+        this.storeName = storeName;
         this.item = item;
         this.totalCost = totalPrice;
         this.totalWeight = totalWeight;
