@@ -66,7 +66,7 @@ create table IF not exists Orders
     status varchar(100) not null,
     timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
     flag boolean DEFAULT false,
-    primary key(orderID)
+    primary key(storeName, orderID)
 );
 
 create table IF not exists Drones
@@ -94,12 +94,13 @@ create table IF not exists items
 
 create table IF not exists itemLines
 (
+    storeName varchar(100) not null,
 	orderId varchar(100) not null,
     itemName varchar(100) not null,
     lineQuantity int not null,
     lineCost int not null,
     lineWeight int not null,
-    primary key(orderId, itemName)
+    primary key(storeName, orderId, itemName)
 );
 
 create table IF not exists Pilots
