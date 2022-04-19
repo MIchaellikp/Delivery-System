@@ -81,7 +81,7 @@ create table IF not exists Drones
     pilotID varchar(100),
     timeStamp datetime DEFAULT CURRENT_TIMESTAMP,
     flag boolean DEFAULT false,
-    primary key(droneID)
+    primary key(droneID, storeName)
 );
 
 create table IF not exists items
