@@ -61,7 +61,7 @@ public class SQLend {
             ps.setInt(5, d.getNumOrders());
             ps.setInt(6, d.getFuel());
             ps.setInt(7, d.getRemainFuel());
-            ps.setObject(8, d.getPilot().getAccountID(), Types.VARCHAR);
+            ps.setObject(8, d.getPilot()==null?null:d.getPilot().getAccountID(), Types.VARCHAR);
             ps.setTimestamp(9, new java.sql.Timestamp(d.getTimeStamp().getTime()));
             ps.setBoolean(10, d.isFlag());
             ps.executeUpdate();
@@ -133,7 +133,7 @@ public class SQLend {
             ps.setString(5,p.getTaxID());
             ps.setString(6,p.getLicenseID());
             ps.setInt(7, p.getExpcLevel());
-            ps.setObject(8, p.getDrone().getId(), Types.VARCHAR);
+            ps.setObject(8, p.getDrone()==null?null:p.getDrone().getId(), Types.VARCHAR);
             ps.setTimestamp(9, new java.sql.Timestamp(p.getTimeStamp().getTime()));
             ps.setBoolean(10, (p.isFlag()));
             ps.executeUpdate();
