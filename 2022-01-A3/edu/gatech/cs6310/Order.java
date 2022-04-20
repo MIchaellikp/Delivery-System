@@ -70,7 +70,7 @@ public class Order implements Comparable<Order>{
 
     public void displayItems(AppSettings settings){
         for(ItemLine il: this.itemLines){
-            System.out.println( il.toString(settings));
+            System.out.println(il.toString(settings));
         }
         return;
     }

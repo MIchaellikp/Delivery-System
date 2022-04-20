@@ -34,16 +34,16 @@ public class Customer implements Comparable<Customer>{
 
     public String toString(AppSettings settings){
         return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayCurrency() ;
+                ",rating:" + rating + ",credit:" + String.format("%.2f",credits * settings.getCurrencyMultiplier()) + settings.getDisplayCurrency() ;
     }
 
     public String toString_withArchiveState(AppSettings settings){
         if (this.isFlag())
             return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                    ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier() + settings.getDisplayCurrency()  + " (Archived)";
+                    ",rating:" + rating + ",credit:" + String.format("%.2f",credits * settings.getCurrencyMultiplier() + settings.getDisplayCurrency())  + " (Archived)";
         else
             return "name:" + firstName + "_" + lastName + ",phone:" + phoneNumber +
-                    ",rating:" + rating + ",credit:" + credits * settings.getCurrencyMultiplier()  +settings.getDisplayCurrency() + " (Active)";
+                    ",rating:" + rating + ",credit:" + String.format("%.2f",credits * settings.getCurrencyMultiplier()  +settings.getDisplayCurrency()) + " (Active)";
     }
 
     public static int compareStrings(String s1, String s2) {

@@ -27,7 +27,7 @@ public class ItemLine implements Comparable<ItemLine>{
 
     public String toString(AppSettings settings) {
         return "item_name:" + this.item.getName() + ",total_quantity:" + this.totalQuantity+ ",total_cost:"
-                +  this.totalCost * settings.getCurrencyMultiplier() + settings.getDisplayCurrency() + ",total_weight:"
+                +  String.format("%.2f",this.totalCost * settings.getCurrencyMultiplier()) + settings.getDisplayCurrency() + ",total_weight:"
                 + this.totalWeight * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() ;
     }
 
