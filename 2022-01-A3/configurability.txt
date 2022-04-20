@@ -1,0 +1,47 @@
+//Login or Sign up
+S
+confi
+1234
+1234
+// create a store and an item to sell
+make_store,kroger,33000
+sell_item,kroger,cheesecake,4
+sell_item,kroger,apple,1
+// create a pilot and a drone that will be flown by that pilot
+make_pilot,ffig8,Finneas,Fig,888-888-8888,890-12-3456,panam_10,33
+make_drone,kroger,1,40,3
+fly_drone,kroger,1,ffig8
+// create a customer and an order with one item
+make_customer,aapple2,Alana,Apple,222-222-2222,4,100
+start_order,kroger,purchaseB,1,aapple2
+request_item,kroger,purchaseB,cheesecake,4,4
+//change the display unit of Currency
+display_settings
+edit_settings,displayCurrency,EUR
+display_settings
+display_orders,kroger
+display_stores
+display_customers
+edit_settings,displayCurrency,CNY
+display_settings
+display_orders,kroger
+display_stores
+display_customers
+//change the display unit of Weight
+edit_settings,displayWeightUnit,KG
+display_settings
+display_orders,kroger
+display_drones,kroger
+//change the threshold time
+edit_settings,threshold,5
+display_settings
+// cancel the order (per the customer's direction)
+cancel_order,kroger,purchaseB
+display_customers
+display_stores
+display_orders,kroger
+display_pilots
+//archive the order after cancel & delivered
+display_orders,kroger
+display_all_orders,kroger
+stop
