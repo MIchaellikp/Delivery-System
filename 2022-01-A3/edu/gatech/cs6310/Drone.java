@@ -91,32 +91,34 @@ public class Drone implements Comparable<Drone>{
 
     public String toString(AppSettings settings){
         return "droneID:" + this.id +",total_cap:" + capacity * settings.getWeightMultiplier() + settings.getDisplayWeightUnit()+ ",num_orders:" + numOrders +
-                ",remaining_cap:" + remainingCap * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel;
+                ",remaining_cap:" + String.format("%.2f",remainingCap * settings.getWeightMultiplier() + settings.getDisplayWeightUnit()) + ",trips_left:" + remainFuel;
     }
 
     public String toString_withArchiveState(AppSettings settings){
         if (this.isFlag())
-            return "droneID:" + this.id +",total_cap:" + capacity * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",num_orders:" + numOrders +
-                ",remaining_cap:" + remainingCap * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + " (Archived)";
+            return "droneID:" + this.id +",total_cap:" + String.format("%.2f",capacity * settings.getWeightMultiplier()) + settings.getDisplayWeightUnit() + ",num_orders:" + numOrders +
+                ",remaining_cap:" + String.format("%.2f",remainingCap * settings.getWeightMultiplier()) + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + " (Archived)";
         else
-            return "droneID:" + this.id +",total_cap:" + capacity * settings.getWeightMultiplier() + settings.getDisplayWeightUnit()+ ",num_orders:" + numOrders +
-                    ",remaining_cap:" + remainingCap * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + " (Active)";
+            return "droneID:" + this.id +",total_cap:" + String.format("%.2f",capacity * settings.getWeightMultiplier()) + settings.getDisplayWeightUnit()+ ",num_orders:" + numOrders +
+                    ",remaining_cap:" + String.format("%.2f",remainingCap * settings.getWeightMultiplier()) + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + " (Active)";
     }
 
     public String toString(Pilot p, AppSettings settings){
-        return "droneID:" + this.id +",total_cap:" + capacity * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",num_orders:" + numOrders +
-                ",remaining_cap:" + remainingCap * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + ",flown_by:" +
+        return "droneID:" + this.id +",total_cap:" + String.format("%.2f",capacity * settings.getWeightMultiplier()) + settings.getDisplayWeightUnit() + ",num_orders:" + numOrders +
+                ",remaining_cap:" + String.format("%.2f",remainingCap * settings.getWeightMultiplier()) + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + ",flown_by:" +
                 p.getFirstName() + "_" + p.getLastName();
     }
 
     public String toString_withArchiveState(Pilot p, AppSettings settings){
         if (this.isFlag())
-            return "droneID:" + this.id +",total_cap:" + capacity * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",num_orders:" + numOrders +
-                    ",remaining_cap:" + remainingCap * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + ",flown_by:" +
+            return "droneID:" + this.id +",total_cap:" + String.format("%.2f",capacity * settings.getWeightMultiplier()) + settings.getDisplayWeightUnit() + ",num_orders:" + numOrders +
+                    ",remaining_cap:" + String.format("%.2f",remainingCap * settings.getWeightMultiplier()) + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + ",flown_by:" +
                     p.getFirstName() + "_" + p.getLastName() + " (Archived)";
         else
-            return "droneID:" + this.id +",total_cap:" + capacity * settings.getWeightMultiplier() + settings.getDisplayWeightUnit()+ ",num_orders:" + numOrders +
-                    ",remaining_cap:" + remainingCap * settings.getWeightMultiplier() + settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + ",flown_by:" +
+            return "droneID:" + this.id +",total_cap:" + String.format("%.2f",capacity * settings.getWeightMultiplier())
+                    + settings.getDisplayWeightUnit()+ ",num_orders:" + numOrders + ",remaining_cap:" +
+                    String.format("%.2f",remainingCap * settings.getWeightMultiplier()) +
+                    settings.getDisplayWeightUnit() + ",trips_left:" + remainFuel + ",flown_by:" +
                     p.getFirstName() + "_" + p.getLastName() + " (Active)";
     }
 
