@@ -42,6 +42,7 @@ public class Init {
                 Date time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("timeStamp"));
                 boolean flag = rs.getBoolean("flag");
                 Customer c = new Customer(customerID, firstName, lastName, phoneNumber, rating, credits);
+                c.setFlag(flag);
                 customers.put(customerID, c);
             }
         } catch (SQLException e) {
@@ -133,10 +134,12 @@ public class Init {
                 int remainingCap = rs.getInt("remainingCap");
                 int remainFuel = rs.getInt("remainFuel");
                 String pilotID = rs.getString("pilotID"); //todo drone-pilot reference
+                boolean flag = rs.getBoolean("flag");
                 Drone d = new Drone(s.getName(), droneID, capacity, fuel);
                 d.setNumOrders(numOrders);
                 d.setRemainFuel(remainFuel);
                 d.setRemainingCap(remainingCap);
+                d.setFlag(flag);
                 for(Pilot p:this.pilots){
                     if(p.getAccountID().equals(pilotID)){
                         d.setPilot(p);

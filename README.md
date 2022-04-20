@@ -32,6 +32,135 @@ Alternatively, request access to the github repo and pull project to build and r
 ### Configurability
 
 ### Archivability
+We have a threshold to check whether the system should archive orders, stores, drones, customers and pilots. In our system, the default archiving threshold is 30 minutes. 
+
+1. To test the archivability, we firstly set our archiving threshold to 1 minutes.
+```cmd
+edit_settings,threshold,1
+> edit_settings,threshold,1
+OK:edit_setting_completed
+> display_settings
+Archive Threshold:	1 minutes
+Display Currency:	USD
+Display Weight Unit:	LB
+OK:display_completed
+```
+2. Make two stores and added two items to one of the stores
+```cmd
+> make_store,kroger,33000
+OK:change_completed
+> make_store,publix,33000
+OK:change_completed
+> sell_item,kroger,pot_roast,5
+OK:change_completed
+> sell_item,kroger,cheesecake,4
+OK:change_completed
+```
+3. Make one pilot and two drones. Assign one drone to the pilot
+```cmd
+> make_pilot,ffig8,Finneas,Fig,888-888-8888,890-12-3456,panam_10,33
+OK:change_completed
+> make_drone,kroger,1,40,1
+OK:change_completed
+> make_drone,kroger,2,20,3
+OK:change_completed
+> fly_drone,kroger,1,ffig8
+OK:change_completed
+```
+4. Make two customers and added three orders to one of the customers
+```cmd
+> make_customer,aapple2,Alana,Apple,222-222-2222,4,100
+OK:change_completed
+> make_customer,ccherry4,Carlos,Cherry,444-444-4444,5,300
+OK:change_completed
+> start_order,kroger,purchaseA,1,aapple2
+OK:change_completed
+> start_order,kroger,purchaseB,1,aapple2
+OK:change_completed
+> start_order,kroger,purchaseC,1,aapple2
+OK:change_completed
+```
+5. Add one item to the first two orders and deliver one order. The order is expected to be archived after it's delivered.
+```cmd
+> request_item,kroger,purchaseA,pot_roast,3,10
+OK:change_completed
+> request_item,kroger,purchaseB,pot_roast,3,10
+OK:change_completed
+> purchase_order,kroger,purchaseA
+OK:change_completed
+```
+6. We stop the system and the system will now automatically archive related objects.
+```cmd
+> stop
+stop acknowledged
+simulation terminated
+```
+7. Restart the system and sign in to the system
+```cmd
+Connection established!
+Database initialization completed!
+Welcome to the Grocery Express Delivery Service!
+Please type L to Log in or type S to Sign up or E to Exit:
+L
+Please enter username
+a
+Please enter password
+1234
+Welcome user, a
+```
+8. Display all stores. Store publix is archived because it doesn't contain any items and its last activity has past the 1-minute threshold. If we use display_stores, it will only show active stores by default
+```cmd
+> display_all_stores
+name:kroger,revenue:33030.00USD (Active)
+name:publix,revenue:33000.00USD (Archived)
+OK:display_completed
+> display_stores
+name:kroger,revenue:33030.00USD
+OK:display_completed
+```
+9. Display all drone in kroger. Drone 2 is archived because neither it is assigned to a pilot nor it is assigned any orders. Its last activity has past the 1-minute threshold.
+```cmd
+> display_all_drones,kroger
+droneID:1,total_cap:40.0LB,num_orders:0,remaining_cap:40.0LB,trips_left:0,flown_by:Finneas_Fig (Active)
+droneID:2,total_cap:20.0LB,num_orders:0,remaining_cap:20.0LB,trips_left:3 (Archived)
+OK:display_completed
+> display_drones,kroger
+droneID:1,total_cap:40.0LB,num_orders:0,remaining_cap:40.0LB,trips_left:0,flown_by:Finneas_Fig
+OK:display_completed
+```
+10. Display all customers. Carlos_Cherry is archived because she doesn't have any pending offers and its last activity has past the 1-minute threshold.
+```
+> display_all_customers
+name:Alana_Apple,phone:222-222-2222,rating:4,credit:70.00USD (Active)
+name:Carlos_Cherry,phone:444-444-4444,rating:5,credit:300.00USD (Archived)
+OK:display_completed
+> display_customers
+name:Alana_Apple,phone:222-222-2222,rating:4,credit:70.00USD
+OK:display_completed
+```
+11. Display all pilots. The only pilot has been assigned one drone, so it's not archived even if its last activity has past the 1-minute threshold.
+```
+> display_all_pilots
+name:Finneas_Fig,phone:888-888-8888,taxID:890-12-3456,licenseID:panam_10,experience:34 (Active)
+OK:display_completed
+> display_pilots
+name:Finneas_Fig,phone:888-888-8888,taxID:890-12-3456,licenseID:panam_10,experience:34
+OK:display_completed
+```
+12. Display all orders in kroger. Order purchaseA is archived because it's delivered. Order purchase B and C are archived because their last activity has past the 1-minute threshold. They are also cancelled as they are archived.
+```cmd
+> display_all_orders,kroger
+orderID:purchaseA (Archived)
+item_name:pot_roast,total_quantity:3,total_cost:30.00USD,total_weight:15.0LB
+orderID:purchaseB (Archived)
+item_name:pot_roast,total_quantity:3,total_cost:30.00USD,total_weight:15.0LB
+orderID:purchaseC (Archived)
+OK:display_completed
+display_orders,kroger
+> display_orders,kroger
+OK:display_completed
+```
+
 
 ### Auditability
 There is a default "Security_Admin" user that has the highest privilege of viewing system logs.
