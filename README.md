@@ -35,7 +35,7 @@ Alternatively, request access to the github repo and pull project to build and r
 
 ### Auditability
 There is a default "Security_Admin" user that has the highest privilege of viewing system logs.
-Other users are added to the database through the Sign Up functionality before the main delivery system application.
+Other users are added to the database through the Log-in/Sign-up menu before the main delivery system application.
 
 1. This is the initial screen of the application.
 ```cmd
@@ -55,7 +55,7 @@ Please enter password again (Note: it must matches with password)
 aaaa
 Welcome user, aaaa
 ```
-3. Complete a few commands to store as sample log.
+3. Complete a few commands to store as sample log as user *aaaa*
 ```cmd
 make_store,kroger,1000
 > make_store,kroger,1000
@@ -110,7 +110,7 @@ Please enter password again (Note: it must matches with password)
 bbbb
 Welcome user, bbbb
 ```
-8. Perform more commands under this account for sample log.
+8. Perform more commands under this account for sample log as user *bbbb*.
 ```cmd
 make_pilot,ffig8,Finneas,Fig,888-888-8888,890-12-3456,panam_10,33
 > make_pilot,ffig8,Finneas,Fig,888-888-8888,890-12-3456,panam_10,33
@@ -147,18 +147,21 @@ Please enter password
 aaaa
 Welcome user, aaaa
 ```
-11. Test the user functionality by performing more commands.
+11. Test the user functionality by performing more commands as user *aaaa*.
 ```cmd
+display_stores
 > display_stores
 name:kroger,revenue:1000.00USD
 OK:display_completed
+display_pilots
 > display_pilots
 name:Finneas_Fig,phone:888-888-8888,taxID:890-12-3456,licenseID:panam_10,experience:33
 name:Gillian_Grape,phone:999-999-9999,taxID:234-56-7890,licenseID:twa_21,experience:31
 OK:display_completed
 ```
-12. Viewing system log as user aaaa will only display commands done by user aaaa.
+12. Viewing system log as user *aaaa* will only display commands done by user aaaa.
 ```cmd
+display_system_log
 > display_system_log
 aaaa / make_store,kroger,1000 / OK:change_completed / 2022-04-19 21:36:00
 aaaa / make_store,kroger,2000 / ERROR:store_identifier_already_exists / 2022-04-19 21:36:59
@@ -169,6 +172,7 @@ OK:display_completed
 ```
 13. Exit from the system and rerun the application. This time test the exit function at the log in screen.
 ```cmd
+stop
 > stop
 stop acknowledged
 simulation terminated
@@ -184,7 +188,7 @@ E
 
 Process finished with exit code 0
 ```
-14. Lastly, log in as Security_Admin using password 1234. Viewing the system log should display all logs.
+14. Lastly, log in as *Security_Admin* using password 1234. Viewing the system log should display all logs.
 ```cmd
 Connection established!
 Database initialization completed!
