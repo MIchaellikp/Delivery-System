@@ -30,6 +30,121 @@ Alternatively, request access to the github repo and pull project to build and r
 
 ## Test Cases
 ### Configurability
+There are three configurations in our system. We can change the threshold time to control the archivaility, 
+change the display unit, and control the display currency.
+
+1.1. This is the initial screen of the application.
+```cmd
+Connection established!
+Database initialization completed!
+Welcome to the Grocery Express Delivery Service!
+```
+
+2. Signing up for an account. Completing sign up will automatically log the user in.
+```cmd
+Please type L to Log in or type S to Sign up or E to Exit:
+S
+Please enter username
+Confi
+Please enter password
+1234
+Please enter password again (Note: it must matches with password)
+1234
+Welcome user, Confi
+```
+3. Set up some stores, drones, customers, pilots, and orders
+```cmd
+make_store,kroger,33000
+OK:change_completed
+> sell_item,kroger,cheesecake,4
+OK:change_completed
+> sell_item,kroger,apple,1
+OK:change_completed
+> make_pilot,ffig8,Finneas,Fig,888-888-8888,890-12-3456,panam_10,33
+OK:change_completed
+> make_drone,kroger,1,40,3
+OK:change_completed
+> fly_drone,kroger,1,ffig8
+OK:change_completed
+> make_customer,aapple2,Alana,Apple,222-222-2222,4,100
+OK:change_completed
+> start_order,kroger,purchaseB,1,aapple2
+OK:change_completed
+> request_item,kroger,purchaseB,cheesecake,4,4
+OK:change_completed
+```
+4.Change the display unit of currency
+```cmd
+> display_settings
+Archive Threshold:	30 minutes
+Display Currency:	USD
+Display Weight Unit:	LB
+OK:display_completed
+> edit_settings,displayCurrency,EUR
+OK:edit_setting_completed
+> display_settings
+Archive Threshold:	30 minutes
+Display Currency:	EUR
+Display Weight Unit:	LB
+OK:display_completed
+> display_orders,kroger
+orderID:purchaseB
+item_name:cheesecake,total_quantity:4,total_cost:14.88EUR,total_weight:16.0LB
+OK:display_completed
+> display_stores
+name:kroger,revenue:30690.00EUR
+OK:display_completed
+> display_customers
+name:Alana_Apple,phone:222-222-2222,rating:4,credit:93.00EUR
+OK:display_completed
+>edit_settings,displayCurrency,CNY
+OK:edit_setting_completed
+> display_settings
+Archive Threshold:	30 minutes
+Display Currency:	CNY
+Display Weight Unit:	LB
+OK:display_completed
+> display_orders,kroger
+orderID:purchaseA
+item_name:apple,total_quantity:3,total_cost:57.33CNY,total_weight:3.0LB
+orderID:purchaseB
+item_name:cheesecake,total_quantity:4,total_cost:101.92CNY,total_weight:16.0LB
+OK:display_completed
+> display_stores
+name:kroger,revenue:210210.00CNY
+name:tomthumb,revenue:515970.00CNY
+OK:display_completed
+```
+5.change the display unit of Weight
+```cmd
+> edit_settings,displayWeightUnit,KG
+edit_settings,displayWeightUnit,KG
+> display_settings
+Archive Threshold:	30 minutes
+Display Currency:	CNY
+Display Weight Unit:	KG
+OK:display_completed
+> display_orders,kroger
+orderID:purchaseA
+item_name:apple,total_quantity:3,total_cost:57.33CNY,total_weight:1.35KG
+orderID:purchaseB
+item_name:cheesecake,total_quantity:4,total_cost:101.92CNY,total_weight:7.2KG
+OK:display_completed
+> display_drones,kroger
+droneID:1,total_cap:18.0KG,num_orders:1,remaining_cap:10.8KG,trips_left:3,flown_by:Finneas_Fig
+droneID:2,total_cap:44.55KG,num_orders:1,remaining_cap:43.2KG,trips_left:9
+OK:display_completed
+```
+6.change time threshold
+```cmd
+> edit_settings,threshold,5
+OK:edit_setting_completed
+> display_settings
+Archive Threshold:	5 minutes
+Display Currency:	CNY
+Display Weight Unit:	LB
+OK:display_completed
+```
 
 ### Archivability
 We have a threshold to check whether the system should archive orders, stores, drones, customers and pilots. In our system, the default archiving threshold is 30 minutes. 
