@@ -33,7 +33,7 @@ Alternatively, request access to the github repo and pull project to build and r
 There are three configurations in our system. We can change the threshold time to control the archivaility, 
 change the display unit, and control the display currency.
 
-1.1. This is the initial screen of the application.
+1. This is the initial screen of the application.
 ```cmd
 Connection established!
 Database initialization completed!
@@ -54,7 +54,7 @@ Welcome user, Confi
 ```
 3. Set up some stores, drones, customers, pilots, and orders
 ```cmd
-make_store,kroger,33000
+> make_store,kroger,33000
 OK:change_completed
 > sell_item,kroger,cheesecake,4
 OK:change_completed
