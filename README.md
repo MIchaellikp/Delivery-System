@@ -310,6 +310,7 @@ ERROR:store_identifier_already_exists
 ```
 4. Exit the system to test another sign up functionality.
 ```cmd
+stop
 > stop
 stop acknowledged
 simulation terminated
@@ -362,6 +363,7 @@ OK:change_completed
 make_pilot,ggrape17,Gillian,Grape,999-999-9999,234-56-7890,twa_21,31
 > make_pilot,ggrape17,Gillian,Grape,999-999-9999,234-56-7890,twa_21,31
 OK:change_completed
+stop
 > stop
 stop acknowledged
 simulation terminated

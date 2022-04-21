@@ -1,0 +1,53 @@
+//Signup new user aaaa
+S
+aaaa
+aaaa
+aaaa
+//Sample command from aaaa
+make_store,kroger,1000
+make_store,kroger,2000
+stop
+//Signup with existing user error
+S
+aaaa
+aaaa
+aaaa
+N
+//Signup with passwords mismatch error
+bbbb
+bbbb
+aaaa
+N
+//Signup new user bbbb
+bbbb
+bbbb
+bbbb
+//Sample command from bbbb
+make_pilot,ffig8,Finneas,Fig,888-888-8888,890-12-3456,panam_10,33
+make_pilot,ggrape17,Gillian,Grape,999-999-9999,234-56-7890,twa_21,31
+stop
+//Login nonexisting user error
+L
+cccc
+cccc
+N
+//Login user aaaa
+aaaa
+aaaa
+//Sample command from aaaa
+display_stores
+display_pilots
+//View system log as aaaa
+display_system_log
+stop
+//Test exit from login menu
+E
+//Login as Security_Admin
+L
+Security_Admin
+1234
+//Display system log as security admin
+display_system_log
+stop
+
+
