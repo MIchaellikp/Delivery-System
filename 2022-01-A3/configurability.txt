@@ -17,6 +17,9 @@ start_order,kroger,purchaseB,1,aapple2
 request_item,kroger,purchaseB,cheesecake,4,4
 //change the display unit of Currency
 display_settings
+display_orders,kroger
+display_stores
+display_customers
 edit_settings,displayCurrency,EUR
 display_settings
 display_orders,kroger
