@@ -6,6 +6,11 @@
 * Wen Luo (wluo72)
 * Wa Chu (wchu42)
 ## Setup
+Navigate to the folder provided. You will see three files: 
+* CS6310.jar
+* DeliverySystem.sql
+* setup_mysql_docker.sh.
+
 Please run the docker script to set up a new container that hosts MySQL database.
 ```cmd
 setup_mysql_docker.sh
