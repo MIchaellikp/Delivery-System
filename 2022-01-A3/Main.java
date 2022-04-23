@@ -32,7 +32,7 @@ public class Main {
     private static void initDatabase() throws SQLException, IOException {
         try{
             Statement stmt = con.createStatement();
-            String sqlStr = Files.readString(Paths.get("2022-01-A3/edu/gatech/cs6310/SQL/DeliverySystem.sql"));
+            String sqlStr = Files.readString(Paths.get("DeliverySystem.sql"));
             stmt.execute(sqlStr);
             System.out.println("Database initialization completed!");
         } catch (IOException e) {

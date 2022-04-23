@@ -8,11 +8,11 @@
 ## Setup
 Please run the docker script to set up a new container that hosts MySQL database.
 ```cmd
-<project root>/2022-01-A3/setup_mysql_docker.sh
+setup_mysql_docker.sh
 ```
 Run application .jar file provided.
 ```cmd
-CS6310.jar
+java -jar CS6310.jar
 ```
 Alternatively, request access to the github repo and pull project to build and run Main.java.
 ## Non-functional Enhancement Areas
