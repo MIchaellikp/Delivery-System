@@ -5,21 +5,7 @@
 * Zhaonan Sun (zsun300)
 * Wen Luo (wluo72)
 * Wa Chu (wchu42)
-## Setup
-Navigate to the folder provided. You will see three files: 
-* CS6310.jar
-* DeliverySystem.sql
-* setup_mysql_docker.sh.
 
-Please run the docker script to set up a new container that hosts MySQL database.
-```cmd
-setup_mysql_docker.sh
-```
-Run application .jar file provided.
-```cmd
-java -jar CS6310.jar
-```
-Alternatively, request access to the github repo and pull project to build and run Main.java.
 ## Non-functional Enhancement Areas
 1) Configurability
    1) archive threshold (in minutes, default 30 minutes)
@@ -33,7 +19,32 @@ Alternatively, request access to the github repo and pull project to build and r
    2) log operation calls for each user
    3) different log display based on user role
 
+## Setup
+1. Unzip the provided file. You will see the following files: 
+* CS6310.jar
+* DeliverySystem.sql
+* setup_mysql_docker.sh
+* README.md
+2. The recorded demo video is at the following link:
+```cmd
+https://www.youtube.com/watch?v=f3xuZnDt2Bg
+```
+3. Please run the docker script to set up a new container that hosts MySQL database.
+```cmd
+setup_mysql_docker.sh
+```
+4. Run application .jar file provided.
+```cmd
+java -jar CS6310.jar
+```
+5. Alternatively, you may request access to the github repo and pull project to build and run Main.java.
+
+
 ## Test Cases
+The following tests will showcase the three non-functional area enhancements we have designed, 
+and these are the same test cases we have walked through in the demo.
+Each test case starts off with a clean container.
+
 ### Configurability
 There are three configurations in our system. We can change the threshold time to control the archivaility, 
 change the display unit, and control the display currency.
