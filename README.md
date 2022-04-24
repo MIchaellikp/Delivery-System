@@ -96,6 +96,16 @@ Archive Threshold:	30 minutes
 Display Currency:	USD
 Display Weight Unit:	LB
 OK:display_completed
+> display_orders,kroger
+orderID:purchaseB
+item_name:cheesecake,total_quantity:4,total_cost:16.00USD,total_weight:16.00LB
+OK:display_completed
+> display_stores
+name:kroger,revenue:33000.00USD
+OK:display_completed
+> display_customers
+name:Alana_Apple,phone:222-222-2222,rating:4,credit:100.00USD
+OK:display_completed
 > edit_settings,displayCurrency,EUR
 OK:edit_setting_completed
 > display_settings

@@ -38,13 +38,4 @@ display_drones,kroger
 //change the threshold time
 edit_settings,threshold,5
 display_settings
-// cancel the order (per the customer's direction)
-cancel_order,kroger,purchaseB
-display_customers
-display_stores
-display_orders,kroger
-display_pilots
-//archive the order after cancel & delivered
-display_orders,kroger
-display_all_orders,kroger
 stop
