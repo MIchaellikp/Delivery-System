@@ -1,11 +1,3 @@
-# CS6310 - Delivery System Assignment 5 - Group 3
-## Group Members
-* Gary Yen (gyen6)
-* Kunpeng Li (kli465)
-* Zhaonan Sun (zsun300)
-* Wen Luo (wluo72)
-* Wa Chu (wchu42)
-
 ## Non-functional Enhancement Areas
 1) Configurability
    1) archive threshold (in minutes, default 30 minutes)
